@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YACTUL</title>
+        <meta charset="UTF-8">
+
+        <!-- Using this metatag users can't scale the page using pinchIn/out gestures on mobile devices -->
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+        <link rel="stylesheet" type="text/css" href="style.css" />
+
+        <script src="js/compressed.js"></script>
+
+    </head>
+    <body onload="init();">
+
+      <div id="header">
+        <img src="img/yactul-logo.png" width="200" alt="YACTUL"/>
+      </div>
+
+      <div id="section">
+        <canvas id="canvas"><script>document.write('HTML5 is not supported by your browser.');</script></canvas>
+        <noscript>Javascript is not supported or blocked by your browser.</noscript>
+      </div>
+
+      <div id="footer">
+        <button type="button" onclick="interrupt();">Interrupt</button>
+        <button type="button" onclick="activity1();">Activity1</button>
+        <button type="button" onclick="activity2();">Activity2</button>
+        <button type="button" onclick="activity3();">Activity3</button>
+        <button type="button" onclick="activity4();">Activity4</button>
+      </div>
+
+      <script>
+        // Disable context menu for the canvas
+        document.getElementById('canvas').oncontextmenu = function (e) {
+          e.preventDefault();
+        };
+
+        // show error message when there is no console access (e.g. on mobile devices)
+        window.onerror = function(error) {
+          alert(error);
+        };
+
+        // Methods to simulate server messages (for testing purpose)
+        function activity1() {
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "ComplexQuestion", "id": 0, "view":"student", "question":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "image":"img/quiz-background.jpg" }'));
+        }
+        function activity2() {
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "SimpleQuestion", "id": 1, "view":"student", "question":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":60, "image":"img/quiz-background.jpg" }'));
+        }
+        function activity3() {
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "Map", "id": 2, "view":"student", "question":"Point at Germany!", "map":"img/europe.jpg", "time":60, "image":"img/quiz-background.jpg" }'));
+        }
+        function activity4() {
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "OwlEyes", "id": 3, "view":"student", "question":"Opposite of life?", "answers":["Zombie", "Undead", "Skeleton", "Dead"], "time":20, "image":"img/quiz-background.jpg" }'));
+        }
+        function interrupt() {
+          ServerConnection.receive(JSON.parse('{ "cmd" : "interrupt" }'));
+        }
+      </script>
+    </body>
+</html>
