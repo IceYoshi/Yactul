@@ -53,9 +53,12 @@ class StageManager {
   static resize() {
     if(this._stage == null) return false;
 
+    var headerHeight = document.getElementById('header').offsetHeight;
+    var footerHeight = document.getElementById('footer').offsetHeight;
+
     // browser viewport size
     var w = window.innerWidth;
-    var h = window.innerHeight - 85; // Header + Footer = 85px
+    var h = window.innerHeight - (headerHeight + footerHeight);
 
     // canvas dimensions
     var ow = this._stage.canvas.width;
