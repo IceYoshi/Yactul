@@ -1,0 +1,88 @@
+//----------------------------------------------------------------------------
+// Server -> Client
+{
+  "cmd" : "start",
+  "activity" : "SimpleQuestion",
+  "view" : "teacher",
+  "question" : "What is the meaning of life?",
+  "answers" : [
+    "Music & Coding",
+    "42",
+    "Love"
+  ],
+  "image" : "img/backgroundImage.png",
+  "time" : 45
+}
+
+{
+  "cmd" : "update",
+  "time" : 60
+}
+
+{
+  "cmd" : "pause"
+}
+
+{
+  "cmd" : "resume"
+}
+
+{
+  "cmd" : "interrupt"
+}
+
+{
+  "cmd" : "result",
+  "activity" : "SimpleQuestion",
+  "view" : "student",
+  "correct" : "42",
+  "score" : 1000
+}
+
+{
+  "cmd" : "result",
+  "activity" : "SimpleQuestion",
+  "view" : "teacher",
+  "correct" : "42",
+  "stat" : [
+    {
+      "answer" : "Music & Coding",
+      "votes" : 2
+    },
+    {
+      "answer" : "42",
+      "votes" : 5
+    },
+    {
+      "answer" : "Love",
+      "votes" : 0
+    }
+  ]
+}
+
+//----------------------------------------------------------------------------
+// Client -> Server
+{
+  "cmd" : "submit",
+  "activity" : "SimpleQuestion",
+  "selected" : "42",
+  "time-left" : 15
+}
+
+//----------------------------------------------------------------------------
+// Client <-> Server
+{
+  "cmd" : "error",
+  "msg" : "Unknown command."
+}
+
+{
+  "cmd" : "error",
+  "msg" : "Invalid data structure. JSON expected."
+}
+
+{
+  "cmd" : "error",
+  "msg" : "Missing key: question"
+}
+//----------------------------------------------------------------------------
