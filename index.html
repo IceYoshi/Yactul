@@ -63,6 +63,11 @@
           e.preventDefault();
         };
 
+        // show error message when there is no console access (e.g. on mobile devices)
+        window.onerror = function(error) {
+          alert(error);
+        };
+
         // Methods to simulate server messages (for testing purpose)
         function activity1() {
           ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "ComplexQuestion", "id": 0, "view":"student", "question":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "image":"img/quiz-background.jpg" }'));
