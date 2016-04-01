@@ -18,15 +18,13 @@ class MessageInterpreter {
     try {
       return eval('(new ' + data.activity + '(data))');
     } catch (e) {
-        console.log('ReferenceError: Class ' + data.activity + ' is not defined.');
-    }
-
-    // Fallback, needed when the js code gets compressed
-    try {
-      return eval('(' + data.activity + '(data))');
-    } catch (e) {
-      console.log('ReferenceError: Function ' + data.activity + ' is not defined.');
-      return null;
+      // Fallback, needed when the js code gets compressed (class->function convertion)
+      try {
+        return new window[data.activity](data);
+      } catch (e) {
+        console.log('ReferenceError: Activity ' + data.activity + ' is not defined.');
+        return null;
+      }
     }
   }
 }
