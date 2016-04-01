@@ -2,14 +2,14 @@ class StopButton {
   constructor(screen, callback) {
     var radius = screen.width / 12;
 
-    var stopLabel = new createjs.Text("Stop!", "bold 30px Arial", "#F0261B");
+    var stopLabel = new createjs.Text("Stop!", "bold 30px Arial", "#d3d3d3");
     stopLabel.textBaseline = "middle";
     stopLabel.x = screen.width / 2;
     stopLabel.y = screen.height * 0.75;
     stopLabel.textAlign = "center";
 
     var bgCircle = new createjs.Shape();
-    bgCircle.graphics.beginFill("#d3d3d3").drawCircle(0, 0, radius );
+    bgCircle.graphics.beginFill("#F0261B").drawCircle(0, 0, radius );
     bgCircle.x = screen.width / 2;
     bgCircle.y = screen.height * 0.75;
 
@@ -21,9 +21,9 @@ class StopButton {
     // validate click handler
     function handleClick(event) {
       if(callback != null) {
-        event.target.filters = [ new createjs.ColorFilter(0,0,0,1,255,203,151,0) ];
+        event.target.filters = [ new createjs.ColorFilter(0,0,0,1,165, 42, 42,0) ];
         event.target.cache(-radius, -radius, 2 * radius, 2 * radius);
-        if(callback != null) callback();
+        callback();
       }
     }
 

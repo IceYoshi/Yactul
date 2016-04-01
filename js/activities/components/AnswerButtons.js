@@ -51,7 +51,11 @@ class AnswerButtons {
         event.target.filters = [ new createjs.ColorFilter(0,0,0,1,255,203,151,0) ];
         event.target.clicked = 1;
       } else {
-        event.target.filters = [ new createjs.ColorFilter(1,1,1,1,-25,-25,-25,0) ];
+        if(event.isTouch) {
+          event.target.filters = [ new createjs.ColorFilter(1,1,1,1,0,0,0,0) ];
+        } else {
+          event.target.filters = [ new createjs.ColorFilter(1,1,1,1,-25,-25,-25,0) ];
+        }
         event.target.clicked = null;
       }
       event.target.cache(0, 0, event.target.graphics.command.w, event.target.graphics.command.h);
