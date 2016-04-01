@@ -16,10 +16,15 @@ class MessageInterpreter {
 
   static getActivity(data) {
     try {
-      return eval('(new ' + data.activity + '(data))')
+      return eval('(new ' + data.activity + '(data))');
     } catch (e) {
-      console.log('ReferenceError: Activity ' + data.activity + ' is not defined.');
-      return null;
+      try {
+        // Fallback, needed when the js code gets compressed
+        return eval('(' + data.activity + '(data))')
+      } catch (e) {
+        console.log('ReferenceError: Activity ' + data.activity + ' is not defined.');
+        return null;
+      }
     }
   }
 
