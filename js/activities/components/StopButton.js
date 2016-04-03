@@ -2,7 +2,7 @@ class StopButton {
   constructor(screen, callback) {
     var radius = screen.width / 12;
 
-    var stopLabel = new createjs.Text("Stop!", "bold 30px Arial", "#d3d3d3");
+    var stopLabel = new createjs.Text("Stop!", "bold 30px Dimbo", "#d3d3d3");
     stopLabel.textBaseline = "middle";
     stopLabel.x = screen.width / 2;
     stopLabel.y = screen.height * 0.75;

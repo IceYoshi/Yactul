@@ -67,12 +67,14 @@ class StageManager {
     // Check if a resize has to be done
     if(w/ow != 1 || h/oh != 1) {
       // scale all stage children to the new size
-      this._stage.scaleX *= w/ow;
-      this._stage.scaleY *= h/oh;
+      this._stage.scaleX *= w/ow * window.devicePixelRatio;
+      this._stage.scaleY *= h/oh * window.devicePixelRatio;
 
       // adjust canvas size
-      this._stage.canvas.width *= w/ow;
-      this._stage.canvas.height *= h/oh;
+      this._stage.canvas.width = w * window.devicePixelRatio;
+      this._stage.canvas.height = h * window.devicePixelRatio;
+      this._stage.canvas.style.width = w + "px";
+      this._stage.canvas.style.height = h + "px";
     }
 
     return true;

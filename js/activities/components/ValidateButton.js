@@ -1,7 +1,7 @@
 class ValidateButton {
   constructor(screen, callback) {
     // validate label
-    var validateLabel = new createjs.Text("Validate", "bold 30px Arial", "#F0261B");
+    var validateLabel = new createjs.Text("Validate", "bold 30px Dimbo", "#F0261B");
     validateLabel.x = screen.width;
     validateLabel.y = screen.height - validateLabel.getMeasuredHeight();
     validateLabel.textAlign = "right";

@@ -22,7 +22,7 @@ class AnswerButtons {
       var y = screen.height / 2 - ( paddingY * 1.5 ) + Math.floor(i / 2) * (paddingY + height);
 
       // button label
-      var answerLabel = new createjs.Text(answer, "bold 26px Arial", "#F0261B");
+      var answerLabel = new createjs.Text(answer, "26px Dimbo", "#F0261B");
       answerLabel.lineWidth = width;
       answerLabel.textAlign = "center";
       answerLabel.x = x + width / 2;

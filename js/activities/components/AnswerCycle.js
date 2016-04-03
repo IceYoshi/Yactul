@@ -2,7 +2,7 @@ class AnswerCycle {
   constructor(screen, answers, callback) {
     if(answers.length > 0) {
       // cyclic answer label
-      var cycleLabel = new createjs.Text(answers[0], "bold 30px Arial", "#000000");
+      var cycleLabel = new createjs.Text(answers[0], "bold 30px Dimbo", "#000000");
       cycleLabel.x = screen.width / 2;
       cycleLabel.y = screen.height * 0.4;
       cycleLabel.textAlign = "center";

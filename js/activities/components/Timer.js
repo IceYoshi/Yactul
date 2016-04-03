@@ -10,7 +10,7 @@ class Timer {
     bgCircle.y = 0;
 
     // timer label
-    var timeLabel = new createjs.Text(time.toString(), "bold 45px Arial", "#F0261B");
+    var timeLabel = new createjs.Text(time.toString(), "bold 45px Dimbo", "#F0261B");
     timeLabel.textBaseline = "alphabetic";
     timeLabel.x = screen.width - screen.width / 20;
     timeLabel.y = screen.width / 16;

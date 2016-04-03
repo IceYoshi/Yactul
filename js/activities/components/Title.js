@@ -7,7 +7,7 @@ class Title {
     var paddingRect = height / 4;
 
     // question multiline label
-    var questionLabel = new createjs.Text(question, "bold 30px Arial", "#F0261B");
+    var questionLabel = new createjs.Text(question, "bold 30px Dimbo", "#F0261B");
     questionLabel.x = screen.width / 2;
     questionLabel.y = paddingTop;
     questionLabel.lineWidth = width;

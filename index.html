@@ -4,8 +4,9 @@
         <title>YACTUL</title>
         <meta charset="UTF-8">
 
-        <!-- Using this metatag users can't scale the page using pinchIn/out gestures on mobile devices -->
-        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <meta name="apple-touch-fullscreen" content="yes">
+        <meta name="mobile-web-app-capable" content="yes">
 
         <link rel="stylesheet" type="text/css" href="style.css" />
 
@@ -33,9 +34,7 @@
         <script src="js/activities/components/AnswerCycle.js"></script>
         <script src="js/activities/components/StopButton.js"></script>
 
-
         <script src="js/init.js"></script>
-        <!-- <script src="js/compressed.js"></script> -->
 
     </head>
     <body onload="init();">
