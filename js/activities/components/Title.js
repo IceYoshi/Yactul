@@ -1,13 +1,13 @@
 class Title {
   constructor(screen, question) {
     var width = screen.width * 0.75;
-    var height = screen.height / 15;
+    var height = screen.height / 13;
     var paddingTop = screen.height * 2 / 10;
     var paddingLeft = (screen.width - width) / 2;
     var paddingRect = height / 4;
 
     // question multiline label
-    var questionLabel = new createjs.Text(question, "bold 30px Dimbo", "#F0261B");
+    var questionLabel = new createjs.Text(question, "30px Dimbo", "#F0261B");
     questionLabel.x = screen.width / 2;
     questionLabel.y = paddingTop;
     questionLabel.lineWidth = width;

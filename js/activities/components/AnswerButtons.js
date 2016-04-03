@@ -23,7 +23,8 @@ class AnswerButtons {
 
       // button label
       var answerLabel = new createjs.Text(answer, "26px Dimbo", "#F0261B");
-      answerLabel.lineWidth = width;
+      answerLabel.lineWidth = width - paddingX/2;
+      answerLabel.lineHeight = height / 3.5;
       answerLabel.textAlign = "center";
       answerLabel.x = x + width / 2;
       answerLabel.y = y + (height - answerLabel.getMeasuredHeight()) / 2;
