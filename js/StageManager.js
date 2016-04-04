@@ -65,7 +65,9 @@ class StageManager {
     var oh = this._stage.canvas.height;
 
     // Check if a resize has to be done
-    if(w/ow != 1 || h/oh != 1) {
+    if(w/ow * window.devicePixelRatio != 1
+      || h/oh * window.devicePixelRatio != 1) {
+        
       // scale all stage children to the new size
       this._stage.scaleX *= w/ow * window.devicePixelRatio;
       this._stage.scaleY *= h/oh * window.devicePixelRatio;

@@ -69,7 +69,7 @@
 
         // Methods to simulate server messages (for testing purpose)
         function activity1() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "ComplexQuestion", "id": 0, "view":"student", "question":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "image":"img/quiz-background.jpg" }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "ComplexQuestion", "id": 0, "view":"student", "question":"Some random question about meals... sdsdsdsdsdsdsdss", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "image":"img/quiz-background.jpg" }'));
         }
         function activity2() {
           ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "SimpleQuestion", "id": 1, "view":"student", "question":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":60, "image":"img/quiz-background.jpg" }'));

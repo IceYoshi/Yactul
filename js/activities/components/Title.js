@@ -10,7 +10,7 @@ class Title {
     var questionLabel = new createjs.Text(question, "30px Dimbo", "#F0261B");
     questionLabel.x = screen.width / 2;
     questionLabel.y = paddingTop;
-    questionLabel.lineWidth = width;
+    questionLabel.lineWidth = width - 10;
     questionLabel.lineHeight = height;
     questionLabel.textAlign = "center";
 
