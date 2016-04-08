@@ -3,6 +3,9 @@ class StageManager {
     this._canvas = canvas;
     this._stage = null;
     this._isInitialized = true;
+
+    this._width = 800;
+    this._height = 450;
   }
 
   static idle() {
@@ -22,14 +25,14 @@ class StageManager {
     console.log("StageManager.change - Not yet implemented");
   }
 
-  static interrupt() {
+  static abort() {
     this.idle();
   }
 
   static createStage() {
     var stage = new createjs.Stage(this._canvas);
-    stage.canvas.width = 800;
-    stage.canvas.height = 450;
+    stage.canvas.width = this._width;
+    stage.canvas.height = this._height;
 
     // frequency of mouse position checks
     stage.enableMouseOver(20);
@@ -45,12 +48,12 @@ class StageManager {
 
   static createScreen() {
     var screen = new createjs.Container();
-    screen.width = 800;
-    screen.height = 450;
+    screen.width = this._width;
+    screen.height = this._height;
     return screen;
   }
 
-  static resize() {
+  static resize(keepRatio) {
     if(this._stage == null) return false;
 
     var headerHeight = document.getElementById('header').offsetHeight;
@@ -61,16 +64,30 @@ class StageManager {
     var h = window.innerHeight - (headerHeight + footerHeight);
 
     // canvas dimensions
-    var ow = this._stage.canvas.width;
-    var oh = this._stage.canvas.height;
+    var ow = this._width;
+    var oh = this._height;
 
-    // Check if a resize has to be done
-    if(w/ow * window.devicePixelRatio != 1
-      || h/oh * window.devicePixelRatio != 1) {
-        
+    if(keepRatio) {
+      var scale = Math.min(w/ow, h/oh);
+
       // scale all stage children to the new size
-      this._stage.scaleX *= w/ow * window.devicePixelRatio;
-      this._stage.scaleY *= h/oh * window.devicePixelRatio;
+      this._stage.scaleX = scale * window.devicePixelRatio;
+      this._stage.scaleY = scale * window.devicePixelRatio;
+
+      // adjust canvas size
+      if(w/ow < h/oh) {
+        this._stage.canvas.width = w * window.devicePixelRatio;
+      } else {
+        this._stage.canvas.width = h * this._width/this._height * window.devicePixelRatio;
+      }
+
+      this._stage.canvas.height = this._stage.canvas.width * this._height/this._width;
+      this._stage.canvas.style.width = this._stage.canvas.width / window.devicePixelRatio + "px";
+      this._stage.canvas.style.height = this._stage.canvas.height / window.devicePixelRatio + "px";
+    } else {
+      // scale all stage children to the new size
+      this._stage.scaleX = w/ow * window.devicePixelRatio;
+      this._stage.scaleY = h/oh * window.devicePixelRatio;
 
       // adjust canvas size
       this._stage.canvas.width = w * window.devicePixelRatio;
@@ -113,7 +130,6 @@ class StageManager {
       }
 
     }
-    resize();
 
   }
 

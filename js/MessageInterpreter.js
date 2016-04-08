@@ -7,8 +7,8 @@ class MessageInterpreter {
       case "change":
           StageManager.change(data);
         break;
-      case "interrupt":
-          StageManager.interrupt();
+      case "abort":
+          StageManager.abort();
         break;
       default: console.log('Error: Unknown command ' + data.cmd);
     }

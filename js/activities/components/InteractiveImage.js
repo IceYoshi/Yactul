@@ -1,4 +1,4 @@
-class InteractiveMap {
+class InteractiveImage {
   constructor(screen, imagePath, callback) {
     var bg = new createjs.Bitmap(imagePath);
 

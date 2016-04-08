@@ -1,7 +1,7 @@
-class SimpleQuestion {
+class MultipleChoiceQuestion {
   constructor(data) {
       this._data = data;
-      this._selected = [null];
+      this._selected = [];
       this._submitted = false;
   }
 
@@ -12,6 +12,7 @@ class SimpleQuestion {
         new Timer(stage, this._data.time, this.submit.bind(this));
         new Title(stage, this._data.text);
         new AnswerButtons(stage, this._data.answers, this.selected.bind(this));
+        new ValidateButton(stage, this.submit.bind(this));
         break;
       case "projector":
         new BackgroundImage(stage, this._data.bg);
@@ -24,7 +25,6 @@ class SimpleQuestion {
 
   selected(value) {
     this._selected = value;
-    this.submit();
   }
 
   submit() {
@@ -33,7 +33,7 @@ class SimpleQuestion {
        + '"cmd" : "submit",'
        + '"activity" : "' + this._data.activity + '",'
        + '"id" : ' + this._data.id + ','
-       + '"selected" : ' + JSON.stringify(this._selected[0])
+       + '"selected" : ' + JSON.stringify(this._selected)
        + '}');
     if(ServerConnection.send(obj)) {
       this._submitted = true;
