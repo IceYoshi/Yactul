@@ -35,6 +35,7 @@ class AnswerButtons {
       answerRect.x = x;
       answerRect.y = y;
       answerRect.label = answer;
+      answerRect.shadow = new createjs.Shadow("#333333", 5, 5, 10);
 
       answerRect.on("click", handleClick);
       answerRect.on("mouseover", handleMotion);

@@ -2,17 +2,18 @@ class ValidateButton {
   constructor(screen, callback) {
     // validate label
     var validateLabel = new createjs.Text("Validate", "30px Dimbo", "#F0261B");
-    validateLabel.x = screen.width - 1;
-    validateLabel.y = screen.height - 30;
+    validateLabel.x = screen.width;
+    validateLabel.y = screen.height;
     validateLabel.textAlign = "right";
+    validateLabel.textBaseline = "alphabetic";
 
     // validate background
     var validateRect = new createjs.Shape();
     validateRect.graphics.beginFill("#d3d3d3").drawRoundRectComplex(0, 0,
-      validateLabel.getMeasuredWidth() + validateLabel.getMeasuredHeight() / 2, 30,
-      30, 0, 0, 0);
+      validateLabel.getMeasuredWidth() + validateLabel.getMeasuredHeight() / 2, 3/2 * validateLabel.getMeasuredHeight(),
+       validateLabel.getMeasuredHeight(), 0, 0, 0);
     validateRect.x = screen.width - validateLabel.getMeasuredWidth() - validateLabel.getMeasuredHeight() / 2;
-    validateRect.y = screen.height - 30;
+    validateRect.y = screen.height - 4/3 * validateLabel.getMeasuredHeight();
 
     // mouse handlers
     validateRect.on("click", handleClick);

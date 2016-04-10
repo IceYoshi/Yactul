@@ -15,6 +15,8 @@ class InteractiveImage {
       bg.x = (screen.width - bg.image.width * bg.scaleX) / 2;
     };
 
+    bg.shadow = new createjs.Shadow("#333333", 5, 5, 10);
+
     bg.on("click", handleClick);
 
     function handleClick(event) {
