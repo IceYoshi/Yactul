@@ -16,7 +16,7 @@
     <body onload="init();">
 
       <div id="header">
-        <!-- <img src="img/yactul-logo.png" width="200" alt="YACTUL"/> -->
+        <img src="img/yactul-logo.png" width="200" alt="YACTUL"/>
       </div>
 
       <div id="section">
@@ -45,16 +45,16 @@
 
         // Methods to simulate server messages (for testing purpose)
         function activity1() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "SimpleQuestion", "id": 0, "view":"student", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":50, "difficulty":0, "bg":"img/quiz-background.jpg" }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "SimpleQuestion", "id": 0, "view":"student", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":50, "difficulty":1, "bg":"img/quiz-background.jpg" }'));
         }
         function activity2() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "MultipleChoiceQuestion", "id": 1, "view":"student", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "bg":"img/quiz-background.jpg" }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "MultipleChoiceQuestion", "id": 1, "view":"student", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg" }'));
         }
         function activity3() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "PointAndClick", "id": 2, "view":"student", "text":"Point at Germany!", "imagePath":"img/europe.jpg", "time":60, "bg":"img/quiz-background.jpg" }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "PointAndClick", "id": 2, "view":"student", "text":"Point at Germany!", "imagePath":"img/europe.jpg", "time":60, "difficulty":0, "bg":"img/quiz-background.jpg" }'));
         }
         function activity4() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "OwlEyes", "id": 3, "view":"student", "text":"Opposite of life?", "answers":["Zombie", "Undead", "Skeleton", "Dead"], "time":25, "bg":"img/quiz-background.jpg" }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "OwlEyes", "id": 3, "view":"student", "text":"Opposite of life?", "answers":["Zombie", "Undead", "Skeleton", "Dead"], "time":25, "difficulty":2, "bg":"img/quiz-background.jpg" }'));
         }
         function abort() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "abort" }'));
