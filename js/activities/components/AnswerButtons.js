@@ -26,8 +26,9 @@ class AnswerButtons {
       var answerLabel = new createjs.Text(answer);
       answerLabel.lineWidth = width - paddingX/2;
       answerLabel.lineHeight = height / 3;
+      answerLabel.font = "26px Dimbo";
       var numAnswerLines = answerLabel.getMeasuredHeight() / answerLabel.lineHeight;
-      var fontSize = Math.min(Math.floor(height / numAnswerLines) - 2, 26);
+      var fontSize = Math.min(Math.floor(height / numAnswerLines), 26);
       answerLabel.font = fontSize + "px Dimbo";
       numAnswerLines = answerLabel.getMeasuredHeight() / answerLabel.lineHeight;
       answerLabel.color = "#F0261B";

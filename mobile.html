@@ -26,11 +26,6 @@
 
       <div id="footer">
         <button type="button" onclick="abort();">Abort</button>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button" onclick="changeTimer();">ChangeTimer</button>
-        <button type="button" onclick="pauseTimer();">PauseTimer</button>
-        <button type="button" onclick="resumeTimer();">ResumeTimer</button>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button type="button" onclick="activity1();">Activity1</button>
         <button type="button" onclick="activity2();">Activity2</button>
         <button type="button" onclick="activity3();">Activity3</button>
@@ -63,15 +58,6 @@
         }
         function abort() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "abort" }'));
-        }
-        function changeTimer() {
-          ServerConnection.receive(JSON.parse('{ "cmd" : "update", "time" : 15 }'));
-        }
-        function pauseTimer() {
-          ServerConnection.receive(JSON.parse('{ "cmd" : "pause" }'));
-        }
-        function resumeTimer() {
-          ServerConnection.receive(JSON.parse('{ "cmd" : "resume" }'));
         }
       </script>
     </body>
