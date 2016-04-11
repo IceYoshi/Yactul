@@ -4,8 +4,14 @@ class MessageInterpreter {
       case "start":
           StageManager.draw(this.getActivity(data));
         break;
-      case "change":
-          StageManager.change(data);
+      case "update":
+          StageManager.updateTimer(data);
+        break;
+      case "pause":
+          StageManager.pauseTimer();
+        break;
+      case "resume":
+          StageManager.resumeTimer();
         break;
       case "abort":
           StageManager.abort();

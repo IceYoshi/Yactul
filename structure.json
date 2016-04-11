@@ -28,7 +28,7 @@
 }
 
 {
-  "cmd" : "interrupt"
+  "cmd" : "abort"
 }
 
 {

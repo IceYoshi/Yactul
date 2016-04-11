@@ -1,60 +1,135 @@
 class Timer {
   constructor(screen, time, callback) {
-    // convert time into an int if decimal
-    time = Math.max(Math.floor(time), 1);
+    if(time > 0) {
+      // time in ms per timer tick
+      this._tickTime = 1000;
+      this._screen = screen;
+      this._running = false;
+      // convert time into an int if decimal
+      this._time = Math.max(Math.floor(time), 1);
+      this._callback = callback;
 
-    // timer background
-    var bgCircle = new createjs.Shape();
-    bgCircle.graphics.beginFill("#d3d3d3").drawCircle(0, 0, screen.width / 8);
-    bgCircle.x = screen.width;
-    bgCircle.y = 0;
+      this.drawBackgroundCircle();
+      this._timeLabel = this.createTimeLabel();
+      this._progressArc = this.createProgressArc();
 
-    // timer label
-    var timeLabel = new createjs.Text(time.toString(), "45px Dimbo", "#F0261B");
+      this.start();
+    }
+  }
+
+  change(time) {
+    var oldTime = this._time;
+    this._time = Math.max(Math.floor(time), 1);
+    this.updateTimeLabel();
+    if(this._running) {
+      this.startProgressAnimation();
+    }
+    this.changeAnimation(this._time - oldTime);
+  }
+
+  start() {
+    if(!this._running) {
+      this._running = true;
+      this.startProgressAnimation();
+
+      // Date is used to calculate the real time passed between each tick. It makes the timer more accurate.
+      this.tick(new Date(new Date().getTime() - this._tickTime));
+    }
+  }
+
+  stop() {
+    this._running = false;
+    this.stopProgressAnimation();
+  }
+
+  tick(date) {
+    if(this._time > 0) {
+      var sleepTime = this._tickTime - (new Date().getTime() - date.getTime() - this._tickTime);
+      date = new Date();
+      createjs.Tween.get(this._timeLabel, { loop: false })
+        .wait(sleepTime)
+        .call(function() {
+          if(this._running) {
+            this._time--;
+            this.updateTimeLabel();
+            this.tick(date);
+          }
+        }.bind(this));
+    } else {
+      if(this._callback != null) this._callback();
+    }
+  }
+
+  createTimeLabel() {
+    var timeLabel = new createjs.Text(this._time.toString(), "50px Dimbo", "#F0261B");
     timeLabel.textBaseline = "alphabetic";
-    timeLabel.x = screen.width - screen.width / 20;
-    timeLabel.y = screen.width / 16;
-    timeLabel.lineWidth = screen.width / 8;
+    timeLabel.x = this._screen.width - this._screen.width / 20;
+    timeLabel.y = this._screen.width / 14;
+    timeLabel.lineWidth = this._screen.width / 8;
     timeLabel.textAlign = "center";
 
-    // time in ms per timer tick
-    var tickTime = 1000;
+    this._screen.addChild(timeLabel);
+    return timeLabel;
+  }
 
-    // Date is used to calculate the real time passed between each tick. It makes the timer more accurate.
-    var date = new Date(new Date().getTime() - tickTime);
-    update(time);
+  updateTimeLabel() {
+    this._timeLabel.text = this._time.toString();
+  }
 
-    // update timer label. It recalls itself recursively after each tickTime until time has reached 0.
-    function update(time) {
-      var sleepTime = tickTime - (new Date().getTime() - date.getTime() - tickTime);
-      date = new Date();
-      createjs.Tween.get(timeLabel)
-        .to({ text: time.toString() } )
-        .wait(sleepTime)
-        .call(handleComplete, [callback]);
-      function handleComplete(callback) {
-          if(time > 0) {
-            time--;
-            if(time == 0 && callback != null) callback();
-            update(time);
-          }
-      }
+  createProgressArc() {
+    var progressArc = new createjs.Shape();
+    progressArc.graphics.setStrokeStyle(this._screen.width/80).beginStroke("#F0261B").arc(this._screen.width, 0, this._screen.width / 8, Math.PI/2, Math.PI);
+    progressArc.x = progressArc.regX = this._screen.width;
+    progressArc.y = progressArc.regY = 0;
+    this._screen.addChild(progressArc);
+    return progressArc;
+  }
+
+  startProgressAnimation() {
+    createjs.Tween.get(this._progressArc, { loop: false, override: true })
+      .to({ rotation: -90 }, this._time*1000, createjs.Ease.getPowInOut(1));
+  }
+
+  stopProgressAnimation() {
+    createjs.Tween.removeTweens(this._progressArc);
+  }
+
+  // timer background
+  drawBackgroundCircle() {
+    var bgCircle = new createjs.Shape();
+    bgCircle.graphics.beginFill("#d3d3d3").drawCircle(0, 0, this._screen.width / 8);
+    bgCircle.x = this._screen.width;
+    bgCircle.y = 0;
+
+    this._screen.addChild(bgCircle);
+  }
+
+  changeAnimation(timeDifference) {
+    var text;
+    if(timeDifference >= 0) {
+      text = "+" + timeDifference.toString();
+    } else {
+      text = timeDifference.toString();
     }
 
-    // progress arc
-    var progressArc = new createjs.Shape();
-    progressArc.graphics.setStrokeStyle(10).beginStroke("#F0261B").arc(screen.width, 0, screen.width / 8, Math.PI/2, Math.PI);
-    progressArc.x = progressArc.regX = screen.width;
-    progressArc.y = progressArc.regY = 0;
+    var label = new createjs.Text(text, "35px Dimbo", "#F0261B");
+    label.textBaseline = "alphabetic";
+    label.x = this._screen.width - this._screen.width / 20;
+    label.y = this._screen.width / 10;
+    label.alpha = 0;
+    label.lineWidth = this._screen.width / 8;
+    label.textAlign = "center";
 
-    // progress arc animation
-    createjs.Tween.get(progressArc, { loop: false })
-      .to({ rotation: -90 }, time*1000, createjs.Ease.getPowInOut(1));
+    createjs.Tween.get(label, { loop: false })
+      .to({ alpha: 1 }, 1000, createjs.Ease.getPowInOut(1))
+      .to({ alpha: 0 }, 1000, createjs.Ease.getPowInOut(1));
 
+    createjs.Tween.get(label, { loop: false })
+      .to({ y: 0 }, 2200, createjs.Ease.getPowInOut(3));
+      //  .call();
 
-    screen.addChild(bgCircle);
-    screen.addChild(progressArc);
-    screen.addChild(timeLabel);
+    this._screen.addChild(label);
+
   }
 
 }

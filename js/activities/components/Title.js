@@ -2,7 +2,7 @@ class Title {
   constructor(screen, question) {
     var width = screen.width * 0.75;
     var height = screen.height / 13;
-    var paddingTop = screen.height * 2 / 10;
+    var paddingTop = screen.height * 1.5 / 10;
     var paddingLeft = (screen.width - width) / 2;
     var paddingRect = height / 4;
 

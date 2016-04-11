@@ -14,15 +14,35 @@ class StageManager {
 
   static draw(activity) {
     if(!this._isInitialized || activity == null) return false;
-
+    this._activity = activity;
     var screen = this.createScreen();
     activity.draw(screen);
     this.transition(screen);
     return true;
   }
 
-  static change(data) {
-    console.log("StageManager.change - Not yet implemented");
+  static updateTimer(data) {
+    try {
+      this._activity.timer.change(data.time);
+    } catch (e) {
+      console.log("There is no timer attached to the current activity.");
+    }
+  }
+
+  static pauseTimer() {
+    try {
+      this._activity.timer.stop();
+    } catch (e) {
+      console.log("There is no timer attached to the current activity.");
+    }
+  }
+
+  static resumeTimer() {
+    try {
+      this._activity.timer.start();
+    } catch (e) {
+      console.log("There is no timer attached to the current activity.");
+    }
   }
 
   static abort() {

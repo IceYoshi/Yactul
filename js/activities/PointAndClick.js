@@ -9,14 +9,14 @@ class PointAndClick {
     switch (this._data.view) {
       case "student":
         new BackgroundImage(stage, this._data.bg);
-        new Timer(stage, this._data.time, this.submit.bind(this));
+        this._timer = new Timer(stage, this._data.time, this.submit.bind(this));
         new DifficultyMeter(stage, this._data.difficulty);
         new Title(stage, this._data.text);
         new InteractiveImage(stage, this._data.imagePath, this.selected.bind(this));
         break;
       case "projector":
         new BackgroundImage(stage, this._data.bg);
-        new Timer(stage, this._data.time, null);
+        this._timer = new Timer(stage, this._data.time, null);
         new DifficultyMeter(stage, this._data.difficulty);
         new Title(stage, this._data.text);
         new InteractiveImage(stage, this._data.imagePath, null);
@@ -27,6 +27,10 @@ class PointAndClick {
   selected(value) {
     this._selected = value;
     this.submit();
+  }
+
+  get timer() {
+    return this._timer;
   }
 
   submit() {

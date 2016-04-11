@@ -2,14 +2,14 @@ class AnswerButtons {
   constructor(screen, answers, callback) {
     var numAnswers = answers.length;
     var numRows = Math.ceil(numAnswers / 2);
-    var paddingX = screen.width / 20;
-    var paddingY = screen.height / 40;
+    var paddingX = screen.width / 30;
+    var paddingY = screen.height / 50;
 
     // transparent background panel for the buttons
     var answerPanel = new createjs.Shape();
     answerPanel.graphics.beginFill("#d3d3d3").drawRoundRect(0, 0, screen.width - paddingX, screen.height / 2, 0);
     answerPanel.x = paddingX / 2;
-    answerPanel.y = screen.height / 2 - paddingY * 2.5;
+    answerPanel.y = screen.height / 2 - paddingY * 4;
     answerPanel.alpha = 0.4;
     screen.addChild(answerPanel);
     var answerObjects = [];
@@ -19,15 +19,22 @@ class AnswerButtons {
       var width = screen.width / 2 - paddingX * 1.5;
       var height = screen.height / (2 * numRows) - paddingY * 1.5;
       var x = paddingX + (i % 2) * (paddingX + width);
-      var y = screen.height / 2 - ( paddingY * 1.5 ) + Math.floor(i / 2) * (paddingY + height);
+      var y = screen.height / 2 - ( paddingY * 3 ) + Math.floor(i / 2) * (paddingY + height);
+
 
       // button label
-      var answerLabel = new createjs.Text(answer, "26px Dimbo", "#F0261B");
+      var answerLabel = new createjs.Text(answer);
       answerLabel.lineWidth = width - paddingX/2;
-      answerLabel.lineHeight = height / 3.5;
+      answerLabel.lineHeight = height / 3;
+      var numAnswerLines = answerLabel.getMeasuredHeight() / answerLabel.lineHeight;
+      var fontSize = Math.min(Math.floor(height / numAnswerLines) - 2, 26);
+      answerLabel.font = fontSize + "px Dimbo";
+      numAnswerLines = answerLabel.getMeasuredHeight() / answerLabel.lineHeight;
+      answerLabel.color = "#F0261B";
       answerLabel.textAlign = "center";
+      answerLabel.textBaseline = "middle";
       answerLabel.x = x + width / 2;
-      answerLabel.y = y + (height - answerLabel.getMeasuredHeight()) / 2;
+      answerLabel.y = y + (height / 2) - (numAnswerLines - 1) * answerLabel.lineHeight / 2;
 
       // button panel
       var answerRect = new createjs.Shape();

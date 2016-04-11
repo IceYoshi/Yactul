@@ -22,7 +22,7 @@ class InteractiveImage {
     function handleClick(event) {
       if(callback != null) {
         var star = new createjs.Shape();
-        star.graphics.beginFill("#000000").drawPolyStar(0, 0, 10, 5, 0.6, -90);
+        star.graphics.beginFill("#000000").drawPolyStar(0, 0, screen.width/80, 5, 0.6, -90);
         star.x = event.stageX / screen.stage.scaleX;
         star.y = event.stageY / screen.stage.scaleY;
         screen.addChild(star);

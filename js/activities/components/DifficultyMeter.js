@@ -14,7 +14,7 @@ class DifficultyMeter {
         star.graphics.beginFill("#333333");
       }
 
-      star.graphics.drawPolyStar(0, 0, 10, 5, 0.6, -90);
+      star.graphics.drawPolyStar(0, 0, screen.width/80, 5, 0.6, -90);
       star.x = screen.width / 2 - ((maxDifficulty/2 - i) * paddingBetween) + paddingBetween/2;
       star.y = paddingTop;
       screen.addChild(star);
