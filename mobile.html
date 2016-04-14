@@ -10,13 +10,16 @@
 
         <link rel="stylesheet" type="text/css" href="style.css" />
 
+        <script src="js/createjs/easeljs-0.8.2.min.js"></script>
+        <script src="js/createjs/tweenjs-0.6.2.min.js"></script>
+
         <script src="js/compressed.js"></script>
 
     </head>
     <body onload="init();">
 
       <div id="header">
-        <!-- <img src="img/yactul-logo.png" width="200" alt="YACTUL"/> -->
+        <img src="img/yactul-logo.png" width="200" alt="YACTUL"/>
       </div>
 
       <div id="section">
@@ -26,6 +29,11 @@
 
       <div id="footer">
         <button type="button" onclick="abort();">Abort</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" onclick="changeTimer();">ChangeTimer</button>
+        <button type="button" onclick="pauseTimer();">PauseTimer</button>
+        <button type="button" onclick="resumeTimer();">ResumeTimer</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button type="button" onclick="activity1();">Activity1</button>
         <button type="button" onclick="activity2();">Activity2</button>
         <button type="button" onclick="activity3();">Activity3</button>
@@ -40,7 +48,7 @@
 
         // show error message when there is no console access (e.g. on mobile devices)
         window.onerror = function(error) {
-          alert(error);
+          //alert(error);
         };
 
         // Methods to simulate server messages (for testing purpose)
@@ -58,6 +66,15 @@
         }
         function abort() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "abort" }'));
+        }
+        function changeTimer() {
+          ServerConnection.receive(JSON.parse('{ "cmd" : "update", "time" : 15 }'));
+        }
+        function pauseTimer() {
+          ServerConnection.receive(JSON.parse('{ "cmd" : "pause" }'));
+        }
+        function resumeTimer() {
+          ServerConnection.receive(JSON.parse('{ "cmd" : "resume" }'));
         }
       </script>
     </body>
