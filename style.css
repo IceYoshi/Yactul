@@ -34,3 +34,8 @@ canvas {
   font-family: 'Dimbo';
   padding: 5px;
 }
+
+#separator {
+  width: 20px;
+  display: inline-block;
+}
