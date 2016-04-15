@@ -13,33 +13,51 @@ class Timer {
       this._timeLabel = this.createTimeLabel();
       this._progressArc = this.createProgressArc();
 
-      this.start();
+      this.start(true);
     }
   }
 
-  change(time) {
+  change(timedifference) {
+    this.update(this._time + timedifference);
+  }
+
+  update(time) {
     var oldTime = this._time;
     this._time = Math.max(Math.floor(time), 1);
     this.updateTimeLabel();
     if(this._running) {
       this.startProgressAnimation();
     }
-    this.changeAnimation(this._time - oldTime);
+
+    var timeDifference = this._time - oldTime;
+    var text;
+
+    if(timeDifference >= 0) {
+      text = "+" + timeDifference.toString();
+    } else {
+      text = timeDifference.toString();
+    }
+
+    this.changeAnimation(text);
   }
 
-  start() {
+  start(hideAnimation) {
     if(!this._running) {
       this._running = true;
       this.startProgressAnimation();
 
       // Date is used to calculate the real time passed between each tick. It makes the timer more accurate.
       this.tick(new Date(new Date().getTime() - this._tickTime));
+      if(!hideAnimation) this.changeAnimation("started");
     }
   }
 
   stop() {
-    this._running = false;
-    this.stopProgressAnimation();
+    if(this._running) {
+      this._running = false;
+      this.stopProgressAnimation();
+      this.changeAnimation("paused");
+    }
   }
 
   tick(date) {
@@ -104,17 +122,10 @@ class Timer {
     this._screen.addChild(bgCircle);
   }
 
-  changeAnimation(timeDifference) {
-    var text;
-    if(timeDifference >= 0) {
-      text = "+" + timeDifference.toString();
-    } else {
-      text = timeDifference.toString();
-    }
-
+  changeAnimation(text) {
     var label = new createjs.Text(text, "35px Dimbo", "#F0261B");
     label.textBaseline = "alphabetic";
-    label.x = this._screen.width - this._screen.width / 20;
+    label.x = this._screen.width - this._screen.width / 15;
     label.y = this._screen.width / 10;
     label.alpha = 0;
     label.lineWidth = this._screen.width / 8;

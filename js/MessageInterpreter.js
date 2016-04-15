@@ -5,7 +5,7 @@ class MessageInterpreter {
           StageManager.draw(this.getActivity(data));
         break;
       case "update":
-          StageManager.updateTimer(data);
+          StageManager.update(data);
         break;
       case "pause":
           StageManager.pauseTimer();

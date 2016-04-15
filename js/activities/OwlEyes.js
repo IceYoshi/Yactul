@@ -34,6 +34,18 @@ class OwlEyes {
     return this._timer;
   }
 
+  update(data) {
+    switch(data.component) {
+      case "timer":
+        if(data.type === "absolute")
+          this._timer.update(data.value);
+        if(data.type === "relative")
+          this._timer.change(data.value);
+        break;
+      default: throw new Error();
+    }
+  }
+
   submit() {
     if(this._submitted) return;
     var obj = JSON.parse('{'

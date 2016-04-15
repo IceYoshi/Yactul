@@ -21,11 +21,11 @@ class StageManager {
     return true;
   }
 
-  static updateTimer(data) {
+  static update(data) {
     try {
-      this._activity.timer.change(data.time);
+      this._activity.update(data);
     } catch (e) {
-      console.log("There is no timer attached to the current activity.");
+      console.log("Update cannot be applied to the current activity. " + JSON.stringify(data));
     }
   }
 
@@ -130,16 +130,22 @@ class StageManager {
 
       // scroll to the left animation
       createjs.Tween.get(this._stage, { loop: false })
+        .call(stopAllAnimations, [this._stage])
         .to({ x: this._stage.canvas.width }, 1000, createjs.Ease.getPowInOut(2))
-        .call(transitionCompleted, [this._stage]);
+        .call(removeScreen, [this._stage]);
 
-      function transitionCompleted(stage) {
+
+      function stopAllAnimations(stage) {
         var screen = stage.getChildAt(stage.numChildren - 1);
         for(var i=0; i<screen.numChildren; i++) {
           // Stop all animations and remove event listeners
           createjs.Tween.removeTweens(screen.getChildAt(i));
           screen.getChildAt(i).removeAllEventListeners();
         }
+      }
+
+      function removeScreen(stage) {
+        var screen = stage.getChildAt(stage.numChildren - 1);
         screen.removeAllChildren();
 
         // Remove old screen
