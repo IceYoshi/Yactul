@@ -6,6 +6,8 @@ class StageManager {
 
     this._width = 800;
     this._height = 450;
+
+    this._score = 0;
   }
 
   static idle() {
@@ -16,32 +18,23 @@ class StageManager {
     if(!this._isInitialized || activity == null) return false;
     this._activity = activity;
     var screen = this.createScreen();
-    activity.draw(screen);
+    activity.draw(screen, this._score);
     this.transition(screen);
     return true;
   }
 
   static update(data) {
-    try {
-      this._activity.update(data);
-    } catch (e) {
-      console.log("Update cannot be applied to the current activity. " + JSON.stringify(data));
-    }
-  }
-
-  static pauseTimer() {
-    try {
-      this._activity.timer.stop();
-    } catch (e) {
-      console.log("There is no timer attached to the current activity.");
-    }
-  }
-
-  static resumeTimer() {
-    try {
-      this._activity.timer.start();
-    } catch (e) {
-      console.log("There is no timer attached to the current activity.");
+    switch (data.component) {
+      case "score":
+        this._score = data.value;
+        break;
+      default:
+        try {
+          this._activity.update(data);
+        } catch (e) {
+          console.log("Update cannot be applied to the current activity: " + JSON.stringify(data));
+        }
+        break;
     }
   }
 

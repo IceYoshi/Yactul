@@ -57,20 +57,20 @@ class AnswerButtons {
 
     // click handler
     function handleClick(event) {
-      if(event.target.clicked == null) {
-        event.target.filters = [ new createjs.ColorFilter(0,0,0,1,255,203,151,0) ];
-        event.target.clicked = 1;
-      } else {
-        if(event.isTouch) {
-          event.target.filters = [ new createjs.ColorFilter(1,1,1,1,0,0,0,0) ];
-        } else {
-          event.target.filters = [ new createjs.ColorFilter(1,1,1,1,-25,-25,-25,0) ];
-        }
-        event.target.clicked = null;
-      }
-      event.target.cache(0, 0, event.target.graphics.command.w, event.target.graphics.command.h);
-
       if(callback != null) {
+        if(event.target.clicked == null) {
+          event.target.filters = [ new createjs.ColorFilter(0,0,0,1,255,203,151,0) ];
+          event.target.clicked = 1;
+        } else {
+          if(event.isTouch) {
+            event.target.filters = [ new createjs.ColorFilter(1,1,1,1,0,0,0,0) ];
+          } else {
+            event.target.filters = [ new createjs.ColorFilter(1,1,1,1,-25,-25,-25,0) ];
+          }
+          event.target.clicked = null;
+        }
+        event.target.cache(0, 0, event.target.graphics.command.w, event.target.graphics.command.h);
+
         var selected = [];
         for(var j = 0; j<answerObjects.length; j++) {
           if(answerObjects[j].clicked != null) {

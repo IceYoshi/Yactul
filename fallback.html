@@ -11,35 +11,7 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css" />
 
-        <script src="js/createjs/easeljs-0.8.2.min.js"></script>
-        <script src="js/createjs/tweenjs-0.6.2.min.js"></script>
-
-        <script src="js/ServerConnection.js"></script>
-        <script src="js/MessageInterpreter.js"></script>
-        <script src="js/StageManager.js"></script>
-
-        <!-- Activities -->
-        <script src="js/activities/IdleScreen.js"></script>
-        <script src="js/activities/SimpleQuestion.js"></script>
-        <script src="js/activities/MultipleChoiceQuestion.js"></script>
-        <script src="js/activities/PointAndClick.js"></script>
-        <script src="js/activities/Focus.js"></script>
-
-        <!-- Components -->
-        <script src="js/activities/components/BackgroundImage.js"></script>
-        <script src="js/activities/components/Timer.js"></script>
-        <script src="js/activities/components/DifficultyMeter.js"></script>
-        <script src="js/activities/components/Score.js"></script>
-        <script src="js/activities/components/Title.js"></script>
-        <script src="js/activities/components/AnswerButtons.js"></script>
-        <script src="js/activities/components/ValidateButton.js"></script>
-        <script src="js/activities/components/InteractiveImage.js"></script>
-        <script src="js/activities/components/AnswerCycle.js"></script>
-        <script src="js/activities/components/StopButton.js"></script>
-
-        <script src="js/init.js"></script>
-
-        <!-- <script src="js/compressed.js"></script> -->
+        <script src="js/compressed.js"></script>
 
     </head>
     <body onload="init();">
@@ -77,8 +49,7 @@
 
         // redirect to compatibility version in case of an error
         window.onerror = function(error) {
-          //alert(error);
-          document.location = "fallback.html";
+          alert(error);
         };
 
         //--------------------------------------------------------------------------------------

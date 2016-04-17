@@ -7,9 +7,10 @@ class Timer {
       this._running = false;
       // convert time into an int if decimal
       this._time = Math.max(Math.floor(time), 1);
+      this._maxValue = this._time;
       this._callback = callback;
 
-      this.drawBackgroundCircle();
+      this._backgroundCircle = this.drawBackgroundCircle();
       this._timeLabel = this.createTimeLabel();
       this._progressArc = this.createProgressArc();
 
@@ -23,8 +24,11 @@ class Timer {
 
   update(time) {
     var oldTime = this._time;
-    this._time = Math.max(Math.floor(time), 1);
+    this._time = Math.max(Math.floor(time), 0);
+    if(this._time > this._maxValue) this._maxValue = this._time;
     this.updateTimeLabel();
+    this.updateProgressAnimation();
+
     if(this._running) {
       this.startProgressAnimation();
     }
@@ -56,6 +60,7 @@ class Timer {
     if(this._running) {
       this._running = false;
       this.stopProgressAnimation();
+      this.updateProgressAnimation();
       this.changeAnimation("paused");
     }
   }
@@ -68,12 +73,18 @@ class Timer {
         .wait(sleepTime)
         .call(function() {
           if(this._running) {
-            this._time--;
-            this.updateTimeLabel();
+            if(this._time > 0) {
+              this._time--;
+              this.updateTimeLabel();
+            }
+            if(this._time < 6) {
+              this.lowTimeAnimation();
+            }
             this.tick(date);
           }
         }.bind(this));
     } else {
+      this._running = false;
       if(this._callback != null) this._callback();
     }
   }
@@ -112,6 +123,10 @@ class Timer {
     createjs.Tween.removeTweens(this._progressArc);
   }
 
+  updateProgressAnimation() {
+    this._progressArc.rotation = -90 * (1 + (-this._time / this._maxValue));
+  }
+
   // timer background
   drawBackgroundCircle() {
     var bgCircle = new createjs.Shape();
@@ -119,7 +134,11 @@ class Timer {
     bgCircle.x = this._screen.width;
     bgCircle.y = 0;
 
+    bgCircle.filters = [ new createjs.ColorFilter(1,1,1,1) ];
+
+
     this._screen.addChild(bgCircle);
+    return bgCircle;
   }
 
   changeAnimation(text) {
@@ -136,10 +155,30 @@ class Timer {
       .to({ alpha: 0 }, 1000, createjs.Ease.getPowInOut(1));
 
     createjs.Tween.get(label, { loop: false })
-      .to({ y: 0 }, 2200, createjs.Ease.getPowInOut(3));
-      //  .call();
+      .to({ y: 0 }, 2200, createjs.Ease.getPowInOut(3))
+      .call(function(screen, label) {
+        screen.removeChild(label);
+      }, [this._screen, label]);
 
     this._screen.addChild(label);
+
+  }
+
+  lowTimeAnimation() {
+    this._backgroundCircle.cache(-this._screen.width / 8, 0, this._screen.width / 8, this._screen.width / 8, 2);
+    this._backgroundCircle.handleEvent = function() {
+      this.updateCache();
+    };
+
+    createjs.Tween.get(this._backgroundCircle.filters[0], { loop: false })
+    .call(function(bgCircle) {
+      createjs.Ticker.addEventListener("tick", bgCircle);
+    }, [this._backgroundCircle])
+      .to({ redMultiplier: 1.5, greenMultiplier: 0.5, blueMultiplier: 0.5 }, 300)
+      .to({ redMultiplier: 1, greenMultiplier: 1, blueMultiplier: 1 }, 300)
+      .call(function(bgCircle) {
+        createjs.Ticker.removeEventListener("tick", bgCircle);
+      }, [this._backgroundCircle]);
 
   }
 

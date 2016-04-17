@@ -5,12 +5,13 @@ class MultipleChoiceQuestion {
       this._submitted = false;
   }
 
-  draw(stage) {
+  draw(stage, score) {
     switch (this._data.view) {
       case "student":
         new BackgroundImage(stage, this._data.bg);
         this._timer = new Timer(stage, this._data.time, this.submit.bind(this));
         new DifficultyMeter(stage, this._data.difficulty);
+        new Score(stage, "Score: " + score.toString());
         new Title(stage, this._data.text);
         new AnswerButtons(stage, this._data.answers, this.selected.bind(this));
         new ValidateButton(stage, this.submit.bind(this));
@@ -19,6 +20,7 @@ class MultipleChoiceQuestion {
         new BackgroundImage(stage, this._data.bg);
         this._timer = new Timer(stage, this._data.time, null);
         new DifficultyMeter(stage, this._data.difficulty);
+        new Score(stage, this._data.activity);
         new Title(stage, this._data.text);
         new AnswerButtons(stage, this._data.answers, null);
         break;
@@ -29,10 +31,6 @@ class MultipleChoiceQuestion {
     this._selected = value;
   }
 
-  get timer() {
-    return this._timer;
-  }
-
   update(data) {
     switch(data.component) {
       case "timer":
@@ -40,6 +38,10 @@ class MultipleChoiceQuestion {
           this._timer.update(data.value);
         if(data.type === "relative")
           this._timer.change(data.value);
+        if(data.type === "pause")
+          this._timer.stop();
+        if(data.type === "resume")
+          this._timer.start();
         break;
       default: throw new Error();
     }

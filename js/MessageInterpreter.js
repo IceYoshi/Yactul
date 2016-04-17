@@ -7,12 +7,6 @@ class MessageInterpreter {
       case "update":
           StageManager.update(data);
         break;
-      case "pause":
-          StageManager.pauseTimer();
-        break;
-      case "resume":
-          StageManager.resumeTimer();
-        break;
       case "abort":
           StageManager.abort();
         break;
