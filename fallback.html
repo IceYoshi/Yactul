@@ -67,19 +67,19 @@
         // Methods to simulate server messages (for testing purpose)
         function activity1() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse(`{ "cmd":"start", "activity": "SimpleQuestion", "id": 0, "view":"${view}", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":25, "difficulty":1, "bg":"img/quiz-background.jpg" }`));
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "SimpleQuestion", "id": 0, "view":"' + view + '", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":25, "difficulty":1, "bg":"img/quiz-background.jpg" }'));
         }
         function activity2() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse(`{ "cmd":"start", "activity": "MultipleChoiceQuestion", "id": 1, "view":"${view}", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg" }`));
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "MultipleChoiceQuestion", "id": 1, "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg" }'));
         }
         function activity3() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse(`{ "cmd":"start", "activity": "PointAndClick", "id": 2, "view":"${view}", "text":"Point at Germany!", "imagePath":"img/europe.jpg", "time":60, "difficulty":0, "bg":"img/quiz-background.jpg" }`));
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "PointAndClick", "id": 2, "view":"' + view + '", "text":"Point at Germany!", "imagePath":"img/europe.jpg", "time":60, "difficulty":0, "bg":"img/quiz-background.jpg" }'));
         }
         function activity4() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse(`{ "cmd":"start", "activity": "Focus", "id": 3, "view":"${view}", "text":"Opposite of life?", "answers":["Zombie", "Undead", "Skeleton", "Dead"], "time":25, "difficulty":2, "bg":"img/quiz-background.jpg" }`));
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "Focus", "id": 3, "view":"' + view + '", "text":"Opposite of life?", "answers":["Zombie", "Undead", "Skeleton", "Dead"], "time":25, "difficulty":2, "bg":"img/quiz-background.jpg" }'));
         }
         function abort() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "abort" }'));
