@@ -174,8 +174,8 @@ class Timer {
     .call(function(bgCircle) {
       createjs.Ticker.addEventListener("tick", bgCircle);
     }, [this._backgroundCircle])
-      .to({ redMultiplier: 1.5, greenMultiplier: 0.5, blueMultiplier: 0.5 }, 300)
-      .to({ redMultiplier: 1, greenMultiplier: 1, blueMultiplier: 1 }, 300)
+      .to({ redMultiplier: 1.5, greenMultiplier: 0.3, blueMultiplier: 0.3 }, 250)
+      .to({ redMultiplier: 1, greenMultiplier: 1, blueMultiplier: 1 }, 250)
       .call(function(bgCircle) {
         createjs.Ticker.removeEventListener("tick", bgCircle);
       }, [this._backgroundCircle]);

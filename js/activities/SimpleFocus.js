@@ -1,7 +1,7 @@
-class Focus {
+class SimpleFocus {
   constructor(data) {
       this._data = data;
-      this._selected = [null];
+      this._selected = null;
       this._submitted = false;
   }
 
@@ -54,7 +54,7 @@ class Focus {
        +'"cmd" : "submit",'
        + '"activity" : "' + this._data.activity + '",'
        + '"id" : ' + this._data.id + ','
-       +'"selected" : ' + JSON.stringify(this._selected[0])
+       +'"selected" : ' + JSON.stringify(this._selected)
        +'}');
     if(ServerConnection.send(obj)) {
       this._submitted = true;

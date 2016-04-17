@@ -24,6 +24,10 @@ class StopButton {
       if(callback != null) {
         event.target.filters = [ new createjs.ColorFilter(0,0,0,1,144,22,16,0) ];
         event.target.cache(-radius, -radius, 2 * radius, 2 * radius);
+        setTimeout(function() {
+          event.target.filters = undefined;
+          event.target.uncache();
+        }, 150)
         callback();
       }
     }

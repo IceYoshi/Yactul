@@ -31,7 +31,8 @@
         <script src="js/activities/SimpleQuestion.js"></script>
         <script src="js/activities/MultipleChoiceQuestion.js"></script>
         <script src="js/activities/PointAndClick.js"></script>
-        <script src="js/activities/Focus.js"></script>
+        <script src="js/activities/SimpleFocus.js"></script>
+        <script src="js/activities/MultipleChoiceFocus.js"></script>
 
         <!-- Components -->
         <script src="js/activities/components/BackgroundImage.js"></script>
@@ -71,10 +72,11 @@
         <button type="button" class="btn btn-info btn-sm" onclick="togglePauseTimer();">Pause/Resume</button>
         <div id="separator"></div>
         <button type="button" class="btn btn-warning btn-sm" onclick="abort();">Abort</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="activity1();">Activity1</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="activity2();">Activity2</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="activity3();">Activity3</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="activity4();">Activity4</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="activity1();">SimpleQuestion</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="activity2();">MultipleChoiceQuestion</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="activity3();">PointAndClick</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="activity4();">SimpleFocus</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="activity5();">MultipleChoiceFocus</button>
       </div>
 
       <script>
@@ -96,19 +98,23 @@
         // Methods to simulate server messages (for testing purpose)
         function activity1() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse(`{ "cmd":"start", "activity": "SimpleQuestion", "id": 0, "view":"${view}", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":25, "difficulty":1, "bg":"img/quiz-background.jpg" }`));
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "SimpleQuestion", "id": 0, "view":"' + view + '", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":25, "difficulty":1, "bg":"img/quiz-background.jpg" }'));
         }
         function activity2() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse(`{ "cmd":"start", "activity": "MultipleChoiceQuestion", "id": 1, "view":"${view}", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg" }`));
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "MultipleChoiceQuestion", "id": 1, "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg" }'));
         }
         function activity3() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse(`{ "cmd":"start", "activity": "PointAndClick", "id": 2, "view":"${view}", "text":"Point at Germany!", "imagePath":"img/europe.jpg", "time":60, "difficulty":0, "bg":"img/quiz-background.jpg" }`));
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "PointAndClick", "id": 2, "view":"' + view + '", "text":"Point at Germany!", "imagePath":"img/europe.jpg", "time":20, "difficulty":0, "bg":"img/quiz-background2.jpg" }'));
         }
         function activity4() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse(`{ "cmd":"start", "activity": "Focus", "id": 3, "view":"${view}", "text":"Opposite of life?", "answers":["Zombie", "Undead", "Skeleton", "Dead"], "time":25, "difficulty":2, "bg":"img/quiz-background.jpg" }`));
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "SimpleFocus", "id": 3, "view":"' + view + '", "text":"Opposite of life?", "answers":["Zombie", "Undead", "Skeleton", "Dead"], "time":20, "difficulty":2, "bg":"img/quiz-background3.jpg" }'));
+        }
+        function activity5() {
+          isPaused = false;
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "MultipleChoiceFocus", "id": 3, "view":"' + view + '", "text":"In a distributed system, what will you use to determine the order of two distinct messages?", "answers":["Timestamp", "Logical Clock", "Guess", "Vector Clock", "Hourglass", "Timemachine"], "time":55, "difficulty":4, "bg":"img/quiz-background3.jpg" }'));
         }
         function abort() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "abort" }'));
