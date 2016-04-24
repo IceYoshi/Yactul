@@ -24,8 +24,8 @@ class MultipleChoiceFocus {
         new DifficultyMeter(stage, this._data.difficulty);
         new Score(stage, this._data.activity);
         new Title(stage, this._data.text);
-        new AnswerCycle(stage, "Select !", this._data.answers, null);
-        new StopButton(stage, null);
+        new AnswerCycle(stage, this._data.answers, null);
+        new StopButton(stage, "Select !", null);
         break;
     }
   }

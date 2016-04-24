@@ -34,6 +34,7 @@
         <script src="js/activities/PointAndClick.js"></script>
         <script src="js/activities/SimpleFocus.js"></script>
         <script src="js/activities/MultipleChoiceFocus.js"></script>
+        <script src="js/activities/QuestionSolution.js"></script>
 
         <!-- Components -->
         <script src="js/activities/components/BackgroundImage.js"></script>
@@ -73,14 +74,17 @@
         <button type="button" class="btn btn-info btn-sm" onclick="addTimer();">timer+=10</button>
         <button type="button" class="btn btn-info btn-sm" onclick="subtractTimer();">timer-=10</button>
         <button type="button" class="btn btn-info btn-sm" onclick="togglePauseTimer();">Pause/Resume</button>
-        <div id="separator"></div>
-        <button type="button" class="btn btn-warning btn-sm" onclick="highscore();">Highscore</button>
-        <button type="button" class="btn btn-warning btn-sm" onclick="abort();">Abort</button>
+        <br>
         <button type="button" class="btn btn-success btn-sm" onclick="activity1();">SimpleQuestion</button>
         <button type="button" class="btn btn-success btn-sm" onclick="activity2();">MultipleChoiceQuestion</button>
         <button type="button" class="btn btn-success btn-sm" onclick="activity3();">PointAndClick</button>
         <button type="button" class="btn btn-success btn-sm" onclick="activity4();">SimpleFocus</button>
         <button type="button" class="btn btn-success btn-sm" onclick="activity5();">MultipleChoiceFocus</button>
+        <br>
+        <button type="button" class="btn btn-warning btn-sm" onclick="abort();">Abort</button>
+        <button type="button" class="btn btn-warning btn-sm" onclick="highscore();">Highscore</button>
+        <button type="button" class="btn btn-warning btn-sm" onclick="activity1_sol();">SimpleQuestion</button>
+        <button type="button" class="btn btn-warning btn-sm" onclick="activity2_sol();">MultipleChoiceQuestion</button>
       </div>
 
       <script>
@@ -104,9 +108,17 @@
           isPaused = false;
           ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "SimpleQuestion", "id": 0, "view":"' + view + '", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":25, "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png" }'));
         }
+        function activity1_sol() {
+          isPaused = false;
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "QuestionSolution", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "stats":[{"correct":false, "amount":5}, {"correct":false, "amount":7}, {"correct":true, "amount":23}, {"correct":false, "amount":2}] }'));
+        }
         function activity2() {
           isPaused = false;
           ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "MultipleChoiceQuestion", "id": 1, "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg" }'));
+        }
+        function activity2_sol() {
+          isPaused = false;
+          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "QuestionSolution", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "difficulty":3, "bg":"img/quiz-background.jpg", "stats":[{"correct":false, "amount":10},{"correct":true, "amount":5},{"correct":true, "amount":2},{"correct":true, "amount":7}] }'));
         }
         function activity3() {
           isPaused = false;
@@ -128,7 +140,7 @@
             '{"name":"Darth Vader", "score":9001},' +
             '{"name":"Expert", "score":4390},' +
             '{"name":"IceYoshi", "score":1700},' +
-            '{"name":"Mike", "score":1100},' +
+            '{"name":"Der wahre Mike!", "score":1100},' +
             '{"name":"Did I Win?", "score":0} ]}'));
         }
         function changeTimer() {

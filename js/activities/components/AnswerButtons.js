@@ -1,9 +1,16 @@
 class AnswerButtons {
-  constructor(screen, answers, callback, leftOnly) {
+  constructor(screen, answers, callback, leftOnly, stats) {
     var numAnswers = answers.length;
     var numRows = Math.ceil(numAnswers / 2);
     var paddingX = screen.width / 30;
     var paddingY = screen.height / 50;
+
+    var totalVoteAmount = 0;
+    if(stats != undefined) {
+      for(var i = 0; i<stats.length; i++) {
+        totalVoteAmount += stats[i].amount;
+      }
+    }
 
     // transparent background panel for the buttons
     var answerPanel = new createjs.Shape();
@@ -50,7 +57,13 @@ class AnswerButtons {
 
       // button panel
       var answerRect = new createjs.Shape();
-      answerRect.graphics.beginFill("#d3d3d3").drawRect(0, 0, width, height);
+      screen.addChild(answerRect);
+      if(stats != undefined && stats[i].correct) {
+        answerRect.graphics.beginFill("#5cb85c");
+      } else {
+        answerRect.graphics.beginFill("#d3d3d3");
+      }
+      answerRect.graphics.drawRect(0, 0, width, height);
       answerRect.x = x;
       answerRect.y = y;
       answerRect.label = answer;
@@ -62,7 +75,35 @@ class AnswerButtons {
 
       answerObjects.push(answerRect);
 
-      screen.addChild(answerRect);
+      if(stats != undefined) {
+        var statRect = new createjs.Shape();
+        statRect.graphics.beginFill("#000").drawRect(0, 0, 0, height);
+        statRect.x = x;
+        statRect.y = y;
+        statRect.alpha = 0.5;
+
+        createjs.Tween.get(statRect.graphics.command, { loop: false })
+          .wait(1000)
+          .to({ w: (width * stats[i].amount / totalVoteAmount) }, 2000, createjs.Ease.getPowInOut(2));
+
+        var statLabel = new createjs.Text(stats[i].amount);
+        statLabel.font = "20px Dimbo";
+        statLabel.color = "#000";
+        statLabel.x = x + (width * stats[i].amount / totalVoteAmount);
+        statLabel.y = y;
+        statLabel.textAlign = "left";
+        statLabel.textBaseline = "top";
+        statLabel.alpha = 0;
+
+        createjs.Tween.get(statLabel, { loop: false })
+          .wait(2700)
+          .to({ alpha: 0.8 }, 1000, createjs.Ease.getPowInOut(2));
+
+        screen.addChild(statRect);
+        screen.addChild(statLabel);
+
+      }
+
       screen.addChild(answerLabel);
     }
 

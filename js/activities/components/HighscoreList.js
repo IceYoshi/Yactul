@@ -22,7 +22,6 @@ class HighscoreList {
       rankLabel.textAlign = "center";
       rankLabel.textBaseline = "middle";
 
-
       var nameLabel = new createjs.Text();
       nameLabel.text = item.name;
       nameLabel.font = baseSize - 10 * Math.min(i, 2.5) + "px Dimbo";
@@ -88,7 +87,7 @@ class HighscoreList {
 
         // Resize image
         crown.image.onload = function() {
-          crown.scaleX = crown.scaleY = (screen.width / 30) / crown.image.width;
+          crown.scaleX = crown.scaleY = (screen.width / 25) / crown.image.width;
           crown.x = paddingLeft * 0.5;
           crown.y = paddingTop - crown.image.height * crown.scaleY / 2;
         };

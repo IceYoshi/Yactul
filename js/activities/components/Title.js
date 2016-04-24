@@ -9,10 +9,11 @@ class Title {
     // question multiline label
     var questionLabel = new createjs.Text(question, "30px Dimbo", "#F0261B");
     questionLabel.x = screen.width / 2;
-    questionLabel.y = paddingTop;
-    questionLabel.lineWidth = width - 10;
+    questionLabel.y = paddingTop + height/2;
+    questionLabel.lineWidth = width - width / 15;
     questionLabel.lineHeight = height;
     questionLabel.textAlign = "center";
+    questionLabel.textBaseline = "middle";
 
     var numOfLines = questionLabel.getMeasuredHeight() / height;
 
