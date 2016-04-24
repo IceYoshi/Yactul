@@ -13,8 +13,9 @@ class MultipleChoiceQuestion {
         new DifficultyMeter(stage, this._data.difficulty);
         new Score(stage, "Score: " + score.toString());
         new Title(stage, this._data.text);
-        new AnswerButtons(stage, this._data.answers, this.selected.bind(this));
+        new AnswerButtons(stage, this._data.answers, this.selected.bind(this), this._data.image != undefined);
         new ValidateButton(stage, this.submit.bind(this));
+        new DisplayImage(stage, this._data.image);
         break;
       case "projector":
         new BackgroundImage(stage, this._data.bg);
@@ -22,7 +23,8 @@ class MultipleChoiceQuestion {
         new DifficultyMeter(stage, this._data.difficulty);
         new Score(stage, this._data.activity);
         new Title(stage, this._data.text);
-        new AnswerButtons(stage, this._data.answers, null);
+        new AnswerButtons(stage, this._data.answers, null, this._data.image != undefined);
+        new DisplayImage(stage, this._data.image);
         break;
     }
   }

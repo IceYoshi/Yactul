@@ -14,7 +14,7 @@ class SimpleFocus {
         new Score(stage, "Score: " + score.toString());
         new Title(stage, this._data.text);
         new AnswerCycle(stage, this._data.answers, this.selected.bind(this));
-        new StopButton(stage, this.submit.bind(this));
+        new StopButton(stage, "Stop !", this.submit.bind(this));
         break;
       case "projector":
         new BackgroundImage(stage, this._data.bg);
@@ -23,7 +23,7 @@ class SimpleFocus {
         new Score(stage, this._data.activity);
         new Title(stage, this._data.text);
         new AnswerCycle(stage, this._data.answers, null);
-        new StopButton(stage, null);
+        new StopButton(stage, "Stop !", null);
         break;
     }
   }

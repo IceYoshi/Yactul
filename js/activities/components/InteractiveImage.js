@@ -4,15 +4,13 @@ class InteractiveImage {
 
     var padding = screen.width / 20;
 
-    //bg.x = padding;
-    bg.y = screen.height / 2 - 2*padding;
-
     bg.image.onload = function() {
       // Keep aspect ratio
       var scale = Math.min((9/10 * screen.width) / bg.image.width, (screen.height / 2 + padding) / bg.image.height);
       bg.scaleX = scale;
       bg.scaleY = scale;
       bg.x = (screen.width - bg.image.width * bg.scaleX) / 2;
+      bg.y = screen.height / 2 - 2*padding;
     };
 
     bg.shadow = new createjs.Shadow("#333333", 5, 5, 10);

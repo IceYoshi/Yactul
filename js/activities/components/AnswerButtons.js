@@ -1,5 +1,5 @@
 class AnswerButtons {
-  constructor(screen, answers, callback) {
+  constructor(screen, answers, callback, leftOnly) {
     var numAnswers = answers.length;
     var numRows = Math.ceil(numAnswers / 2);
     var paddingX = screen.width / 30;
@@ -7,7 +7,10 @@ class AnswerButtons {
 
     // transparent background panel for the buttons
     var answerPanel = new createjs.Shape();
-    answerPanel.graphics.beginFill("#d3d3d3").drawRoundRect(0, 0, screen.width - paddingX, screen.height / 2, 0);
+    var panelWidth = screen.width - paddingX;
+    var panelHeight = screen.height / 2;
+    if(leftOnly) panelWidth /= 2;
+    answerPanel.graphics.beginFill("#d3d3d3").drawRect(0, 0, panelWidth, panelHeight);
     answerPanel.x = paddingX / 2;
     answerPanel.y = screen.height / 2 - paddingY * 4;
     answerPanel.alpha = 0.4;
@@ -16,11 +19,19 @@ class AnswerButtons {
 
     for(var i = 0; i < numAnswers; i++) {
       var answer = answers[i];
-      var width = screen.width / 2 - paddingX * 1.5;
-      var height = screen.height / (2 * numRows) - paddingY * 1.5;
-      var x = paddingX + (i % 2) * (paddingX + width);
-      var y = screen.height / 2 - ( paddingY * 3 ) + Math.floor(i / 2) * (paddingY + height);
 
+      var x, y, width, height;
+      if(leftOnly) {
+        width = screen.width / 2 - paddingX * 1.5;
+        height = screen.height / (2 * numAnswers) - paddingY - paddingY/numAnswers;
+        x = paddingX;
+        y = screen.height / 2 - ( paddingY * 3 ) + i * (paddingY + height);
+      } else {
+        width = screen.width / 2 - paddingX * 1.5;
+        height = screen.height / (2 * numRows) - paddingY * 1.5;
+        x = paddingX + (i % 2) * (paddingX + width);
+        y = screen.height / 2 - ( paddingY * 3 ) + Math.floor(i / 2) * (paddingY + height);
+      }
 
       // button label
       var answerLabel = new createjs.Text(answer);
@@ -39,7 +50,7 @@ class AnswerButtons {
 
       // button panel
       var answerRect = new createjs.Shape();
-      answerRect.graphics.beginFill("#d3d3d3").drawRoundRect(0, 0, width, height, 0);
+      answerRect.graphics.beginFill("#d3d3d3").drawRect(0, 0, width, height);
       answerRect.x = x;
       answerRect.y = y;
       answerRect.label = answer;

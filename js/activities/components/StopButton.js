@@ -1,8 +1,8 @@
 class StopButton {
-  constructor(screen, callback) {
+  constructor(screen, text, callback) {
     var radius = Math.min(screen.width / 6, screen.height / 5);
 
-    var stopLabel = new createjs.Text("Stop !", "bold 40px Dimbo", "#d3d3d3");
+    var stopLabel = new createjs.Text(text, "bold 45px Dimbo", "#d3d3d3");
     stopLabel.textBaseline = "middle";
     stopLabel.x = screen.width / 2;
     stopLabel.y = screen.height * 0.75;

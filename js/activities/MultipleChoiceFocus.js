@@ -15,7 +15,7 @@ class MultipleChoiceFocus {
         new Score(stage, "Score: " + score.toString());
         new Title(stage, this._data.text);
         this._answerCycle = new AnswerCycle(stage, this._data.answers, this.currentItem.bind(this));
-        new StopButton(stage, this.select.bind(this));
+        new StopButton(stage, "Select !", this.select.bind(this));
         new ValidateButton(stage, this.submit.bind(this))
         break;
       case "projector":
@@ -24,7 +24,7 @@ class MultipleChoiceFocus {
         new DifficultyMeter(stage, this._data.difficulty);
         new Score(stage, this._data.activity);
         new Title(stage, this._data.text);
-        new AnswerCycle(stage, this._data.answers, null);
+        new AnswerCycle(stage, "Select !", this._data.answers, null);
         new StopButton(stage, null);
         break;
     }
