@@ -49,6 +49,7 @@
         <script src="js/activities/components/StopButton.js"></script>
         <script src="js/activities/components/HighscoreList.js"></script>
         <script src="js/activities/components/DisplayImage.js"></script>
+        <script src="js/activities/components/BestPlayer.js"></script>
 
         <script src="js/init.js"></script>
 
@@ -141,7 +142,8 @@
             '{"name":"Expert", "score":4390},' +
             '{"name":"IceYoshi", "score":1700},' +
             '{"name":"Der wahre Mike!", "score":1100},' +
-            '{"name":"Did I Win?", "score":0} ]}'));
+            '{"name":"Did I Win?", "score":0} ],' +
+            '"best":{"name":"Expert", "score":790}}'));
         }
         function changeTimer() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "update", "component": "timer", "type": "absolute", "value" : 20 }'));
