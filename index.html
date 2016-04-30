@@ -27,29 +27,29 @@
         <script src="js/StageManager.js"></script>
 
         <!-- Activities -->
-        <script src="js/activities/IdleScreen.js"></script>
-        <script src="js/activities/Highscore.js"></script>
-        <script src="js/activities/SimpleQuestion.js"></script>
-        <script src="js/activities/MultipleChoiceQuestion.js"></script>
-        <script src="js/activities/PointAndClick.js"></script>
-        <script src="js/activities/SimpleFocus.js"></script>
-        <script src="js/activities/MultipleChoiceFocus.js"></script>
-        <script src="js/activities/QuestionSolution.js"></script>
+        <script src="js/screens/Idle.js"></script>
+        <script src="js/screens/Highscore.js"></script>
+        <script src="js/screens/SimpleQuestion.js"></script>
+        <script src="js/screens/MultipleChoiceQuestion.js"></script>
+        <script src="js/screens/PointAndClick.js"></script>
+        <script src="js/screens/SimpleFocus.js"></script>
+        <script src="js/screens/MultipleChoiceFocus.js"></script>
+        <script src="js/screens/QuestionSolution.js"></script>
 
         <!-- Components -->
-        <script src="js/activities/components/BackgroundImage.js"></script>
-        <script src="js/activities/components/Timer.js"></script>
-        <script src="js/activities/components/DifficultyMeter.js"></script>
-        <script src="js/activities/components/Score.js"></script>
-        <script src="js/activities/components/Title.js"></script>
-        <script src="js/activities/components/AnswerButtons.js"></script>
-        <script src="js/activities/components/ValidateButton.js"></script>
-        <script src="js/activities/components/InteractiveImage.js"></script>
-        <script src="js/activities/components/AnswerCycle.js"></script>
-        <script src="js/activities/components/StopButton.js"></script>
-        <script src="js/activities/components/HighscoreList.js"></script>
-        <script src="js/activities/components/DisplayImage.js"></script>
-        <script src="js/activities/components/BestPlayer.js"></script>
+        <script src="js/screens/components/BackgroundImage.js"></script>
+        <script src="js/screens/components/TimeDisplay.js"></script>
+        <script src="js/screens/components/DifficultyMeter.js"></script>
+        <script src="js/screens/components/HeaderDisplay.js"></script>
+        <script src="js/screens/components/TitleDisplay.js"></script>
+        <script src="js/screens/components/ButtonPanel.js"></script>
+        <script src="js/screens/components/ValidateButton.js"></script>
+        <script src="js/screens/components/InteractiveImage.js"></script>
+        <script src="js/screens/components/LabelIterator.js"></script>
+        <script src="js/screens/components/RoundButton.js"></script>
+        <script src="js/screens/components/HighscoreList.js"></script>
+        <script src="js/screens/components/DisplayImage.js"></script>
+        <script src="js/screens/components/FooterTextDisplay.js"></script>
 
         <script src="js/init.js"></script>
 
@@ -68,7 +68,7 @@
       </div>
 
       <div id="footer">
-        <button type="button" class="btn btn-primary btn-sm" onclick="score();">score=500</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="score();">score+=500</button>
         <button type="button" class="btn btn-primary btn-sm" onclick="changeView();">ToggleView</button>
         <div id="separator"></div>
         <button type="button" class="btn btn-info btn-sm" onclick="changeTimer();">time=20</button>
@@ -76,74 +76,79 @@
         <button type="button" class="btn btn-info btn-sm" onclick="subtractTimer();">timer-=10</button>
         <button type="button" class="btn btn-info btn-sm" onclick="togglePauseTimer();">Pause/Resume</button>
         <br>
-        <button type="button" class="btn btn-success btn-sm" onclick="activity1();">SimpleQuestion</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="activity2();">MultipleChoiceQuestion</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="activity3();">PointAndClick</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="activity4();">SimpleFocus</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="activity5();">MultipleChoiceFocus</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="idle();">Idle</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="screen1();">SimpleQuestion</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="screen2();">MultipleChoiceQuestion</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="screen3();">PointAndClick</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="screen4();">SimpleFocus</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="screen5();">MultipleChoiceFocus</button>
         <br>
-        <button type="button" class="btn btn-warning btn-sm" onclick="abort();">Abort</button>
         <button type="button" class="btn btn-warning btn-sm" onclick="highscore();">Highscore</button>
-        <button type="button" class="btn btn-warning btn-sm" onclick="activity1_sol();">SimpleQuestion</button>
-        <button type="button" class="btn btn-warning btn-sm" onclick="activity2_sol();">MultipleChoiceQuestion</button>
+        <button type="button" class="btn btn-warning btn-sm" onclick="screen1_sol();">SimpleQuestion</button>
+        <button type="button" class="btn btn-warning btn-sm" onclick="screen2_sol();">MultipleChoiceQuestion</button>
       </div>
 
       <script>
         // Disable context menu for the canvas
         document.getElementById('canvas').oncontextmenu = function (e) {
-          e.preventDefault();
+          //e.preventDefault();
         };
 
         //--------------------------------------------------------------------------------------
         // Control panel - only for demonstration/testing
-        var view = "student";
-        var isPaused = false;
+        let view = "student";
+        let currentScore = 0;
+        let isPaused = false;
 
         function changeView() {
           view = view === "student" ? "projector" : "student";
           console.log("Changed view point to: " + view);
         }
 
+        function score() {
+          currentScore += 500;
+        }
+
         // Methods to simulate server messages (for testing purpose)
-        function activity1() {
+        function screen1() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "SimpleQuestion", "id": 0, "view":"' + view + '", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":25, "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png" }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "SimpleQuestion", "id": 0, "view":"' + view + '", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":25, "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "score":' + currentScore + '}'));
         }
-        function activity1_sol() {
+        function screen1_sol() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "QuestionSolution", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "stats":[{"correct":false, "amount":5}, {"correct":false, "amount":7}, {"correct":true, "amount":23}, {"correct":false, "amount":2}] }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "QuestionSolution", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "stats":[{"correct":false, "amount":5}, {"correct":false, "amount":7}, {"correct":true, "amount":23}, {"correct":false, "amount":2}] }'));
         }
-        function activity2() {
+        function screen2() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "MultipleChoiceQuestion", "id": 1, "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg" }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "MultipleChoiceQuestion", "id": 1, "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg", "score":' + currentScore + '}'));
         }
-        function activity2_sol() {
+        function screen2_sol() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "QuestionSolution", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "difficulty":3, "bg":"img/quiz-background.jpg", "stats":[{"correct":false, "amount":10},{"correct":true, "amount":5},{"correct":true, "amount":2},{"correct":true, "amount":7}] }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "QuestionSolution", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "difficulty":3, "bg":"img/quiz-background.jpg", "stats":[{"correct":false, "amount":10},{"correct":true, "amount":5},{"correct":true, "amount":2},{"correct":true, "amount":7}] }'));
         }
-        function activity3() {
+        function screen3() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "PointAndClick", "id": 2, "view":"' + view + '", "text":"Point at Germany!", "imagePath":"img/europe.jpg", "time":20, "difficulty":0, "bg":"img/quiz-background2.jpg" }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "PointAndClick", "id": 2, "view":"' + view + '", "text":"Point at Germany!", "image":"img/europe.jpg", "time":20, "difficulty":0, "bg":"img/quiz-background2.jpg", "score":' + currentScore + '}'));
         }
-        function activity4() {
+        function screen4() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "SimpleFocus", "id": 3, "view":"' + view + '", "text":"Opposite of life?", "answers":["Zombie", "Undead", "Skeleton", "Dead"], "time":20, "difficulty":2, "bg":"img/quiz-background3.jpg" }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "SimpleFocus", "id": 3, "view":"' + view + '", "text":"Opposite of life?", "answers":["Zombie", "Undead", "Skeleton", "Dead"], "time":20, "interval":500, "difficulty":2, "bg":"img/quiz-background3.jpg", "score":' + currentScore + '}'));
         }
-        function activity5() {
+        function screen5() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "MultipleChoiceFocus", "id": 4, "view":"' + view + '", "text":"In a distributed system, what will you use to determine the order of two distinct messages?", "answers":["Timestamp", "Logical Clock", "Guess", "Vector Clock", "Hourglass", "Timemachine"], "time":55, "difficulty":4, "bg":"img/quiz-background3.jpg" }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "MultipleChoiceFocus", "id": 4, "view":"' + view + '", "text":"In a distributed system, what will you use to determine the order of two distinct messages?", "answers":["Timestamp", "Logical Clock", "Guess", "Vector Clock", "Hourglass", "Timemachine"], "time":55, "interval":1500, "difficulty":4, "bg":"img/quiz-background3.jpg", "score":' + currentScore + '}'));
         }
-        function abort() {
-          ServerConnection.receive(JSON.parse('{ "cmd" : "abort" }'));
+        function idle() {
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "Idle", "text":"Waiting for an activity...", "bg":"img/idle.jpg" }'));
         }
         function highscore() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"start", "activity": "Highscore", "id": 42, "ranklist":[' +
-            '{"name":"Darth Vader", "score":9001},' +
-            '{"name":"Expert", "score":4390},' +
-            '{"name":"IceYoshi", "score":1700},' +
-            '{"name":"Der wahre Mike!", "score":1100},' +
-            '{"name":"Did I Win?", "score":0} ],' +
-            '"best":{"name":"Expert", "score":790}}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "Highscore", "id": 42, "ranklist":[' +
+            '{"name":"Darth Vader", "score":9001, "change":0},' +
+            '{"name":"Expert", "score":2105, "change":2},' +
+            '{"name":"IceYoshi", "score":1700, "change":-1},' +
+            '{"name":"Der wahre Mike!", "score":1500, "change":-1},' +
+            '{"name":"Did I Win?", "score":0, "change":0} ],' +
+            '"best":{"name":"Expert", "difference":790}, "bg":"img/highscore.jpg"}'));
         }
         function changeTimer() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "update", "component": "timer", "type": "absolute", "value" : 20 }'));
@@ -168,9 +173,7 @@
         function subtractTimer() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "update", "component": "timer", "type": "relative", "value" : -10 }'));
         }
-        function score() {
-          ServerConnection.receive(JSON.parse('{ "cmd" : "update", "component": "score", "value" : 500 }'));
-        }
+
         //--------------------------------------------------------------------------------------
       </script>
     </body>

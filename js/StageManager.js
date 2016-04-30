@@ -2,48 +2,39 @@ class StageManager {
   static init(canvas) {
     this._canvas = canvas;
     this._stage = null;
+
+    this._width = 0;
+    this._height = 0;
+
+    this.updateSize();
+
     this._isInitialized = true;
-
-    this._width = 800;
-    this._height = 450;
-
-    this._score = 0;
   }
 
   static idle() {
-    return this.draw(new IdleScreen());
+    return this.draw(new Idle(JSON.parse('{ "cmd":"show", "screen": "Idle", "text":"Waiting for an activity...", "bg":"img/idle.jpg" }')));
   }
 
-  static draw(activity) {
-    if(!this._isInitialized || activity == null) return false;
-    this._activity = activity;
-    var screen = this.createScreen();
-    activity.draw(screen, this._score);
-    this.transition(screen);
+  static draw(screen) {
+    if(!this._isInitialized || screen == null) return false;
+    this._currentScreen = screen;
+    let container = this.createScreenContainer();
+    screen.draw(container);
+    screen.container = container;
+    this.transition(container);
     return true;
   }
 
   static update(data) {
-    switch (data.component) {
-      case "score":
-        this._score = data.value;
-        break;
-      default:
-        try {
-          this._activity.update(data);
-        } catch (e) {
-          console.log("Update cannot be applied to the current activity: " + JSON.stringify(data));
-        }
-        break;
+    try {
+      this._currentScreen.update(data);
+    } catch (e) {
+      console.log("Update cannot be applied to the current screen: " + JSON.stringify(data));
     }
   }
 
-  static abort() {
-    this.idle();
-  }
-
   static createStage() {
-    var stage = new createjs.Stage(this._canvas);
+    let stage = new createjs.Stage(this._canvas);
     stage.canvas.width = this._width;
     stage.canvas.height = this._height;
 
@@ -59,55 +50,45 @@ class StageManager {
     return stage;
   }
 
-  static createScreen() {
-    var screen = new createjs.Container();
-    screen.width = this._width;
-    screen.height = this._height;
-    return screen;
+  static createScreenContainer() {
+    let container = new createjs.Container();
+    container.width = this._width;
+    container.height = this._height;
+    return container;
   }
 
-  static resize(keepRatio) {
+  static updateSize() {
+    let headerHeight = document.getElementById('header').offsetHeight;
+    let footerHeight = document.getElementById('footer').offsetHeight;
+
+    this._width = window.innerWidth;
+    this._height = window.innerHeight - (headerHeight + footerHeight);
+  }
+
+  static resize() {
     if(this._stage == null) return false;
 
-    var headerHeight = document.getElementById('header').offsetHeight;
-    var footerHeight = document.getElementById('footer').offsetHeight;
+    this.updateSize();
 
-    // browser viewport size
-    var w = window.innerWidth;
-    var h = window.innerHeight - (headerHeight + footerHeight);
+    let w = this._width;
+    let h = this._height;
 
-    // canvas dimensions
-    var ow = this._width;
-    var oh = this._height;
+    this._stage.canvas.width = w * window.devicePixelRatio;
+    this._stage.canvas.height = h * window.devicePixelRatio;
+    this._stage.canvas.style.width = w + "px";
+    this._stage.canvas.style.height = h + "px";
 
-    if(keepRatio) {
-      var scale = Math.min(w/ow, h/oh);
-
-      // scale all stage children to the new size
-      this._stage.scaleX = scale * window.devicePixelRatio;
-      this._stage.scaleY = scale * window.devicePixelRatio;
-
-      // adjust canvas size
-      if(w/ow < h/oh) {
-        this._stage.canvas.width = w * window.devicePixelRatio;
-      } else {
-        this._stage.canvas.width = h * this._width/this._height * window.devicePixelRatio;
-      }
-
-      this._stage.canvas.height = this._stage.canvas.width * this._height/this._width;
-      this._stage.canvas.style.width = this._stage.canvas.width / window.devicePixelRatio + "px";
-      this._stage.canvas.style.height = this._stage.canvas.height / window.devicePixelRatio + "px";
-    } else {
-      // scale all stage children to the new size
-      this._stage.scaleX = w/ow * window.devicePixelRatio;
-      this._stage.scaleY = h/oh * window.devicePixelRatio;
-
-      // adjust canvas size
-      this._stage.canvas.width = w * window.devicePixelRatio;
-      this._stage.canvas.height = h * window.devicePixelRatio;
-      this._stage.canvas.style.width = w + "px";
-      this._stage.canvas.style.height = h + "px";
+    let container = this._currentScreen.container;
+    container.width = w;
+    container.height = h;
+    for(let i=0; i<container.numChildren; i++) {
+      // Stop all animations and remove event listeners
+      createjs.Tween.removeTweens(container.getChildAt(i));
+      container.getChildAt(i).removeAllEventListeners();
     }
+    container.removeAllChildren();
+    container.removeAllEventListeners();
+    this._currentScreen.draw(container);
 
     return true;
   }
@@ -129,16 +110,21 @@ class StageManager {
 
 
       function stopAllAnimations(stage) {
-        var screen = stage.getChildAt(stage.numChildren - 1);
-        for(var i=0; i<screen.numChildren; i++) {
-          // Stop all animations and remove event listeners
+        let screen = stage.getChildAt(stage.numChildren - 1);
+        for(let i=0; i<screen.numChildren; i++) {
+          let component = screen.getChildAt(i);
+          for(let j=0; j<component.numChildren; j++) {
+            // Stop all animations and remove event listeners
+            createjs.Tween.removeTweens(component.getChildAt(j));
+            component.getChildAt(j).removeAllEventListeners();
+          }
           createjs.Tween.removeTweens(screen.getChildAt(i));
           screen.getChildAt(i).removeAllEventListeners();
         }
       }
 
       function removeScreen(stage) {
-        var screen = stage.getChildAt(stage.numChildren - 1);
+        let screen = stage.getChildAt(stage.numChildren - 1);
         screen.removeAllChildren();
 
         // Remove old screen

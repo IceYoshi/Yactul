@@ -1,38 +1,51 @@
-class StopButton {
-  constructor(screen, text, callback) {
-    var radius = Math.min(screen.width / 6, screen.height / 5);
+class RoundButton {
+  constructor(value, action) {
+    this._value = value;
+    this._action = action;
+  }
 
-    var stopLabel = new createjs.Text(text, "bold 45px Dimbo", "#d3d3d3");
-    stopLabel.textBaseline = "middle";
-    stopLabel.x = screen.width / 2;
-    stopLabel.y = screen.height * 0.75;
-    stopLabel.textAlign = "center";
+  addTo(container) {
+    container.name = "RoundButton";
+    let radius = Math.min(container.width / 4, container.height / 5);
 
+    let label = this.createLabel(container.width, container.height, this._value);
+    let button = this.createBackgroundCircle(radius);
+
+    container.addChild(button, label);
+  }
+
+  createLabel(width, height, value) {
+    let fontSize = Math.floor(Math.min(width / 10, height / 10));
+    let label = new createjs.Text();
+    label.text = value.toString();
+    label.font = `bold ${fontSize}px Dimbo`;
+    label.color = "#d3d3d3";
+    label.textBaseline = "middle";
+    label.textAlign = "center";
+    return label;
+  }
+
+  createBackgroundCircle(radius) {
     var bgCircle = new createjs.Shape();
     bgCircle.graphics.beginRadialGradientFill(["#F0261B","#C01E15"], [0, 1], 0, 0, 0, 0, 0, radius).drawCircle(0, 0, radius);
-    bgCircle.x = screen.width / 2;
-    bgCircle.y = screen.height * 0.75;
     bgCircle.shadow = new createjs.Shadow("#000000", 5, 5, 10);
 
-    // mouse handlers
-    bgCircle.on("click", handleClick);
-    bgCircle.on("mouseover", handleMotion);
-    bgCircle.on("mouseout", handleMotion);
+    bgCircle.on("click", handleClick.bind(this));
+    bgCircle.on("mouseover", handleMotion.bind(this));
+    bgCircle.on("mouseout", handleMotion.bind(this));
 
-    // validate click handler
     function handleClick(event) {
-      if(callback != null) {
+      if(this._action != null) {
         event.target.filters = [ new createjs.ColorFilter(0,0,0,1,144,22,16,0) ];
         event.target.cache(-radius, -radius, 2 * radius, 2 * radius);
         setTimeout(function() {
           event.target.filters = undefined;
           event.target.uncache();
         }, 150)
-        callback();
+        this._action();
       }
     }
 
-    // mouseover animation
     function handleMotion(event) {
       switch(event.type) {
         case "mouseover":
@@ -46,7 +59,7 @@ class StopButton {
       event.target.cache(-radius, -radius, 2 * radius, 2 * radius);
     }
 
-    screen.addChild(bgCircle);
-    screen.addChild(stopLabel);
+    return bgCircle;
   }
+
 }

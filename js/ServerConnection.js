@@ -6,7 +6,7 @@ class ServerConnection {
 
   static send(data) {
     if(!this._isInitialized) return false;
-    
+
     // TODO: send data to server
     console.log('To server: ' + JSON.stringify(data));
 

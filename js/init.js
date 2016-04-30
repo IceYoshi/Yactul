@@ -5,9 +5,19 @@ function init() {
   StageManager.init("canvas"); // ID of canvas
 
   StageManager.idle();
-  resize();
+
+  //showFPS();
 }
 
 function resize() {
-  StageManager.resize(true);
+  StageManager.resize();
+}
+
+function showFPS() {
+  setTimeout(function() {
+    let fpsCount = createjs.Ticker.getMeasuredFPS();
+    fpsCount = Math.round(fpsCount * 100) / 100;
+    console.log(`FPS: ${fpsCount}`);
+    showFPS();
+  }, 1000);
 }
