@@ -5,6 +5,7 @@ function init() {
   StageManager.init("canvas"); // ID of canvas
 
   StageManager.idle();
+  resize();
 
   //showFPS();
 }
