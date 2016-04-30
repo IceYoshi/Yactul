@@ -61,8 +61,8 @@ class StageManager {
     let headerHeight = document.getElementById('header').offsetHeight;
     let footerHeight = document.getElementById('footer').offsetHeight;
 
-    this._width = window.innerWidth;
-    this._height = window.innerHeight - (headerHeight + footerHeight);
+    this._width = window.innerWidth * window.devicePixelRatio;
+    this._height = window.innerHeight - (headerHeight + footerHeight) * window.devicePixelRatio;
   }
 
   static resize() {
@@ -73,15 +73,10 @@ class StageManager {
     let w = this._width;
     let h = this._height;
 
-    /*
     this._stage.canvas.width = w * window.devicePixelRatio;
     this._stage.canvas.height = h * window.devicePixelRatio;
     this._stage.canvas.style.width = w + "px";
     this._stage.canvas.style.height = h + "px";
-    */
-
-    this._stage.canvas.width = w;
-    this._stage.canvas.height = h;
 
     let container = this._currentScreen.container;
     container.width = w;
