@@ -61,8 +61,10 @@ class StageManager {
     let headerHeight = document.getElementById('header').offsetHeight;
     let footerHeight = document.getElementById('footer').offsetHeight;
 
-    this._width = window.innerWidth * window.devicePixelRatio;
-    this._height = window.innerHeight - (headerHeight + footerHeight) * window.devicePixelRatio;
+    this._width = window.innerWidth;
+    this._height = window.innerHeight - (headerHeight + footerHeight);
+    this._width *= window.devicePixelRatio;
+    this._height *= window.devicePixelRatio;
   }
 
   static resize() {
