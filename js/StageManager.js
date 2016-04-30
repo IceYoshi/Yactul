@@ -73,10 +73,15 @@ class StageManager {
     let w = this._width;
     let h = this._height;
 
+    /*
     this._stage.canvas.width = w * window.devicePixelRatio;
     this._stage.canvas.height = h * window.devicePixelRatio;
     this._stage.canvas.style.width = w + "px";
     this._stage.canvas.style.height = h + "px";
+    */
+
+    this._stage.canvas.width = w;
+    this._stage.canvas.height = h;
 
     let container = this._currentScreen.container;
     container.width = w;
