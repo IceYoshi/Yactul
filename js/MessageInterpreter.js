@@ -17,7 +17,7 @@ class MessageInterpreter {
     } catch (e) {
       // Fallback when in compatibility mode (ES6 -> ES5/ES3)
       try {
-        return new window[data.activity](data);
+        return new window[data.screen](data);
       } catch (e) {
         console.log('ReferenceError: Screen ' + data.screen + ' is not defined.');
         return null;
