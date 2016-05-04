@@ -34,17 +34,18 @@ class StageManager {
   }
 
   static createStage() {
-    let stage = new createjs.Stage(this._canvas);
+    let stage = new createjs.Stage(this._canvas, false, false);
     stage.canvas.width = this._width;
     stage.canvas.height = this._height;
 
     // frequency of mouse position checks
     stage.enableMouseOver(20);
+    stage.autoClear = false;
 
     // gets rid of the 300ms delay on touch devices when clicking
     createjs.Touch.enable(stage);
 
-    createjs.Ticker.setFPS(60);
+    createjs.Ticker.setFPS(30);
     createjs.Ticker.addEventListener("tick", stage);
 
     return stage;
@@ -69,7 +70,6 @@ class StageManager {
 
   static resize() {
     if(this._stage == null) return false;
-
     this.updateSize();
 
     let w = this._width;
@@ -77,6 +77,7 @@ class StageManager {
 
     this._stage.canvas.width = w;
     this._stage.canvas.height = h;
+    this._stage.update();
 
     let container = this._currentScreen.container;
     container.width = w;
@@ -86,6 +87,7 @@ class StageManager {
       createjs.Tween.removeTweens(container.getChildAt(i));
       container.getChildAt(i).removeAllEventListeners();
     }
+
     container.removeAllChildren();
     container.removeAllEventListeners();
     this._currentScreen.draw(container);
@@ -98,6 +100,7 @@ class StageManager {
       this._stage = this.createStage();
       this._stage.addChild(newScreen);
     } else {
+      createjs.Ticker.setFPS(60);
       // add new screen to the left of the stage
       newScreen.x -= newScreen.width;
       this._stage.addChildAt(newScreen, 0);
@@ -132,6 +135,7 @@ class StageManager {
 
         // Change horizontal offset back to 0
         stage.x = stage.getChildAt(0).x = 0;
+        createjs.Ticker.setFPS(30);
       }
 
     }
