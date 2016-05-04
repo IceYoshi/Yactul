@@ -1,11 +1,15 @@
 window.addEventListener('resize', resize, false);
 
 function init() {
-  ServerConnection.init("example.lu/rest/");
+  let username = "iceyoshi";
+  let pin = "1234";
+
+  ServerConnection.init();
+  //ServerConnection.init(`ws://10.191.0.230:8080/yactul/ws/${pin}/${username}`);
+
   StageManager.init("canvas"); // ID of canvas
 
   StageManager.idle();
-  resize();
 
   //showFPS();
 }
