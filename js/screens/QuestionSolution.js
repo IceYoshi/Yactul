@@ -15,6 +15,10 @@ class QuestionSolution {
     }
     this._drawable.push(new ButtonPanel(this._data.answers, this._hasDisplayImage, null, this._data.stats));
 
+    if(this._data.view === "student") {
+      this._drawable.push(new HeaderDisplay(`Score: +${this._data.score}`));
+    }
+
     this._initialized = true;
   }
 
@@ -62,6 +66,10 @@ class QuestionSolution {
           container.x = screen.width / 2;
           container.y = screen.height * 0.46;
         }
+        break;
+      case "HeaderDisplay":
+        container.x = 0;
+        container.y = 0;
         break;
       }
   }

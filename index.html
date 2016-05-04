@@ -12,7 +12,7 @@
           // redirect to compatibility version in case of an error
           window.onerror = function(error) {
             //alert(error);
-            document.location = "fallback.html";
+            //document.location = "fallback.html";
           };
         </script>
 
@@ -21,6 +21,7 @@
 
         <script src="js/createjs/easeljs-0.8.2.min.js"></script>
         <script src="js/createjs/tweenjs-0.6.2.min.js"></script>
+        <script src="https://code.createjs.com/preloadjs-0.6.2.min.js"></script>
 
         <script src="js/ServerConnection.js"></script>
         <script src="js/MessageInterpreter.js"></script>
@@ -90,9 +91,9 @@
 
       <script>
         // Disable context menu for the canvas
-        document.getElementById('canvas').oncontextmenu = function (e) {
+        //document.getElementById('canvas').oncontextmenu = function (e) {
           //e.preventDefault();
-        };
+        //};
 
         //--------------------------------------------------------------------------------------
         // Control panel - only for demonstration/testing
@@ -116,7 +117,7 @@
         }
         function screen1_sol() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "QuestionSolution", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "stats":[{"correct":false, "amount":5}, {"correct":false, "amount":7}, {"correct":true, "amount":23}, {"correct":false, "amount":2}] }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "QuestionSolution", "view":"' + view + '", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "stats":[{"correct":false, "amount":5, "selected":false}, {"correct":false, "amount":7, "selected":false}, {"correct":true, "amount":23, "selected":true}, {"correct":false, "amount":2, "selected":false}], "score":750}'));
         }
         function screen2() {
           isPaused = false;
@@ -124,11 +125,11 @@
         }
         function screen2_sol() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "QuestionSolution", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "difficulty":3, "bg":"img/quiz-background.jpg", "stats":[{"correct":false, "amount":10},{"correct":true, "amount":5},{"correct":true, "amount":2},{"correct":true, "amount":7}] }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "QuestionSolution", "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "difficulty":3, "bg":"img/quiz-background.jpg", "stats":[{"correct":false, "amount":10, "selected":false},{"correct":true, "amount":5, "selected":false},{"correct":false, "amount":2, "selected":true},{"correct":true, "amount":7, "selected":true}], "score":0 }'));
         }
         function screen3() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "PointAndClick", "id": 2, "view":"' + view + '", "text":"Point at Germany!", "image":"img/europe.jpg", "time":20, "difficulty":0, "bg":"img/quiz-background2.jpg", "score":' + currentScore + '}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "PointAndClick", "id": 2, "view":"' + view + '", "text":"Point at Germany!", "image":"img/europe.jpg", "time":20, "difficulty":1, "bg":"img/quiz-background2.jpg", "score":' + currentScore + '}'));
         }
         function screen4() {
           isPaused = false;

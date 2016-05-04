@@ -59,7 +59,7 @@ class ButtonPanel {
       container.addChild(buttonPanel, buttonLabel);
 
       if(this._stats != undefined) {
-        this.createStats(container, buttonPanel, this._stats[i].amount);
+        this.createStats(container, buttonPanel, this._stats[i].amount, this._stats[i].selected);
       }
     }
 
@@ -158,7 +158,7 @@ class ButtonPanel {
     return label;
   }
 
-  createStats(container, buttonPanel, voteCount) {
+  createStats(container, buttonPanel, voteCount, isSelected) {
     let totalVoteCount = 0;
     for(let i = 0; i < this._stats.length; i++) {
       totalVoteCount += this._stats[i].amount;
@@ -173,7 +173,16 @@ class ButtonPanel {
     statLabel.x = buttonPanel.x + (buttonPanel.width * voteCount / totalVoteCount);
     statLabel.y = buttonPanel.y;
     this.animateStatLabel(statLabel, this._initialized);
+
     container.addChild(statBar, statLabel);
+
+    if(isSelected) {
+        let highlight = this.createSelectedHighlight(buttonPanel.width, buttonPanel.height);
+        highlight.x = buttonPanel.x;
+        highlight.y = buttonPanel.y;
+        container.addChild(highlight);
+    }
+
   }
 
   createStatBar(height) {
@@ -204,6 +213,13 @@ class ButtonPanel {
     createjs.Tween.get(statLabel, { loop: false })
       .wait(skipAnimation ? 0 : 2700)
       .to({ alpha: 0.8 }, skipAnimation ? 0 : 1000, createjs.Ease.getPowInOut(2));
+  }
+
+  createSelectedHighlight(width, height) {
+    let highlight = new createjs.Shape();
+    highlight.graphics.setStrokeStyle(4).beginStroke("#FF6347").drawRect(0, 0, width, height);
+    highlight.alpha = 0.9;
+    return highlight;
   }
 
 
