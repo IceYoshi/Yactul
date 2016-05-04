@@ -37,6 +37,7 @@ class InteractiveImage {
       }
     }
 
+    this.preloadPinIcon();
     return imageObject;
   }
 
@@ -48,5 +49,9 @@ class InteractiveImage {
       pin.y -= pin.image.height * scale;
     }
     return pin;
+  }
+
+  preloadPinIcon() {
+    new createjs.LoadQueue().loadFile("img/pin.png");
   }
 }
