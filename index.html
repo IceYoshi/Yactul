@@ -12,7 +12,7 @@
           // redirect to compatibility version in case of an error
           window.onerror = function(error) {
             //alert(error);
-            //document.location = "fallback.html";
+            document.location = "fallback.html";
           };
         </script>
 
@@ -21,13 +21,13 @@
 
         <script src="js/createjs/easeljs-0.8.2.min.js"></script>
         <script src="js/createjs/tweenjs-0.6.2.min.js"></script>
-        <script src="https://code.createjs.com/preloadjs-0.6.2.min.js"></script>
+        <script src="js/createjs/preloadjs-0.6.2.min.js"></script>
 
         <script src="js/ServerConnection.js"></script>
         <script src="js/MessageInterpreter.js"></script>
         <script src="js/StageManager.js"></script>
 
-        <!-- Activities -->
+        <!-- Screens -->
         <script src="js/screens/Idle.js"></script>
         <script src="js/screens/Highscore.js"></script>
         <script src="js/screens/SimpleQuestion.js"></script>
