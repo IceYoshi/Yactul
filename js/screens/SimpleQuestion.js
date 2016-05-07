@@ -116,7 +116,8 @@ class SimpleQuestion {
        + '"cmd" : "submit",'
        + '"activity" : "' + this._data.screen + '",'
        + '"id" : ' + this._data.id + ','
-       + '"selected" : ' + JSON.stringify(this._selected[0])
+       + '"selected" : ' + JSON.stringify(this._selected[0]) + ','
+       + '"time-left" : ' + this._timer.getTime()
        + '}');
     if(ServerConnection.send(obj)) {
       this._submitted = true;

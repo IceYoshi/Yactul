@@ -1,11 +1,17 @@
 window.addEventListener('resize', resize, false);
 
-function init() {
-  let username = "iceyoshi";
-  let pin = "1234";
+function init(serverAddress, pin, username) {
+  /*
+  serverAddress = "localhost";
+  username = "iceyoshi";
+  pin = "1234";
+  */
 
-  ServerConnection.init();
-  //ServerConnection.init(`ws://10.191.0.230:8080/yactul/ws/${pin}/${username}`);
+  if(serverAddress && pin && username) {
+    ServerConnection.init(`ws://${serverAddress}/yactul/ws/${pin}/${username}`);
+  } else {
+    ServerConnection.init();
+  }
 
   StageManager.init("canvas"); // ID of canvas
 

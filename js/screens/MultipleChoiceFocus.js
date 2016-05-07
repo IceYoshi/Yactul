@@ -131,7 +131,8 @@ class MultipleChoiceFocus {
        + '"cmd" : "submit",'
        + '"activity" : "' + this._data.screen + '",'
        + '"id" : ' + this._data.id + ','
-       + '"selected" : ' + JSON.stringify(this._selected)
+       + '"selected" : ' + JSON.stringify(this._selected) + ','
+       + '"time-left" : ' + this._timer.getTime()
        + '}');
     if(ServerConnection.send(obj)) {
       this._submitted = true;

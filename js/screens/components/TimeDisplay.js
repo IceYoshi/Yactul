@@ -189,4 +189,8 @@ class TimeDisplay {
     this._container.addChild(label);
   }
 
+  getTime() {
+    return this._currentTime;
+  }
+
 }
