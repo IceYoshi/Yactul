@@ -14,9 +14,9 @@ class HighscoreList {
       let x = - rowWidth / 2;
       let y = rowHeight * i;
       let entry = this._ranklist[i];
-      let baseSize = Math.min(container.width * 0.8, container.height * 0.6) / 9;
+      let baseSize = Math.min(container.width * 0.8, container.height * 0.8) / (9 * window.devicePixelRatio);
       let fontSize = baseSize - baseSize / 5 * Math.min(i, 2.5);
-      let iconSize = fontSize / 100 * rowHeight;
+      let iconSize = fontSize / 80 * rowHeight;
 
       let backgroundPanel = this.createBackgroundPanel(rowWidth, rowHeight, i);
       backgroundPanel.x = x;

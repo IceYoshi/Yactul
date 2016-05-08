@@ -24,8 +24,9 @@ class Highscore {
     if(!this._initialized) {
       this.init();
       setTimeout(function() {
-        this._sparkleEffect.explosionAnimation(100, screen.width * 0.25, screen.height * 0.2, 1);
-        this._sparkleEffect.explosionAnimation(100, screen.width * 0.75, screen.height * 0.2, 1);
+        this._sparkleEffect.explosionAnimation(100, screen.width * 0.3, screen.height * 0.2, 2);
+        //this._sparkleEffect.explosionAnimation(100, screen.width * 0.5, screen.height * 0.3, 2);
+        this._sparkleEffect.explosionAnimation(100, screen.width * 0.7, screen.height * 0.2, 2);
       }.bind(this), 1000);
     }
     this._drawable.forEach(function(component) {
