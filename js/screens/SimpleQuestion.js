@@ -43,9 +43,6 @@ class SimpleQuestion {
       this.setOrigin(container, screen);
       screen.addChild(container);
     }.bind(this));
-    if(this._screen == null) {
-      this._screen = screen;
-    }
   }
 
   setOrigin(container, screen) {

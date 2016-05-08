@@ -14,11 +14,20 @@ class Highscore {
       this._drawable.push(new FooterTextDisplay(`Best score in last round: ${this._data.best.name} (+${this._data.best.difference})`));
     }
 
+    this._sparkleEffect = new SparkleEffect();
+    this._drawable.push(this._sparkleEffect);
+
     this._initialized = true;
   }
 
   draw(screen) {
-    if(!this._initialized) this.init();
+    if(!this._initialized) {
+      this.init();
+      setTimeout(function() {
+        this._sparkleEffect.explosionAnimation(100, screen.width * 0.25, screen.height * 0.2, 1);
+        this._sparkleEffect.explosionAnimation(100, screen.width * 0.75, screen.height * 0.2, 1);
+      }.bind(this), 1000);
+    }
     this._drawable.forEach(function(component) {
       let container = new createjs.Container();
       container.width = screen.width;
@@ -27,9 +36,9 @@ class Highscore {
       this.setOrigin(container, screen);
       screen.addChild(container);
     }.bind(this));
-    if(this._screen == null) {
-      this._screen = screen;
-    }
+
+
+
   }
 
   setOrigin(container, screen) {

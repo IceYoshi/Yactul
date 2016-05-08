@@ -47,6 +47,7 @@ class StageManager {
 
     createjs.Ticker.setFPS(30);
     createjs.Ticker.addEventListener("tick", stage);
+    //createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
     return stage;
   }
