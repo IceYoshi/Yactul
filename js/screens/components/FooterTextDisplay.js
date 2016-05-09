@@ -5,8 +5,8 @@ class FooterTextDisplay {
 
   addTo(container) {
     container.name = "FooterTextDisplay";
-    let label = this.createLabel(container.width, container.height);
-    container.addChild(label);
+    this._label = this.createLabel(container.width, container.height);
+    container.addChild(this._label);
   }
 
   createLabel(width, height) {
@@ -18,6 +18,11 @@ class FooterTextDisplay {
     label.textAlign = "center";
     label.textBaseline = "bottom";
     return label;
+  }
+
+  update(value) {
+    this._value = value;
+    this._label.text = value.toString();
   }
 
 }

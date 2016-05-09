@@ -8,10 +8,12 @@ class Highscore {
   init() {
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new TitleDisplay("Highscore"));
-    this._drawable.push(new HighscoreList(this._data.ranklist));
+    this._ranklist = new HighscoreList(this._data.ranklist);
+    this._drawable.push(this._ranklist);
 
     if(this._data.best != undefined) {
-      this._drawable.push(new FooterTextDisplay(`Best score in last round: ${this._data.best.name} (+${this._data.best.difference})`));
+      this._best = new FooterTextDisplay(`Best score in last round: ${this._data.best.name} (+${this._data.best.difference})`);
+      this._drawable.push(this._best);
     }
 
     this._sparkleEffect = new SparkleEffect();
@@ -21,12 +23,12 @@ class Highscore {
   }
 
   draw(screen) {
+    this._screen = screen;
     if(!this._initialized) {
       this.init();
       setTimeout(function() {
-        this._sparkleEffect.explosionAnimation(100, screen.width * 0.3, screen.height * 0.2, 2);
-        //this._sparkleEffect.explosionAnimation(100, screen.width * 0.5, screen.height * 0.3, 2);
-        this._sparkleEffect.explosionAnimation(100, screen.width * 0.7, screen.height * 0.2, 2);
+        this._sparkleEffect.explosionAnimation(75, screen.width * 0.3, screen.height * 0.2, 2);
+        this._sparkleEffect.explosionAnimation(75, screen.width * 0.7, screen.height * 0.2, 2);
       }.bind(this), 1000);
     }
     this._drawable.forEach(function(component) {
@@ -37,9 +39,18 @@ class Highscore {
       this.setOrigin(container, screen);
       screen.addChild(container);
     }.bind(this));
+  }
 
-
-
+  update(data) {
+    switch (data.component) {
+      case "highscore":
+        this._ranklist.update(data.ranklist);
+        if(data.best != undefined && this._data.best != undefined) {
+          this._best.update(`Best score in last round: ${data.best.name} (+${data.best.difference})`);
+        }
+        break;
+      default: throw new Error();
+    }
   }
 
   setOrigin(container, screen) {

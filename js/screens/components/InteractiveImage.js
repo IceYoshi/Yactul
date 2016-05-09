@@ -5,9 +5,10 @@ class InteractiveImage {
   }
 
   addTo(container) {
+    this._container = container;
     container.name = "InteractiveImage";
     let image = this.createInteractiveImage(container);
-    container.addChild(image);
+    this.preloadPinIcon();
   }
 
   createInteractiveImage(container) {
@@ -21,7 +22,8 @@ class InteractiveImage {
       imageObject.scaleX = imageObject.scaleY = scale;
       imageObject.x = - (imageObject.image.width * imageObject.scaleX) / 2;
       imageObject.y = - (imageObject.image.height * imageObject.scaleY) / 2;
-    };
+      this._container.addChild(imageObject);
+    }.bind(this);
 
     imageObject.shadow = new createjs.Shadow("#333333", 5, 5, 10);
 
@@ -32,12 +34,10 @@ class InteractiveImage {
         let pin = this.createPin(container.width, container.height);
         pin.x = event.localX * imageObject.scaleX + imageObject.x;
         pin.y = event.localY * imageObject.scaleY + imageObject.y;
-        container.addChild(pin);
         this._submit([Math.round(event.localX), Math.round(event.localY)]);
       }
     }
 
-    this.preloadPinIcon();
     return imageObject;
   }
 
@@ -47,7 +47,8 @@ class InteractiveImage {
       let scale = Math.min(0.05 * width / pin.image.width, 0.05 * height / pin.image.height);
       pin.scaleX = pin.scaleY = scale;
       pin.y -= pin.image.height * scale;
-    }
+      this._container.addChild(pin);
+    }.bind(this);
     return pin;
   }
 

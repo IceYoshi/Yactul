@@ -4,9 +4,9 @@ class BackgroundImage {
   }
 
   addTo(container) {
+    this._container = container;
     container.name = "BackgroundImage";
     let backgroundImage = this.createBackgroundImage(container.width, container.height, this._imagePath);
-    container.addChild(backgroundImage);
   }
 
   createBackgroundImage(w, h, imagePath) {
@@ -16,7 +16,8 @@ class BackgroundImage {
     bg.image.onload = function() {
       bg.scaleX = w / bg.image.width;
       bg.scaleY = h / bg.image.height;
-    };
+      this._container.addChild(bg);
+    }.bind(this);
 
     return bg;
   }

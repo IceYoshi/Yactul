@@ -4,6 +4,7 @@ class HighscoreList {
   }
 
   addTo(container) {
+    this._container = container;
     container.name = "HighscoreList";
 
     let rowWidth = container.width * 0.9;
@@ -42,13 +43,12 @@ class HighscoreList {
       changeLabel.x = x + rowWidth * 0.93;
       changeLabel.y = y + rowHeight / 2;
 
-      container.addChild(backgroundPanel, rankLabel, nameLabel, scoreLabel, changeIcon, changeLabel);
+      container.addChild(backgroundPanel, rankLabel, nameLabel, scoreLabel, changeLabel);
 
       if(i == 0) {
         let crownIcon = this.createCrownIcon(iconSize);
-        crownIcon.x += x + rowWidth * 0.05;
+        crownIcon.x += x + rowWidth * 0.06;
         crownIcon.y += y + rowHeight / 2;
-        container.addChild(crownIcon);
       }
 
     }
@@ -69,6 +69,9 @@ class HighscoreList {
       case 2:
         panel.filters = [new createjs.ColorFilter(1,1,1,1,15,15,10,0)];
         break;
+      case 3:
+        panel.filters = [new createjs.ColorFilter(1,1,1,1,7,7,4,0)];
+        break;
     }
     panel.cache(0, 0, width, height);
     return panel;
@@ -82,7 +85,8 @@ class HighscoreList {
       crownIcon.scaleX = crownIcon.scaleY = scale;
       crownIcon.x -= crownIcon.image.width * scale / 2;
       crownIcon.y -= crownIcon.image.height * scale / 2;
-    };
+      this._container.addChild(crownIcon);
+    }.bind(this);
     return crownIcon;
   }
 
@@ -132,7 +136,8 @@ class HighscoreList {
       changeIcon.scaleX = changeIcon.scaleY = scale;
       changeIcon.x -= changeIcon.image.width * scale / 2;
       changeIcon.y -= changeIcon.image.height * scale / 2;
-    };
+      this._container.addChild(changeIcon);
+    }.bind(this);
     return changeIcon;
   }
 
@@ -154,6 +159,12 @@ class HighscoreList {
     changeLabel.textAlign = "center";
     changeLabel.textBaseline = "middle";
     return changeLabel;
+  }
+
+  update(ranklist) {
+    this._ranklist = ranklist;
+    this._container.removeAllChildren();
+    this.addTo(this._container);
   }
 
 }

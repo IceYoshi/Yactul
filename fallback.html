@@ -50,6 +50,7 @@
         <button type="button" class="btn btn-success btn-sm" onclick="screen5();">MultipleChoiceFocus</button>
         <br>
         <button type="button" class="btn btn-warning btn-sm" onclick="highscore();">Highscore</button>
+        <button type="button" class="btn btn-warning btn-sm" onclick="highscoreUpdate();">HighscoreUpdate</button>
         <button type="button" class="btn btn-warning btn-sm" onclick="screen1_sol();">SimpleQuestion</button>
         <button type="button" class="btn btn-warning btn-sm" onclick="screen2_sol();">MultipleChoiceQuestion</button>
       </div>
@@ -108,13 +109,22 @@
           ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "Idle", "text":"Waiting for an activity...", "bg":"img/idle.jpg" }'));
         }
         function highscore() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "Highscore", "id": 42, "ranklist":[' +
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "Highscore", "ranklist":[' +
             '{"name":"Darth Vader", "score":9001, "change":0},' +
             '{"name":"Expert", "score":2105, "change":2},' +
             '{"name":"IceYoshi", "score":1700, "change":-1},' +
             '{"name":"Der wahre Mike!", "score":1500, "change":-1},' +
             '{"name":"Did I Win?", "score":0, "change":0} ],' +
             '"best":{"name":"Expert", "difference":790}, "bg":"img/highscore.jpg"}'));
+        }
+        function highscoreUpdate() {
+          ServerConnection.receive(JSON.parse('{ "cmd":"update", "component": "highscore", "ranklist":[' +
+            '{"name":"Darth Vader", "score":9001, "change":0},' +
+            '{"name":"Expert", "score":3105, "change":0},' +
+            '{"name":"IceYoshi", "score":1700, "change":0},' +
+            '{"name":"Der wahre Mike!", "score":1500, "change":0},' +
+            '{"name":"Did I Win?", "score":0, "change":0} ],' +
+            '"best":{"name":"Expert", "difference":1000}, "bg":"img/highscore.jpg"}'));
         }
         function changeTimer() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "update", "component": "timer", "type": "absolute", "value" : 20 }'));
