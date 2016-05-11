@@ -26,13 +26,11 @@ class StageManager {
   }
 
   static update(data) {
-    this._currentScreen.update(data);
-    /*try {
+    try {
       this._currentScreen.update(data);
     } catch (e) {
-      console.log("Update cannot be applied to the current screen: " + JSON.stringify(data));
+      console.log('Update cannot be applied to the current screen.');
     }
-    */
   }
 
   static createStage() {

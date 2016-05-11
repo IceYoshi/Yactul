@@ -46,13 +46,16 @@
         <button type="button" class="btn btn-success btn-sm" onclick="screen1();">SimpleQuestion</button>
         <button type="button" class="btn btn-success btn-sm" onclick="screen2();">MultipleChoiceQuestion</button>
         <button type="button" class="btn btn-success btn-sm" onclick="screen3();">PointAndClick</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="screen4();">SimpleFocus</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="screen5();">MultipleChoiceFocus</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="screen4();">PointAndClick2</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="screen5();">SimpleFocus</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="screen6();">MultipleChoiceFocus</button>
         <br>
         <button type="button" class="btn btn-warning btn-sm" onclick="highscore();">Highscore</button>
         <button type="button" class="btn btn-warning btn-sm" onclick="highscoreUpdate();">HighscoreUpdate</button>
         <button type="button" class="btn btn-warning btn-sm" onclick="screen1_sol();">SimpleQuestion</button>
         <button type="button" class="btn btn-warning btn-sm" onclick="screen2_sol();">MultipleChoiceQuestion</button>
+        <button type="button" class="btn btn-warning btn-sm" onclick="screen3_sol();">PointAndClick</button>
+        <button type="button" class="btn btn-warning btn-sm" onclick="screen4_sol();">PointAndClick2</button>
       </div>
 
       <script>
@@ -79,37 +82,49 @@
         // Methods to simulate server messages (for testing purpose)
         function screen1() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "SimpleQuestion", "id": 0, "view":"' + view + '", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":25, "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "score":' + currentScore + '}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"SimpleQuestion", "id":0, "view":"' + view + '", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":25, "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "score":' + currentScore + '}'));
         }
         function screen1_sol() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "QuestionSolution", "view":"' + view + '", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "stats":[{"correct":false, "amount":5, "selected":false}, {"correct":false, "amount":7, "selected":false}, {"correct":true, "amount":23, "selected":true}, {"correct":false, "amount":2, "selected":false}], "score":750}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"QuestionSolution", "view":"' + view + '", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "stats":[{"correct":false, "amount":5, "selected":false}, {"correct":false, "amount":7, "selected":false}, {"correct":true, "amount":23, "selected":true}, {"correct":false, "amount":2, "selected":false}], "score":750}'));
         }
         function screen2() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "MultipleChoiceQuestion", "id": 1, "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg", "score":' + currentScore + '}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"MultipleChoiceQuestion", "id":1, "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg", "score":' + currentScore + '}'));
         }
         function screen2_sol() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "QuestionSolution", "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "difficulty":3, "bg":"img/quiz-background.jpg", "stats":[{"correct":false, "amount":10, "selected":false},{"correct":true, "amount":5, "selected":false},{"correct":false, "amount":2, "selected":true},{"correct":true, "amount":7, "selected":true}], "score":0 }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"QuestionSolution", "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "difficulty":3, "bg":"img/quiz-background.jpg", "stats":[{"correct":false, "amount":10, "selected":false},{"correct":true, "amount":5, "selected":false},{"correct":false, "amount":2, "selected":true},{"correct":true, "amount":7, "selected":true}], "score":0 }'));
         }
         function screen3() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "PointAndClick", "id": 2, "view":"' + view + '", "text":"Point at Germany!", "image":"img/europe.jpg", "time":20, "difficulty":1, "bg":"img/quiz-background2.jpg", "score":' + currentScore + '}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"PointAndClick", "id":2, "view":"' + view + '", "text":"Point at Germany!", "image":"img/europe.jpg", "time":20, "difficulty":1, "bg":"img/quiz-background2.jpg", "score":' + currentScore + '}'));
+        }
+        function screen3_sol() {
+          isPaused = false;
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"PointAndClickSolution", "view":"' + view + '", "text":"Point at Germany!", "image":"img/europe.jpg", "difficulty":1, "bg":"img/quiz-background2.jpg", "stats":{"correct":{"type":"circle", "data":{"center":{"x":488, "y":545}, "radius":{"x":539, "y":644}}}, "answers":[{"x":50, "y":70, "selected":false}, {"x":488, "y":530, "selected":true}, {"x":495, "y":593, "selected":false}, {"x":658, "y":489, "selected":false}, {"x":450, "y":493, "selected":false}, {"x":461, "y":559, "selected":false}]}, "score":1750 }'));
         }
         function screen4() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "SimpleFocus", "id": 3, "view":"' + view + '", "text":"Opposite of life?", "answers":["Zombie", "Undead", "Skeleton", "Dead"], "time":20, "interval":500, "difficulty":2, "bg":"img/quiz-background3.jpg", "score":' + currentScore + '}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"PointAndClick", "id":2, "view":"' + view + '", "text":"Click on the CPU socket!", "image":"img/motherboard.jpg", "time":20, "difficulty":1, "bg":"img/quiz-background4.jpg", "score":' + currentScore + '}'));
+        }
+        function screen4_sol() {
+          isPaused = false;
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"PointAndClickSolution", "id":2, "view":"' + view + '", "text":"Click on the CPU socket!", "image":"img/motherboard.jpg", "time":20, "difficulty":1, "bg":"img/quiz-background4.jpg", "stats":{"correct":{"type":"polygon", "data":[{"x":635, "y":267}, {"x":830, "y":267}, {"x":830, "y":498}, {"x":635, "y":498}]}, "answers":[{"x":747, "y":390, "selected":true}, {"x":442, "y":431, "selected":false}, {"x":770, "y":425, "selected":false}, {"x":778, "y":334, "selected":false}, {"x":661, "y":369, "selected":false}]}, "score":550 }'));
         }
         function screen5() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "MultipleChoiceFocus", "id": 4, "view":"' + view + '", "text":"In a distributed system, what will you use to determine the order of two distinct messages?", "answers":["Timestamp", "Logical Clock", "Guess", "Vector Clock", "Hourglass", "Timemachine"], "time":55, "interval":1500, "difficulty":4, "bg":"img/quiz-background3.jpg", "score":' + currentScore + '}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"SimpleFocus", "id":3, "view":"' + view + '", "text":"Opposite of life?", "answers":["Zombie", "Undead", "Skeleton", "Dead"], "time":20, "interval":500, "difficulty":2, "bg":"img/quiz-background3.jpg", "score":' + currentScore + '}'));
+        }
+        function screen6() {
+          isPaused = false;
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"MultipleChoiceFocus", "id":4, "view":"' + view + '", "text":"In a distributed system, what will you use to determine the order of two distinct messages?", "answers":["Timestamp", "Logical Clock", "Guess", "Vector Clock", "Hourglass", "Timemachine"], "time":55, "interval":1500, "difficulty":4, "bg":"img/quiz-background3.jpg", "score":' + currentScore + '}'));
         }
         function idle() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "Idle", "text":"Waiting for an activity...", "bg":"img/idle.jpg" }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"Idle", "text":"Waiting for an activity...", "bg":"img/idle.jpg" }'));
         }
         function highscore() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen": "Highscore", "ranklist":[' +
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"Highscore", "ranklist":[' +
             '{"name":"Darth Vader", "score":9001, "change":0},' +
             '{"name":"Expert", "score":2105, "change":2},' +
             '{"name":"IceYoshi", "score":1700, "change":-1},' +
@@ -118,7 +133,7 @@
             '"best":{"name":"Expert", "difference":790}, "bg":"img/highscore.jpg"}'));
         }
         function highscoreUpdate() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"update", "component": "highscore", "ranklist":[' +
+          ServerConnection.receive(JSON.parse('{ "cmd":"update", "component":"highscore", "ranklist":[' +
             '{"name":"Darth Vader", "score":9001, "change":0},' +
             '{"name":"Expert", "score":3105, "change":0},' +
             '{"name":"IceYoshi", "score":1700, "change":0},' +

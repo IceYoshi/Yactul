@@ -1,2 +1,2 @@
-#YACTUL
-Yet Another Classroom Feedback Tool, for the University of Luxembourg
+#Yactul
+Yet Another Classroom Tool, from the University of Luxembourg

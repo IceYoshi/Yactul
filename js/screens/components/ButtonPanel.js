@@ -42,7 +42,10 @@ class ButtonPanel {
       let value = this._values[i];
       let col = i % colCount;
       let row = Math.floor(i / colCount);
-      let isCorrect = this._stats != undefined && this._stats[i].correct;
+      let isCorrect;
+      if(this._stats != undefined) {
+        isCorrect = this._stats[i].correct;
+      }
       let isSelected = buttonState == undefined ? false : buttonState[i];
 
       let buttonPanel = this.createButtonPanel(buttonWidth, buttonHeight, isSelected, isCorrect);
@@ -78,12 +81,15 @@ class ButtonPanel {
   createButtonPanel(width, height, isSelected, isCorrect) {
     let buttonPanel = new createjs.Shape();
 
-    if(isCorrect) {
-      buttonPanel.graphics.beginFill("#5cb85c");
-    } else {
+    if(isCorrect == undefined) {
       buttonPanel.graphics.beginFill("#d3d3d3");
+    } else {
+      if(isCorrect) {
+        buttonPanel.graphics.beginFill("#5cb85c");
+      } else {
+        buttonPanel.graphics.beginFill("#f5756e");
+      }
     }
-
     buttonPanel.graphics.drawRect(0, 0, width, height);
     buttonPanel.width = width;
     buttonPanel.height = height;
@@ -145,7 +151,7 @@ class ButtonPanel {
     label.font = `${fontSize}px Dimbo`;
     label.lineWidth = width;
     label.lineHeight = fontSize * 1.5;
-    label.color = "#F0261B";
+    label.color = "#f0261b";
     label.textAlign = "center";
     label.textBaseline = "middle";
 
@@ -217,7 +223,7 @@ class ButtonPanel {
 
   createSelectedHighlight(width, height) {
     let highlight = new createjs.Shape();
-    highlight.graphics.setStrokeStyle(4).beginStroke("#FF6347").drawRect(0, 0, width, height);
+    highlight.graphics.setStrokeStyle(6).beginStroke("#f0261b").drawRect(0, 0, width, height);
     highlight.alpha = 0.9;
     return highlight;
   }
