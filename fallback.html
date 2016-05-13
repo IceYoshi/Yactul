@@ -41,6 +41,10 @@
         <button type="button" class="btn btn-info btn-sm" onclick="addTimer();">timer+=10</button>
         <button type="button" class="btn btn-info btn-sm" onclick="subtractTimer();">timer-=10</button>
         <button type="button" class="btn btn-info btn-sm" onclick="togglePauseTimer();">Pause/Resume</button>
+        <div id="separator"></div>
+        <button type="button" class="btn btn-info btn-sm" onclick="highscoreUpdate();">HighscoreUpdate</button>
+        <button type="button" class="btn btn-info btn-sm" onclick="raceUpdate(2);">Race+=2</button>
+        <button type="button" class="btn btn-info btn-sm" onclick="raceUpdate(-1);">Race--</button>
         <br>
         <button type="button" class="btn btn-success btn-sm" onclick="idle();">Idle</button>
         <button type="button" class="btn btn-success btn-sm" onclick="screen1();">SimpleQuestion</button>
@@ -51,7 +55,7 @@
         <button type="button" class="btn btn-success btn-sm" onclick="screen6();">MultipleChoiceFocus</button>
         <br>
         <button type="button" class="btn btn-warning btn-sm" onclick="highscore();">Highscore</button>
-        <button type="button" class="btn btn-warning btn-sm" onclick="highscoreUpdate();">HighscoreUpdate</button>
+        <button type="button" class="btn btn-warning btn-sm" onclick="race();">Race</button>
         <button type="button" class="btn btn-warning btn-sm" onclick="screen1_sol();">SimpleQuestion</button>
         <button type="button" class="btn btn-warning btn-sm" onclick="screen2_sol();">MultipleChoiceQuestion</button>
         <button type="button" class="btn btn-warning btn-sm" onclick="screen3_sol();">PointAndClick</button>
@@ -141,6 +145,12 @@
             '{"name":"Did I Win?", "score":0, "change":0} ],' +
             '"best":{"name":"Expert", "difference":1000}, "bg":"img/highscore.jpg"}'));
         }
+        function race() {
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"Race", "bg":"img/highscore.jpg", "steps":7, "groups":[{"name":"REST", "color":"#d300ff", "position":2, "members":["Davide", "Dren", "Mike"]}, {"name":"#Gesture#Pattern", "color":"#13f051", "position":0, "members":["Joe", "Max"]}, {"name":"Anonymous", "color":"#af1242", "position":4, "members":["WhoKnows?"]}, {"name":"Computerfreaks", "color":"white", "position":4, "members":["WhoKnows?"]}, {"name":"Soldat", "color":"lightblue", "position":6, "members":["WhoKnows?"]}, {"name":"Orange", "color":"orange", "position":3, "members":["WhoKnows?"]}]}'));
+        }
+        function raceUpdate(value) {
+          ServerConnection.receive(JSON.parse('{ "cmd":"update", "component":"rpd", "group":"REST", "value":' + value + ' }'));
+        }
         function changeTimer() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "update", "component": "timer", "type": "absolute", "value" : 20 }'));
         }
@@ -164,7 +174,6 @@
         function subtractTimer() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "update", "component": "timer", "type": "relative", "value" : -10 }'));
         }
-
         //--------------------------------------------------------------------------------------
       </script>
     </body>

@@ -41,7 +41,17 @@ class InteractiveImage {
 
         if(event.selected) {
           pin.filters = [ new createjs.ColorFilter(0,0,0,1,255,99,71,0) ];
-
+        }
+        if(event.isAnswer) {
+          pin.alpha = 0;
+          let x = pin.x;
+          let y = pin.y;
+          pin.x += 50;
+          pin.y -= 50;
+          pin.alpha = 0;
+          createjs.Tween.get(pin, { loop: false })
+            .wait(Math.round(Math.random() * 300) + 1000)
+            .to({ x:x, y:y, alpha:1}, 300, createjs.Ease.getPowInOut(2));
         }
         if(this._submit != null)
           this._submit([Math.round(event.localX), Math.round(event.localY)]);

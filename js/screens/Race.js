@@ -1,4 +1,4 @@
-class Highscore {
+class Race {
   constructor(data) {
       this._data = data;
       this._drawable = [];
@@ -7,14 +7,12 @@ class Highscore {
 
   init() {
     this._drawable.push(new BackgroundImage(this._data.bg));
-    this._drawable.push(new TitleDisplay("Highscore"));
-    this._ranklist = new HighscoreList(this._data.ranklist);
-    this._drawable.push(this._ranklist);
+    this._drawable.push(new TitleDisplay('Race'));
+    this._rpd = new RaceProgressionDisplay(this._data.groups, this._data.steps);
+    this._drawable.push(this._rpd);
 
-    if(this._data.best != undefined) {
-      this._best = new FooterTextDisplay(`Best score in last round: ${this._data.best.name} (+${this._data.best.difference})`);
-      this._drawable.push(this._best);
-    }
+    this._footerDisplay = new FooterTextDisplay('');
+    this._drawable.push(this._footerDisplay);
 
     this._fireworkEffect = new FireworkEffect();
     this._drawable.push(this._fireworkEffect);
@@ -23,14 +21,7 @@ class Highscore {
   }
 
   draw(screen) {
-    if(!this._initialized) {
-      this.init();
-      setTimeout(function() {
-        this._fireworkEffect.explosionAnimation(50, screen.width * 0.2, screen.height * 0.2, 2);
-        this._fireworkEffect.explosionAnimation(50, screen.width * 0.5, screen.height * 0.3, 2);
-        this._fireworkEffect.explosionAnimation(50, screen.width * 0.8, screen.height * 0.2, 2);
-      }.bind(this), 1000);
-    }
+    if(!this._initialized) this.init();
     this._drawable.forEach(function(component) {
       let container = new createjs.Container();
       container.width = screen.width;
@@ -43,11 +34,9 @@ class Highscore {
 
   update(data) {
     switch (data.component) {
-      case "highscore":
-        this._ranklist.update(data.ranklist);
-        if(data.best != undefined && this._data.best != undefined) {
-          this._best.update(`Best score in last round: ${data.best.name} (+${data.best.difference})`);
-        }
+      case "rpd":
+        if(this._rpd.update(data.group, data.value))
+          this._footerDisplay.update(`Last move: ${data.group} (${data.value >= 0 ? "+"+data.value : data.value})`);
         break;
       default: throw new Error();
     }
@@ -63,7 +52,7 @@ class Highscore {
         container.x = screen.width / 2;
         container.y = screen.height / 5;
         break;
-      case "HighscoreList":
+      case "RaceProgressionDisplay":
         container.x = screen.width / 2;
         container.y = screen.height / 3;
         break;

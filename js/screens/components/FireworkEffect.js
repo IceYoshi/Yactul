@@ -1,8 +1,8 @@
-class SparkleEffect {
+class FireworkEffect {
   constructor() {
     let spriteData = {
-			images: ["img/spritesheet_sparkle.png"],
-			frames: {width: 21, height: 23, regX: 10, regY: 11}
+      images: ["img/spritesheet_sparkle.png"],
+			frames: {width: 200, height: 200, regX: 100, regY: 100}
 		};
     this._sprite = new createjs.Sprite(new createjs.SpriteSheet(spriteData));
     this._sparkles = [];
@@ -22,7 +22,7 @@ class SparkleEffect {
     }
 		// loop through all of the active sparkles on stage:
 		var l = sparkles.numChildren;
-		var m = 1; // propagation speed multiplier
+		var m = 1; // velocity multiplier
 		for (let i = l - 1; i >= 0; i--) {
 			let sparkle = sparkles.getChildAt(i);
 			// apply gravity and friction
@@ -39,7 +39,6 @@ class SparkleEffect {
         sparkles.removeChild(sparkle);
 			}
 		}
-    sparkles.updateCache();
     if(l == 0) {
       this._container.removeChild(sparkles);
       this._sparkles.splice(this._sparkles.indexOf(sparkles), 1);
@@ -62,28 +61,23 @@ class SparkleEffect {
 			// set display properties:
 			sparkle.x = x;
 			sparkle.y = y;
-			//sparkle.rotation = Math.random()*360;
+      sparkle.rotation = Math.random() * 360;
 			sparkle.alpha = Math.random() * 0.5 + 0.5;
-			//sparkle.scaleX = sparkle.scaleY = Math.random() + 0.3;
       let scale = Math.min(width/1000, height/1000);
       sparkle.scaleX = sparkle.scaleY = Math.random() * scale + scale;
 			// set up velocities:
 			let a = Math.PI * 2 * Math.random();
 			let v = (Math.random() - 0.5) * 30 * speed;
-      if(v == 0) console.log("Haha!");
 			sparkle.vX = Math.cos(a) * v;
 			sparkle.vY = Math.sin(a) * v;
 			sparkle.vS = (Math.random() - 0.5) * 0.2; // scale
-			sparkle.vA = -Math.random() * 0.05 - 0.01; // alpha
+			sparkle.vA = -Math.random() * 0.02 - 0.01; // alpha
 			// start the animation on a random frame:
 			sparkle.gotoAndPlay(Math.random() * sparkle.spriteSheet.getNumFrames());
 
 			// add to the display list:
 			sparkles.addChild(sparkle);
 		}
-    // pick a random color for the sparkles
-    sparkles.filters = [ new createjs.ColorFilter(0,0,0,1, Math.random()*255, Math.random()*255, Math.random()*255, 0) ];
-    sparkles.cache(0, 0, width, height);
     this._sparkles.push(sparkles);
     if(!this._running) this.tick(sparkles);
   }
