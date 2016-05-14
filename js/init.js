@@ -1,17 +1,20 @@
-window.addEventListener('resize', resize, false);
+window.addEventListener('resize', resize);
 
-function initCanvas(serverAddress, pin, username) {
+function initCanvas() {
   StageManager.init("canvas"); // ID of canvas
 
-  StageManager.idle();
+  StageManager.idle(); // Change screen to idle
 
   //showFPS();
 }
 
+// Will be called whenever the browser window is resized.
+// Effect: Adjusts canvas size to fill screen
 function resize() {
   StageManager.resize();
 }
 
+// A console FPS display, primary for locating performance hits
 function showFPS() {
   setTimeout(function() {
     let fpsCount = createjs.Ticker.getMeasuredFPS();

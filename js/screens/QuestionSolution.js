@@ -1,3 +1,10 @@
+/**
+* QuestionSolution screen.
+* The correct and wrong answers of the previously played Question or Focus activity
+* (both simple and multiple choice variants) are displayed.
+* Additionally, some statistical numbers of the answers selected by the other students
+* is shown.
+*/
 class QuestionSolution {
   constructor(data) {
       this._data = data;
@@ -9,7 +16,7 @@ class QuestionSolution {
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new TitleDisplay(this._data.text));
     this._drawable.push(new DifficultyMeter(this._data.difficulty));
-    if(this._data.image != undefined) {
+    if(this._data.image) {
       this._hasDisplayImage = true;
       this._drawable.push(new DisplayImage(this._data.image));
     }

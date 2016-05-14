@@ -1,3 +1,8 @@
+/**
+* SimpleFocus activity.
+* A question title will be shown. Sequentially, one answer at a time from a answer pool will
+* be shown. When the stop button is clicked, the currently shown answer will be submitted.
+*/
 class SimpleFocus {
   constructor(data) {
       this._data = data;

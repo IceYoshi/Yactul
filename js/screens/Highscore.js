@@ -1,3 +1,10 @@
+/**
+* Highscore screen
+* Visual representation of the scores from the top 5 students.
+* Can be updated in real time
+* The student with the greatest score from the last activity is additionally
+* displayed at the buttom of the screen.
+*/
 class Highscore {
   constructor(data) {
       this._data = data;
@@ -11,10 +18,13 @@ class Highscore {
     this._ranklist = new HighscoreList(this._data.ranklist);
     this._drawable.push(this._ranklist);
 
-    if(this._data.best != undefined) {
-      this._best = new FooterTextDisplay(`Best score in last round: ${this._data.best.name} (+${this._data.best.difference})`);
-      this._drawable.push(this._best);
+    if(this._data.best) {
+      this._footerDisplay = new FooterTextDisplay(`Best score in last round: ${this._data.best.name} (+${this._data.best.difference})`);
+    } else {
+      this._footerDisplay = new FooterTextDisplay('');
     }
+
+    this._drawable.push(this._footerDisplay);
 
     this._fireworkEffect = new FireworkEffect();
     this._drawable.push(this._fireworkEffect);
@@ -45,8 +55,8 @@ class Highscore {
     switch (data.component) {
       case "highscore":
         this._ranklist.update(data.ranklist);
-        if(data.best != undefined && this._data.best != undefined) {
-          this._best.update(`Best score in last round: ${data.best.name} (+${data.best.difference})`);
+        if(data.best) {
+          this._footerDisplay.update(`Best score in last round: ${data.best.name} (+${data.best.difference})`);
         }
         break;
       default: throw new Error();

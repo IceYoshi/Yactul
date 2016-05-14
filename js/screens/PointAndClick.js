@@ -1,3 +1,8 @@
+/**
+* PointAndClick activity.
+* A interactive image will be created and the student will be able to
+* click on it. The coordinates of the clicked point will be submitted.
+*/
 class PointAndClick {
   constructor(data) {
       this._data = data;

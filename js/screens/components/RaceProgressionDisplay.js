@@ -1,11 +1,21 @@
 class RaceProgressionDisplay {
   constructor(groups, numSteps) {
+    this._spriteWidth = 400;
+    this._spriteHeight = 248;
+
     let spriteData = {
 			images: ["img/spritesheet_horse.png"],
-			frames: {width: 400, height: 248, regX: 200, regY: 124}
+			frames: {
+        width: this._spriteWidth,
+        height: this._spriteHeight,
+        regX: Math.round(this._spriteWidth / 2),
+        regY: Math.round(this._spriteHeight / 2)
+      }
 		};
+
     this._sprite = new createjs.Sprite(new createjs.SpriteSheet(spriteData));
     this._sprite.gotoAndStop(7);
+
     this._groups = groups;
     this._numSteps = numSteps;
   }
@@ -44,7 +54,7 @@ class RaceProgressionDisplay {
       let horseSprite = this.createHorseSprite();
       horseSprite.x = -rowWidth / 2 + this._groups[i].position * this._stepWidth + this._stepWidth / 2 + padding;
       horseSprite.y = rowHeight * (i + 1/2);
-      horseSprite.scaleX = horseSprite.scaleY = (rowHeight * 3/5) / horseSprite.spriteSheet.getFrame(0).rect.height;
+      horseSprite.scaleX = horseSprite.scaleY = (rowHeight * 3/5) / this._spriteHeight;
       horseSprite.position = this._groups[i].position
       container.addChild(horseSprite);
       this._horseSprites[this._groups[i].name] = horseSprite;
@@ -125,7 +135,7 @@ class RaceProgressionDisplay {
       this._groups[i].rank = rank;
     } else {
       rank = this._groups[i].rank;
-      this._rankCounter = Math.max(this._rankCounter.max, rank);
+      this._rankCounter = Math.max(this._rankCounter, rank);
     }
 
     let fontSize = this._container.width / 30;

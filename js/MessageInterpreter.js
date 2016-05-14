@@ -1,3 +1,9 @@
+/**
+* The role of the MessageInterpreter is to convert a string (case sensitive)
+* into the according screen instance.
+* If there is no screen class with the same name, a console message is written
+* and the screen draw request is ignored.
+*/
 class MessageInterpreter {
   static interpret(data) {
     switch(data.cmd) {

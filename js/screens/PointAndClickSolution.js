@@ -1,3 +1,11 @@
+/**
+* PointAndClickSolution screen.
+* The image area that would be interpreted as being the correct answer to
+* the question is shown as green. This area can be described as a polygon or
+* as a circle.
+* Additionally, the positions of the points clicked by other students is being
+* shown.
+*/
 class PointAndClickSolution {
   constructor(data) {
       this._data = data;

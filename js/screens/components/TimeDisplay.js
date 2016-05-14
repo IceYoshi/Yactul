@@ -1,7 +1,7 @@
 class TimeDisplay {
   constructor(value, submit) {
-    this._totalTime = value;
-    this._currentTime = value;
+    this._totalTime = Math.max(Math.round(value), 0);
+    this._currentTime = this._totalTime;
     this._tickTime = 1000;
     this._running = false;
     this._submit = submit;
@@ -11,17 +11,20 @@ class TimeDisplay {
   addTo(container) {
     this._container = container;
     container.name = "TimeDisplay";
-    this._radius = Math.max(container.width / 9, container.height / 7);
 
-    this._backgroundCircle = this.createBackgroundCircle();
-    this._timeLabel = this.createTimeLabel(container.width, container.height, this._currentTime);
-    this._progressArc = this.createProgressArc(container.width, container.height);
-    this.updateProgressAnimation();
-    if(this._running) this.startProgressAnimation();
-    container.addChild(this._backgroundCircle, this._progressArc, this._timeLabel);
-    if(!this._initialized) {
-      this.startTimer(true);
-      this._initialized = true;
+    if(this._currentTime > 0 || !this._submit) {
+      this._radius = Math.max(container.width / 9, container.height / 7);
+
+      this._backgroundCircle = this.createBackgroundCircle();
+      this._timeLabel = this.createTimeLabel(container.width, container.height, this._currentTime);
+      this._progressArc = this.createProgressArc(container.width, container.height);
+      this.updateProgressAnimation();
+      if(this._running) this.startProgressAnimation();
+      container.addChild(this._backgroundCircle, this._progressArc, this._timeLabel);
+      if(!this._initialized) {
+        this.startTimer(true);
+        this._initialized = true;
+      }
     }
 
   }
@@ -79,7 +82,9 @@ class TimeDisplay {
 
   tick(date) {
     if(this._currentTime > 0) {
-      let sleepTime = this._tickTime - (new Date().getTime() - date.getTime() - this._tickTime);
+      if(!this._lastSleepTime) this._lastSleepTime = this._tickTime;
+      let sleepTime = this._tickTime - (new Date().getTime() - date.getTime() - this._lastSleepTime);
+      this._lastSleepTime = sleepTime;
       date = new Date();
       createjs.Tween.get(this._timeLabel, { loop: false })
         .wait(sleepTime)

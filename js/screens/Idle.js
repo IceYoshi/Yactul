@@ -1,3 +1,7 @@
+/**
+* Creates an idle screen with no interaction objects. This is useful to
+* give the students some information (e.g. waiting for an activity)
+*/
 class Idle {
   constructor(data) {
       this._data = data;

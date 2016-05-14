@@ -12,7 +12,7 @@ class BackgroundImage {
   createBackgroundImage(w, h, imagePath) {
     let bg = new createjs.Bitmap(imagePath);
 
-    // Resize image to full screen
+    // Resize image to fill screen
     bg.image.onload = function() {
       bg.scaleX = w / bg.image.width;
       bg.scaleY = h / bg.image.height;

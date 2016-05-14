@@ -1,3 +1,8 @@
+/**
+* Race screen
+* Visual representation of the race progress for each group.
+* Can be updated in real time.
+*/
 class Race {
   constructor(data) {
       this._data = data;

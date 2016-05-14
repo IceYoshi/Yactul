@@ -8,6 +8,8 @@ class DifficultyMeter {
   addTo(container) {
     container.name = "DifficultyMeter";
 
+    if(this._value < 0) return;
+
     for(let i = 0; i < this._numStars; i++) {
       let difficultyStar = this.createStar(container.width, container.height, i);
       container.addChild(difficultyStar);

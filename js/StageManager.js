@@ -1,3 +1,8 @@
+/**
+* The StageManager is responsible for manipulating directly the stage/canvas object.
+* It manages the screen transition between screens, removal of offscreen objects,
+* resizing events etc.
+*/
 class StageManager {
   static init(canvas) {
     this._canvas = canvas;
@@ -11,6 +16,9 @@ class StageManager {
     this._isInitialized = true;
   }
 
+  /**
+  * Simulates a server request to change current screen to idle.
+  */
   static idle() {
     return this.draw(new Idle(JSON.parse('{ "cmd":"show", "screen": "Idle", "text":"Waiting for an activity...", "bg":"img/idle.jpg" }')));
   }
@@ -34,20 +42,18 @@ class StageManager {
   }
 
   static createStage() {
-    let stage = new createjs.Stage(this._canvas, false, false);
+    let stage = new createjs.Stage(this._canvas);
     stage.canvas.width = this._width;
     stage.canvas.height = this._height;
 
-    // frequency of mouse position checks
+    // frequency per second of mouse position/hit collision checks
     stage.enableMouseOver(20);
-    stage.autoClear = false;
 
     // gets rid of the 300ms delay on touch devices when clicking
     createjs.Touch.enable(stage);
 
     createjs.Ticker.setFPS(30);
     createjs.Ticker.addEventListener("tick", stage);
-    //createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
     return stage;
   }
@@ -59,16 +65,28 @@ class StageManager {
     return container;
   }
 
+  /**
+  * Get size of header and footer and calculate the remaining space
+  * of the window. Finally, update the _width and _height attributes.
+  */
   static updateSize() {
     let headerHeight = document.getElementById('header').offsetHeight;
     let footerHeight = document.getElementById('footer').offsetHeight;
 
     this._width = window.innerWidth;
     this._height = window.innerHeight - (headerHeight + footerHeight);
+
+    // devicePixelRation scales the resolution to the actual pixel density of the device (e.g. on retina screens)
     this._width *= window.devicePixelRatio;
     this._height *= window.devicePixelRatio;
   }
 
+  /**
+  * Resize has two main objectives.
+  * 1. Resize canvas to fit window space
+  * 2. Remove any DisplayObjects, animations and event listeners of the
+  *    current screen and send a redraw request to the corresponding screen
+  */
   static resize() {
     if(this._stage == null) return false;
     this.updateSize();
@@ -96,6 +114,15 @@ class StageManager {
     return true;
   }
 
+  /**
+  * Handle screen transition. If there is no current screen being shown,
+  * it skips the transition animation.
+  * Otherwise the new screen is added to the left (offscreen) of the stage,
+  * and a scroll animation to the left is triggered for 1 second.
+  * After the animation has stopped, the old screen is removed, the new
+  * screen is put on the same position as the old screen and the
+  * view point of the stage is set back to default.
+  */
   static transition(newScreen) {
     if(this._stage == null) {
       this._stage = this.createStage();

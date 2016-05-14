@@ -1,3 +1,9 @@
+/**
+* SimpleQuestion activity.
+* There is a question title and answer buttons which can be clicked. Only
+* one answer can be choosen. The selected answer is then submitted to the server
+* Optionally, a forground image can be set.
+*/
 class SimpleQuestion {
   constructor(data) {
       this._data = data;
@@ -11,7 +17,7 @@ class SimpleQuestion {
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new TitleDisplay(this._data.text));
     this._drawable.push(new DifficultyMeter(this._data.difficulty));
-    if(this._data.image != undefined) {
+    if(this._data.image) {
       this._hasDisplayImage = true;
       this._drawable.push(new DisplayImage(this._data.image));
     }

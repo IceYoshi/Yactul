@@ -1,3 +1,10 @@
+/**
+* MultipleChoiceFocus activity.
+* A variant of the SimpleFocus activity. Instead of having a stop button,
+* a select button is shown. Like the name suggests, whenever the select button
+* is clicked, the currently shown answer is selected or un-selected.
+* After submission, the list of all selected answers is send to the server.
+*/
 class MultipleChoiceFocus {
   constructor(data) {
       this._data = data;
