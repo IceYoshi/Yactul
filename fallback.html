@@ -8,6 +8,13 @@
         <meta name="apple-touch-fullscreen" content="yes">
         <meta name="mobile-web-app-capable" content="yes">
 
+        <script>
+          // redirect to compatibility version in case of an error
+          window.onerror = function(error) {
+            //document.location = "fallback.html";
+          };
+        </script>
+
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css" />
 
@@ -45,6 +52,8 @@
         <button type="button" class="btn btn-success btn-sm" onclick="screen4();">PointAndClick2</button>
         <button type="button" class="btn btn-success btn-sm" onclick="screen5();">SimpleFocus</button>
         <button type="button" class="btn btn-success btn-sm" onclick="screen6();">MultipleChoiceFocus</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="screen7();">BuildPairs</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="screen8();">CatchEmAll</button>
         <br>
         <button type="button" class="btn btn-warning btn-sm" onclick="highscore();">Highscore</button>
         <button type="button" class="btn btn-warning btn-sm" onclick="race();">Race</button>
@@ -85,11 +94,11 @@
         // Methods to simulate server messages (for testing purpose)
         function screen1() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"SimpleQuestion", "id":1, "view":"' + view + '", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":25, "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "score":' + currentScore + '}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"SimpleQuestion", "id":1, "view":"' + view + '", "text":"What is the meaning of life?", "answers":["Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":25, "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "score":' + currentScore + '}'));
         }
         function screen1_sol() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"QuestionSolution", "view":"' + view + '", "text":"What is the meaning of life?", "answers":[ "Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "stats":[{"correct":false, "amount":5, "selected":false}, {"correct":false, "amount":7, "selected":false}, {"correct":true, "amount":23, "selected":true}, {"correct":false, "amount":2, "selected":false}], "score":750}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"QuestionSolution", "view":"' + view + '", "text":"What is the meaning of life?", "answers":["Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "stats":[{"correct":false, "amount":5, "selected":false}, {"correct":false, "amount":7, "selected":false}, {"correct":true, "amount":23, "selected":true}, {"correct":false, "amount":2, "selected":false}], "score":750}'));
         }
         function screen2() {
           isPaused = false;
@@ -122,6 +131,18 @@
         function screen6() {
           isPaused = false;
           ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"MultipleChoiceFocus", "id":6, "view":"' + view + '", "text":"In a distributed system, what will you use to determine the order of two distinct messages?", "answers":["Timestamp", "Logical Clock", "Guess", "Vector Clock", "Hourglass", "Timemachine"], "time":55, "interval":1500, "difficulty":4, "bg":"img/quiz-background3.jpg", "score":' + currentScore + '}'));
+        }
+        function screen7() {
+          isPaused = false;
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"BuildPairs", "id":7, "view":"' + view + '", "text":"Link word pairs together!", "time":60, "difficulty":2, "bg":"img/linked-background.png", "answers":[["Lisp", "C", "LaTeX"], ["Pointer", "caaar", "usepackage"]], "score":' + currentScore + '}'));
+        }
+        function screen8() {
+          isPaused = false;
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"CatchEmAll", "id":8, "view":"' + view + '", "text":"Catch the fruits! Avoid the vegetables!", "time":60, "difficulty":2, "bg":"img/apple-tree.jpg", "answers":["Tomato", "Nut", "Apple", "Eggplant", "Banana", "Orange", "Pepper", "Olive", "Punpkin", "Avocado", "Carrot", "Potato", "Mushroom", "Leek", "Zucchini", "Broccoli", "Cabbage", "Turnip"], "score":' + currentScore + '}'));
+        }
+        function screen8_sol() {
+          isPaused = false;
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"CatchEmAllSolution", "id":9, "view":"' + view + '", "text":"Catch the fruits!", "time":60, "difficulty":2, "bg":"img/apple-tree.jpg", "answers":{"correct":["Tomato", "Nut", "Apple", "Eggplant", "Banana", "Orange", "Pepper", "Olive", "Punpkin", "Avocado"], "wrong":["Carrot", "Potato", "Mushroom", "Leek", "Zucchini", "Broccoli", "Cabbage", "Turnip"]}, "score":' + currentScore + '}'));
         }
         function idle() {
           ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"Idle", "text":"Waiting for an activity...", "bg":"img/idle.jpg" }'));

@@ -11,6 +11,7 @@ class Race {
   }
 
   init() {
+    if(this._data.bg == undefined) this._data.bg = "img/highscore.jpg";
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new TitleDisplay('Race'));
     this._rpd = new RaceProgressionDisplay(this._data.groups, this._data.steps);

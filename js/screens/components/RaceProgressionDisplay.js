@@ -108,9 +108,12 @@ class RaceProgressionDisplay {
       horseSprite.position = Math.max(Math.min(horseSprite.position + value, this._numSteps - 1), 0);
       let deltaPosition = horseSprite.position - oldPosition;
       createjs.Tween.get(horseSprite, { loop: false })
+        .to( { scaleX: deltaPosition < 0 ? -horseSprite.scaleX/2 : horseSprite.scaleX }, deltaPosition < 0 ? 200 : 0)
+        .to( { scaleX: deltaPosition < 0 ? -horseSprite.scaleX : horseSprite.scaleX }, deltaPosition < 0 ? 200 : 0)
         .call(horseSprite.play)
         .to( { x: horseSprite.x + deltaPosition * this._stepWidth }, 1000 * Math.abs(deltaPosition))
-        .call(horseSprite.gotoAndStop, [7]);
+        .call(horseSprite.gotoAndStop, [7])
+        .to( { scaleX: horseSprite.scaleX }, deltaPosition < 0 ? 200 : 0)
 
       for(let i = this._groups.length - 1; i >= 0 ; i--) {
         if(this._groups[i].name === group) {

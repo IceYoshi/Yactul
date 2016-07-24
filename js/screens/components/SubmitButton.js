@@ -1,10 +1,10 @@
-class ValidateButton {
+class SubmitButton {
   constructor(submit) {
     this._submit = submit;
   }
 
   addTo(container) {
-    container.name = "ValidateButton";
+    container.name = "SubmitButton";
     let label = this.createLabel(container.width, container.height);
     let panel = this.createBackgroundPanel(label.getMeasuredWidth(), label.getMeasuredHeight());
     container.addChild(panel, label);
@@ -13,7 +13,7 @@ class ValidateButton {
   createLabel(width, height) {
     let fontSize = Math.floor(Math.max(width / 23, height / 20));
     let label = new createjs.Text();
-    label.text = "Validate";
+    label.text = "Submit";
     label.font = `${fontSize}px Dimbo`;
     label.color = "#f0261b";
     label.textAlign = "right";

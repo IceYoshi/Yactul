@@ -16,6 +16,7 @@ class MultipleChoiceFocus {
   }
 
   init() {
+    if(this._data.bg == undefined) this._data.bg = "img/quiz-background3.jpg";
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new TitleDisplay(this._data.text));
     this._drawable.push(new DifficultyMeter(this._data.difficulty));
@@ -29,7 +30,7 @@ class MultipleChoiceFocus {
         this._labelIterator = new LabelIterator(this._data.answers, this._data.interval, this.currentItem.bind(this));
         this._drawable.push(this._labelIterator);
         this._drawable.push(new RoundButton("Select !", this.select.bind(this)));
-        this._drawable.push(new ValidateButton(this.submit.bind(this)));
+        this._drawable.push(new SubmitButton(this.submit.bind(this)));
         break;
       case "projector":
         this._drawable.push(new HeaderDisplay(this._data.screen));
@@ -86,7 +87,7 @@ class MultipleChoiceFocus {
         container.x = screen.width / 2;
         container.y = screen.height * 0.45;
         break;
-      case "ValidateButton":
+      case "SubmitButton":
         container.x = screen.width;
         container.y = screen.height;
         break;

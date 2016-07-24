@@ -13,10 +13,11 @@ class QuestionSolution {
   }
 
   init() {
+    if(this._data.bg == undefined) this._data.bg = "img/quiz-background.jpg";
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new TitleDisplay(this._data.text));
     this._drawable.push(new DifficultyMeter(this._data.difficulty));
-    if(this._data.image) {
+    if(this._data.image && this._data.image != "") {
       this._hasDisplayImage = true;
       this._drawable.push(new DisplayImage(this._data.image));
     }

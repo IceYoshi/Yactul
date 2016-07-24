@@ -1,42 +1,39 @@
 /**
-* MultipleChoiceQuestion activity.
-* A variant of the Simple Question activity. Additionally, multiple answers
-* can be choosen and then submitted.
+* CatchEmAll activity.
 */
-class MultipleChoiceQuestion {
+class CatchEmAll {
   constructor(data) {
       this._data = data;
-      this._selected = [];
+      this._hitList = [];
+      this._missList = [];
       this._drawable = [];
       this._initialized = false;
       this._submitted = false;
   }
 
   init() {
-    if(this._data.bg == undefined) this._data.bg = "img/quiz-background.jpg";
+    if(this._data.bg == undefined) this._data.bg = "img/europe.jpg";
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new TitleDisplay(this._data.text));
     this._drawable.push(new DifficultyMeter(this._data.difficulty));
-    if(this._data.image && this._data.image != "") {
-      this._hasDisplayImage = true;
-      this._drawable.push(new DisplayImage(this._data.image));
-    }
 
     switch(this._data.view) {
       case "student":
         this._drawable.push(new HeaderDisplay(`Score: ${this._data.score}`));
         this._timer = new TimeDisplay(this._data.time, this.submit.bind(this));
         this._drawable.push(this._timer);
-        this._drawable.push(new ButtonPanel(this._data.answers, this._hasDisplayImage, this.selected.bind(this), this._data.stats));
-        this._drawable.push(new SubmitButton(this.submit.bind(this)));
         break;
       case "projector":
         this._drawable.push(new HeaderDisplay(this._data.screen));
         this._timer = new TimeDisplay(this._data.time, null);
         this._drawable.push(this._timer);
-        this._drawable.push(new ButtonPanel(this._data.answers, this._hasDisplayImage, null, this._data.stats));
         break;
     }
+
+    this._movingPlatform = new MovingPlatform();
+    this._drawable.push(this._movingPlatform);
+    this._drawable.push(new CatchField(this._data.answers, this._data.difficulty, this.hitTest.bind(this)));
+
     this._initialized = true;
   }
 
@@ -75,24 +72,13 @@ class MultipleChoiceQuestion {
         container.x = screen.width / 2;
         container.y = screen.height / 20;
         break;
-      case "ButtonPanel":
-        container.x = screen.width / 2;
-        if(this._hasDisplayImage && landscape) container.x += screen.width / 4;
-        container.y = screen.height * 0.65;
-        if(this._hasDisplayImage && !landscape) container.y = screen.height * 0.75;
+      case "CatchField":
+        container.x = 0;
+        container.y = 0;
         break;
-      case "DisplayImage":
-        if(landscape) {
-          container.x = screen.width / 4;
-          container.y = screen.height * 0.65;
-        } else {
-          container.x = screen.width / 2;
-          container.y = screen.height * 0.45;
-        }
-        break;
-      case "SubmitButton":
-        container.x = screen.width;
-        container.y = screen.height;
+      case "MovingPlatform":
+        container.x = 0;
+        container.y = 0;
         break;
     }
   }
@@ -113,8 +99,17 @@ class MultipleChoiceQuestion {
     }
   }
 
-  selected(value) {
-    this._selected = value;
+  hitTest(object) {
+    let xPos = object.x;
+    let radius = object.width / 2;
+    let word = object.text;
+    if(this._movingPlatform.hitTestBetween(xPos - radius, xPos + radius)) {
+      if(this._hitList.indexOf(word) < 0) this._hitList.push(word);
+      return true;
+    } else {
+      if(this._missList.indexOf(word) < 0) this._missList.push(word);
+      return false;
+    }
   }
 
   submit() {
@@ -123,7 +118,8 @@ class MultipleChoiceQuestion {
        + '"cmd" : "submit",'
        + '"activity" : "' + this._data.screen + '",'
        + '"id" : ' + this._data.id + ','
-       + '"selected" : ' + JSON.stringify(this._selected) + ','
+       + '"hits" : ' + JSON.stringify(this._hitList) + ','
+       + '"misses" : ' + JSON.stringify(this._missList) + ','
        + '"time-left" : ' + this._timer.getTime()
        + '}');
     if(ServerConnection.send(obj)) {

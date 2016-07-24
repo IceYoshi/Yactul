@@ -13,6 +13,7 @@ class Highscore {
   }
 
   init() {
+    if(this._data.bg == undefined) this._data.bg = "img/highscore.jpg";
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new TitleDisplay("Highscore"));
     this._ranklist = new HighscoreList(this._data.ranklist);

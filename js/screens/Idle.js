@@ -10,6 +10,7 @@ class Idle {
   }
 
   init() {
+    if(this._data.bg == undefined) this._data.bg = "img/idle.jpg";
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new TitleDisplay(this._data.text));
 

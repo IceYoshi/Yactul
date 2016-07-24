@@ -1,7 +1,6 @@
 /**
-* The StageManager is responsible for manipulating directly the stage/canvas object.
-* It manages the screen transition between screens, removal of offscreen objects,
-* resizing events etc.
+* The StageManager is responsible for directly manipulating the canvas object.
+* It manages the screen transition between screens, resizing events, etc.
 */
 class StageManager {
   static init(canvas) {
@@ -25,6 +24,8 @@ class StageManager {
 
   static draw(screen) {
     if(!this._isInitialized || screen == null) return false;
+    window.onkeydown = null;
+    window.onkeyup = null;
     this._currentScreen = screen;
     let container = this.createScreenContainer();
     screen.draw(container);
