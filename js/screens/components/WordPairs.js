@@ -1,17 +1,28 @@
 class WordPairs {
-  constructor(answers, onChange) {
+  constructor(answers, onChange, solution) {
     this._answers = answers;
     this._line = new createjs.Shape();
     this._connections = new createjs.Shape();
     this._connectMap = {};
     this._panelDictionary = [];
     this._onChange = onChange;
+
+    this._solution = solution;
+    if(solution != undefined) {
+      for(let key in solution) {
+        this._connectMap[key] = solution[key].pair;
+      }
+    }
+
+    this._initialized = false;
   }
 
   addTo(container) {
     container.name = "WordPairs";
 
-    this.redrawConnections();
+    if(this._initialized) {
+      this.redrawConnections();
+    }
 
     let pLeft = this._answers[0];
     let pRight = this._answers[1];
@@ -26,6 +37,11 @@ class WordPairs {
     let panelRight = this.createWordPanel(wordHeight, pRight, "right");
     panelRight.x = container.width * 0.1;
     panelRight.y = - panelHeight / 2;
+
+    if(!this._initialized) {
+      this.redrawConnections();
+      this._initialized = true;
+    }
 
     container.addChild(panelLeft, panelRight, this._connections, this._line);
   }
@@ -156,14 +172,14 @@ class WordPairs {
     return labelPanel;
   }
 
-  drawConnection(p1, p2) {
+  drawConnection(p1, p2, color) {
     p1 = this._panelDictionary[p1];
     p2 = this._panelDictionary[p2];
     let connections = this._connections;
     let pOrigin = p1.localToLocal(p1.connectPoint[0], p1.connectPoint[1], connections);
     let pDest = p2.localToLocal(p2.connectPoint[0], p2.connectPoint[1], connections);
 
-    connections.graphics.setStrokeStyle(3).beginStroke("black")
+    connections.graphics.setStrokeStyle(3).beginStroke(color)
       .moveTo(pOrigin.x, pOrigin.y)
       .lineTo(pDest.x, pDest.y)
       .endStroke();
@@ -172,7 +188,15 @@ class WordPairs {
   redrawConnections() {
     this._connections.graphics.clear();
     for(let connection in this._connectMap) {
-      this.drawConnection(connection, this._connectMap[connection]);
+      if(this._solution == undefined) {
+        this.drawConnection(connection, this._connectMap[connection], "black");
+      } else {
+        if(this._solution[connection].selected) {
+          this.drawConnection(connection, this._connectMap[connection], "green");
+        } else {
+          this.drawConnection(connection, this._connectMap[connection], "#f0261b")
+        }
+      }
     }
   }
 

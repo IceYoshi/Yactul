@@ -12,7 +12,7 @@ class CatchEmAll {
   }
 
   init() {
-    if(this._data.bg == undefined) this._data.bg = "img/europe.jpg";
+    if(this._data.bg == undefined) this._data.bg = "img/apple-tree.jpg";
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new TitleDisplay(this._data.text));
     this._drawable.push(new DifficultyMeter(this._data.difficulty));

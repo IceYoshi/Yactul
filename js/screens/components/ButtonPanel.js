@@ -48,7 +48,7 @@ class ButtonPanel {
       }
       let isSelected = buttonState == undefined ? false : buttonState[i];
 
-      let buttonPanel = this.createButtonPanel(buttonWidth, buttonHeight, isSelected, isCorrect);
+      let buttonPanel = this.createButtonPanel(buttonWidth, buttonHeight, this._stats != undefined ? this._stats[i].selected : false, isCorrect);
       buttonPanel.x = paddingX + col * (paddingX + buttonWidth) + masterPanel.x;
       buttonPanel.y = paddingY + row * (paddingY + buttonHeight) + masterPanel.y;
       buttonPanel.label = value.toString();
@@ -80,14 +80,21 @@ class ButtonPanel {
 
   createButtonPanel(width, height, isSelected, isCorrect) {
     let buttonPanel = new createjs.Shape();
-
     if(isCorrect == undefined) {
       buttonPanel.graphics.beginFill("#d3d3d3");
     } else {
       if(isCorrect) {
-        buttonPanel.graphics.beginFill("#5cb85c");
+        if(isSelected) {
+          buttonPanel.graphics.beginFill("#5cb85c");
+        } else {
+          buttonPanel.graphics.beginFill("#f5756e");
+        }
       } else {
-        buttonPanel.graphics.beginFill("#f5756e");
+        if(isSelected) {
+          buttonPanel.graphics.beginFill("#f5756e");
+        } else {
+          buttonPanel.graphics.beginFill("#d3d3d3");
+        }
       }
     }
     buttonPanel.graphics.drawRect(0, 0, width, height);

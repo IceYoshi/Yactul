@@ -9,7 +9,7 @@ class MovingPlatform {
     this._width = container.width;
     this._height = container.height;
 
-    let platform = this.createPlatform(Math.max(container.width, container.height) / 5, container.height / 20);
+    let platform = this.createPlatform(Math.max(container.width, container.height) / 6, container.height / 20);
     platform.x += container.width * 0.5 - platform.width / 2;
     platform.y += container.height * 0.9;
     this._platform = platform;
@@ -32,9 +32,9 @@ class MovingPlatform {
     window.onkeydown = function(event) {
       let keyPressed = event.key;
       this._lastKeyPressed = keyPressed;
-      if(keyPressed === "a" || keyPressed === "A" || keyPressed === "ArrowLeft") {
+      if(keyPressed === "a" || keyPressed === "A" || keyPressed === "ArrowLeft" || keyPressed === "Left") {
         this.movePlatform(platform, 0); // <--
-      } else if(keyPressed === "d" || keyPressed === "D" || keyPressed === "ArrowRight") {
+      } else if(keyPressed === "d" || keyPressed === "D" || keyPressed === "ArrowRight" || keyPressed === "Right") {
         this.movePlatform(platform, this._width); // -->
       }
     }.bind(this);
