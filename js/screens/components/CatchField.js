@@ -5,6 +5,8 @@ class CatchField {
     this._hitTest = hitTest;
     this._running = false;
     this._interval = 6000 / velocity;
+    this._dummy = new createjs.Shape();
+    this._dummy.persistant = true;
     this._apples = [];
   }
 
@@ -14,30 +16,31 @@ class CatchField {
 
     if(!this._running) {
       this._running = true;
-
-      let dummy = new createjs.Shape();
-      container.addChild(dummy);
-
-      this.tick(dummy);
+      this.tick(this._dummy);
     } else {
       let apples = this._apples;
       for(let i = 0; i < apples.length; i++) {
-        container.addChild(apples[i]);
+        let apple = apples[i];
+        apple.x *= container.width / this._width;
+        container.addChild(apple);
       }
     }
+
+    this._width = container.width;
+
+    container.addChild(this._dummy);
 
   }
 
   tick(dummy) {
-    createjs.Tween.get(dummy, { loop: false })
+    createjs.Tween.get(dummy, { loop: true })
       .wait(this._interval)
       .call(function() {
         let container = this._container;
         let apple = this.createApple(this.getRandomWord(), container.width, Math.max(container.width, container.height));
-        this.animateApple(container, apple, container.height*0.9 - this._appleSize / 2, this._velocity);
+        this.animateApple(container, apple, container.height*0.85 - this._appleSize / 2, this._velocity);
         this._apples.push(apple);
         container.addChild(apple);
-        this.tick(dummy);
       }.bind(this));
   }
 
@@ -62,6 +65,7 @@ class CatchField {
   }
 
   animateApple(container, apple, height, velocity) {
+    apple.persistant = true;
     createjs.Tween.get(apple, { loop: false })
       .to( { y: height }, velocity)
       .call(function(event) {

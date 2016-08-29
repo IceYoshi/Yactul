@@ -87,7 +87,21 @@ class ButtonPanel {
         if(isSelected) {
           buttonPanel.graphics.beginFill("#5cb85c");
         } else {
-          buttonPanel.graphics.beginFill("#f5756e");
+          buttonPanel.graphics.beginFill("#d3d3d3");
+          buttonPanel.filters = [ new createjs.ColorFilter(1,1,1,1) ];
+          buttonPanel.cache(0, 0, width, height);
+          buttonPanel.handleEvent = function() {
+            this.updateCache();
+          };
+          createjs.Ticker.addEventListener("tick", buttonPanel);
+          createjs.Tween.get(buttonPanel, { loop: true })
+            .wait(200)
+            .call(function(filter) {
+              createjs.Tween.get(filter, { loop: false })
+                .to({ redMultiplier: 0.36, greenMultiplier: 0.72, blueMultiplier: 0.36 }, 400, createjs.Ease.getPowInOut(2))
+                .to({ redMultiplier: 1, greenMultiplier: 1, blueMultiplier: 1 }, 400, createjs.Ease.getPowInOut(2));
+            }, [buttonPanel.filters[0]])
+            .wait(800);
         }
       } else {
         if(isSelected) {
@@ -102,34 +116,34 @@ class ButtonPanel {
     buttonPanel.height = height;
     buttonPanel.shadow = new createjs.Shadow("#333333", 5, 5, 10);
 
-    buttonPanel.on("click", handleClick.bind(this));
-    buttonPanel.on("mouseover", handleMotion.bind(this));
-    buttonPanel.on("mouseout", handleMotion.bind(this));
+    if(this._setSelected != null) {
+      buttonPanel.on("click", handleClick.bind(this));
+      buttonPanel.on("mouseover", handleMotion.bind(this));
+      buttonPanel.on("mouseout", handleMotion.bind(this));
+    }
 
     // button click handler
     function handleClick(event) {
-      if(this._setSelected != null) {
-        if(event.target.clicked == null) {
-          event.target.filters = [ new createjs.ColorFilter(0,0,0,1,255,203,151,0) ];
-          event.target.clicked = 1;
+      if(event.target.clicked == null) {
+        event.target.filters = [ new createjs.ColorFilter(0,0,0,1,255,203,151,0) ];
+        event.target.clicked = 1;
+      } else {
+        if(event.isTouch) {
+          event.target.filters = [ new createjs.ColorFilter(1,1,1,1,0,0,0,0) ];
         } else {
-          if(event.isTouch) {
-            event.target.filters = [ new createjs.ColorFilter(1,1,1,1,0,0,0,0) ];
-          } else {
-            event.target.filters = [ new createjs.ColorFilter(1,1,1,1,-25,-25,-25,0) ];
-          }
-          event.target.clicked = null;
+          event.target.filters = [ new createjs.ColorFilter(1,1,1,1,-25,-25,-25,0) ];
         }
-        event.target.cache(0, 0, event.target.graphics.command.w, event.target.graphics.command.h);
-
-        let selected = [];
-        for(let i = 0; i<this._buttons.length; i++) {
-          if(this._buttons[i].clicked != null) {
-            selected.push(this._buttons[i].label);
-          }
-        }
-        this._setSelected(selected);
+        event.target.clicked = null;
       }
+      event.target.cache(0, 0, event.target.graphics.command.w, event.target.graphics.command.h);
+
+      let selected = [];
+      for(let i = 0; i<this._buttons.length; i++) {
+        if(this._buttons[i].clicked != null) {
+          selected.push(this._buttons[i].label);
+        }
+      }
+      this._setSelected(selected);
     }
 
     // button mouseover animation
@@ -158,7 +172,8 @@ class ButtonPanel {
     label.font = `${fontSize}px Dimbo`;
     label.lineWidth = width;
     label.lineHeight = fontSize * 1.5;
-    label.color = "#f0261b";
+    //label.color = "#f0261b";
+    label.color = "black";
     label.textAlign = "center";
     label.textBaseline = "middle";
 
@@ -230,7 +245,7 @@ class ButtonPanel {
 
   createSelectedHighlight(width, height) {
     let highlight = new createjs.Shape();
-    highlight.graphics.setStrokeStyle(6).beginStroke("#f0261b").drawRect(0, 0, width, height);
+    highlight.graphics.setStrokeStyle(6).beginStroke("black").drawRect(0, 0, width, height);
     highlight.alpha = 0.9;
     return highlight;
   }

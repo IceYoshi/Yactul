@@ -9,9 +9,10 @@ class MovingPlatform {
     this._width = container.width;
     this._height = container.height;
 
-    let platform = this.createPlatform(Math.max(container.width, container.height) / 6, container.height / 20);
-    platform.x += container.width * 0.5 - platform.width / 2;
-    platform.y += container.height * 0.9;
+    //let platform = this.createPlatform(Math.max(container.width, container.height) / 6, container.height / 20);
+    let platform = this.createPlatform2(Math.max(container.width, container.height) / 6, container.height / 20, "img/basket.png");
+    platform.x += container.width * 0.5;
+    platform.y += container.height * 0.85;
     this._platform = platform;
 
     this.createPlatformControls(platform, container);
@@ -25,6 +26,22 @@ class MovingPlatform {
     platform.width = width;
     platform.height = height;
     return platform;
+  }
+
+  createPlatform2(width, height, imagePath) {
+    var imageObject = new createjs.Bitmap(imagePath);
+
+    imageObject.image.onload = function() {
+      let scale = width / imageObject.image.width;
+      imageObject.scaleX = imageObject.scaleY = scale;
+      imageObject.x -= (imageObject.image.width * imageObject.scaleX) / 2;
+      imageObject.regX = imageObject.image.width / 2;
+    };
+
+    imageObject.width = width;
+    imageObject.height = height;
+
+    return imageObject;
   }
 
   createPlatformControls(platform, container) {
@@ -69,15 +86,20 @@ class MovingPlatform {
 
 
   movePlatform(platform, xPos) {
-    xPos -= platform.width/2;
-    xPos = Math.max(Math.min(xPos, this._width - platform.width), 0);
+    xPos = Math.max(Math.min(xPos, this._width - platform.width / 2), platform.width / 2);
 
     let velocity = 1500; // time in ms to travel the width of the container
 
-    if(platform.x >= xPos) {  // moving left
+    if(platform.x > xPos) {  // moving left
+      if(platform.scaleX > 0) {
+        platform.scaleX *= -1;
+      }
       createjs.Tween.get(platform, { loop: false, override: true })
         .to({ x: xPos }, velocity * (platform.x - xPos) / this._width, createjs.Ease.getPowInOut(1));
-    } else {  // moving right
+    } else if(platform.x < xPos) {  // moving right
+      if(platform.scaleX < 0) {
+        platform.scaleX *= -1;
+      }
       createjs.Tween.get(platform, { loop: false, override: true })
         .to({ x: xPos }, velocity * (xPos - platform.x) / this._width, createjs.Ease.getPowInOut(1));
     }
@@ -94,7 +116,7 @@ class MovingPlatform {
   }
 
   hitTest(xPos) {
-    if(Math.abs(this._platform.x + this._platform.width / 2 - xPos) <= this._platform.width/2)
+    if(Math.abs(this._platform.x - xPos) <= this._platform.width/2)
       return true;
     return false;
   }

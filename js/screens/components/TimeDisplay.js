@@ -86,6 +86,7 @@ class TimeDisplay {
       let sleepTime = this._tickTime - (new Date().getTime() - date.getTime() - this._lastSleepTime);
       this._lastSleepTime = sleepTime;
       date = new Date();
+      this._timeLabel.persistant = true;
       createjs.Tween.get(this._timeLabel, { loop: false })
         .wait(sleepTime)
         .call(function() {

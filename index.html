@@ -18,13 +18,14 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css" />
 
-        <script src="js/createjs/easeljs-0.8.2.min.js"></script>
-        <script src="js/createjs/tweenjs-0.6.2.min.js"></script>
-        <script src="js/createjs/preloadjs-0.6.2.min.js"></script>
+        <script src="js/lib/createjs-2015.11.26.min.js"></script>
+        <script src="js/lib/jquery.min.js"></script>
+        <script src="js/lib/bootstrap.min.js"></script>
 
         <script src="js/ServerConnection.js"></script>
         <script src="js/MessageInterpreter.js"></script>
         <script src="js/StageManager.js"></script>
+        <script src="js/Common.js"></script>
 
         <!-- Screens -->
         <script src="js/screens/Idle.js"></script>
@@ -41,6 +42,7 @@
         <script src="js/screens/BuildPairsSolution.js"></script>
         <script src="js/screens/CatchEmAll.js"></script>
         <script src="js/screens/CatchEmAllSolution.js"></script>
+        <script src="js/screens/GuessTheImage.js"></script>
 
         <!-- Components -->
         <script src="js/screens/components/BackgroundImage.js"></script>
@@ -62,6 +64,7 @@
         <script src="js/screens/components/MovingPlatform.js"></script>
         <script src="js/screens/components/CatchField.js"></script>
         <script src="js/screens/components/CorrectWrongDisplay.js"></script>
+        <script src="js/screens/components/TooltipInfo.js"></script>
 
         <script src="js/init.js"></script>
 
@@ -91,6 +94,11 @@
         <button type="button" class="btn btn-info btn-sm" onclick="highscoreUpdate();">HighscoreUpdate</button>
         <button type="button" class="btn btn-info btn-sm" onclick="raceUpdate(2);">Race+=2</button>
         <button type="button" class="btn btn-info btn-sm" onclick="raceUpdate(-1);">Race--</button>
+        <div id="separator"></div>
+        <button type="button" class="btn btn-info btn-sm" onclick="guess();">GuessTheImage</button>
+        <button type="button" class="btn btn-info btn-sm" onclick="expandOverlay();">Expand</button>
+        <button type="button" class="btn btn-info btn-sm" onclick="minifyOverlay();">Minify</button>
+        <button type="button" class="btn btn-info btn-sm" onclick="removeOverlay();">Remove</button>
         <br>
         <button type="button" class="btn btn-success btn-sm" onclick="idle();">Idle</button>
         <button type="button" class="btn btn-success btn-sm" onclick="screen1();">SimpleQuestion</button>
@@ -152,7 +160,7 @@
         }
         function screen2() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"MultipleChoiceQuestion", "id":2, "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg", "score":' + currentScore + '}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"MultipleChoiceQuestion", "id":2, "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg", "score":' + currentScore + ', "overlay":true}'));
         }
         function screen2_sol() {
           isPaused = false;
@@ -251,6 +259,19 @@
         }
         function subtractTimer() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "update", "component": "timer", "type": "relative", "value" : -10 }'));
+        }
+        function expandOverlay() {
+          ServerConnection.receive(JSON.parse('{ "cmd" : "expand" }'));
+        }
+        function minifyOverlay() {
+          ServerConnection.receive(JSON.parse('{ "cmd" : "minify" }'));
+        }
+        function removeOverlay() {
+          ServerConnection.receive(JSON.parse('{ "cmd" : "remove" }'));
+        }
+
+        function guess() {
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"GuessTheImage", "bg":"img/idle.jpg", "overlay":true }'));
         }
         //--------------------------------------------------------------------------------------
       </script>

@@ -128,7 +128,7 @@ class MultipleChoiceQuestion {
        + '}');
     if(ServerConnection.send(obj)) {
       this._submitted = true;
-      StageManager.idle();
+      StageManager.handleActivityEnd();
     }
   }
 

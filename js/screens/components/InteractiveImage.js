@@ -3,6 +3,7 @@ class InteractiveImage {
     this._imagePath = imagePath;
     this._submit = submit;
     this._stats = stats;
+    this._initialized = false;
   }
 
   addTo(container) {
@@ -26,6 +27,7 @@ class InteractiveImage {
       this._container.addChild(imageObject);
       if(this._stats != undefined) {
         this.createStats(this._stats, imageObject);
+        this._initialized = true;
       }
     }.bind(this);
 
@@ -49,8 +51,12 @@ class InteractiveImage {
           pin.x += 50;
           pin.y -= 50;
           pin.alpha = 0;
+
+          let waitTime = Math.round(Math.random() * 300);
+          if(!this._initialized) waitTime += 1000;
+
           createjs.Tween.get(pin, { loop: false })
-            .wait(Math.round(Math.random() * 300) + 1000)
+            .wait(waitTime)
             .to({ x:x, y:y, alpha:1}, 300, createjs.Ease.getPowInOut(2));
         }
         if(this._submit != null)

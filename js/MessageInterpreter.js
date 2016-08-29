@@ -8,11 +8,20 @@ class MessageInterpreter {
   static interpret(data) {
     switch(data.cmd) {
       case "show":
-          StageManager.draw(this.getScreen(data));
-        break;
+          StageManager.draw(this.getScreen(data), data.overlay);
+          break;
       case "update":
           StageManager.update(data);
-        break;
+          break;
+      case "expand":
+          StageManager.expandOverlay();
+          break;
+      case "minify":
+          StageManager.minifyOverlay();
+          break;
+      case "remove":
+          StageManager.removeOverlay();
+          break;
       default: console.log('Error: Unknown command ' + data.cmd);
     }
   }

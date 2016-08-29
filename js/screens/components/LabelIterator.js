@@ -39,6 +39,7 @@ class LabelIterator {
   tick() {
     this.updateLabel();
     this.updateColor();
+    this._label.persistant = true;
     createjs.Tween.get(this._label, { loop: false })
       .wait(this._interval)
       .call(function() {

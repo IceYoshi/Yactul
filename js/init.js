@@ -5,7 +5,7 @@ function initCanvas() {
 
   StageManager.idle(); // Change screen to idle
 
-  //showFPS();
+  //showDebugInformation();
 }
 
 // Will be called whenever the browser window is resized.
@@ -15,11 +15,11 @@ function resize() {
 }
 
 // A console FPS display, primary for locating performance hits
-function showFPS() {
+function showDebugInformation() {
   setTimeout(function() {
     let fpsCount = createjs.Ticker.getMeasuredFPS();
     fpsCount = Math.round(fpsCount * 100) / 100;
-    console.log(`FPS: ${fpsCount}`);
-    showFPS();
+    console.log(`FPS: ${fpsCount} | Active tweens: ${createjs.Tween._tweens.length} | Ticker job count: ${createjs.Ticker._listeners["tick"].length}`);
+    showDebugInformation();
   }, 1000);
 }
