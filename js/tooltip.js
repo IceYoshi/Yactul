@@ -17,7 +17,7 @@ function initTooltip()
         target.removeAttr( 'title' );
         tooltip.css( 'opacity', 0 )
                .html( tip )
-               .appendTo( 'body' );
+               .appendTo( '#placeholder' );
 
         var init_tooltip = function()
         {
@@ -53,8 +53,8 @@ function initTooltip()
             else
                 tooltip.removeClass( 'top' );
 
-            tooltip.css( { left: pos_left, top: pos_top + 20} )
-                   .animate( { top: '+=10', opacity: 1 }, 50 );
+            tooltip.css( { left: pos_left, top: pos_top + 30} )
+                   .animate( { top: '-=10', opacity: 1 }, 100 );
         };
 
         init_tooltip();
@@ -62,7 +62,7 @@ function initTooltip()
 
         var remove_tooltip = function()
         {
-            tooltip.animate( { top: '-=10', opacity: 0 }, 50, function()
+            tooltip.animate( { top: '+=10', opacity: 0 }, 100, function()
             {
                 $( this ).remove();
             });
