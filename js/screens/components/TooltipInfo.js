@@ -14,14 +14,14 @@ class TooltipInfo {
 
   createInfoIcon(tooltip) {
     let template = document.createElement('template');
-    template.innerHTML = `<img src="img/info.png" width="${this._size}px" height="${this._size}px" style="position:absolute; top:${document.getElementById('header').offsetHeight}px; left:0" data-toggle="tooltip" data-placement="bottom" title="${tooltip}" />`;
+    template.innerHTML = `<img src="img/info.png" width="${this._size}px" height="${this._size}px" style="position:absolute; top:${document.getElementById('header').offsetHeight}px; left:0" rel="tooltip" data-placement="bottom" title="${tooltip}" />`;
 
     template = template.content.firstChild;
 
     $("#placeholder").append(template);
 
     $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
+      $('[rel="tooltip"]').tooltip();
     });
 
     let iconObject = new createjs.DOMElement(template);

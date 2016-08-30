@@ -5,7 +5,6 @@
 class GuessTheImage {
   constructor(data) {
       this._data = data;
-      this._selected = null;
       this._drawable = [];
       this._initialized = false;
       this._submitted = false;
@@ -21,7 +20,7 @@ class GuessTheImage {
         this._drawable.push(new HeaderDisplay(`Score: ${this._data.score}`));
         this._timer = new TimeDisplay(this._data.time, this.submit.bind(this));
         this._drawable.push(this._timer);
-        this._drawable.push(new TextBox());
+        this._drawable.push(new TextBox(this.sendAnswer.bind(this)));
         break;
       case "projector":
         this._drawable.push(new HeaderDisplay(this._data.screen));
@@ -86,19 +85,21 @@ class GuessTheImage {
     }
   }
 
-  submit() {
+  sendAnswer(answer) {
     if(this._submitted) return;
-    var obj = JSON.parse('{'
+    let obj = JSON.parse('{'
        + '"cmd" : "submit",'
        + '"activity" : "' + this._data.screen + '",'
        + '"id" : ' + this._data.id + ','
-       + '"selected" : ' + JSON.stringify(this._selected[0]) + ','
-       + '"time-left" : ' + this._timer.getTime()
+       + '"answer" : ' + JSON.stringify(answer)
        + '}');
-    if(ServerConnection.send(obj)) {
-      this._submitted = true;
-      StageManager.handleActivityEnd();
-    }
+    ServerConnection.send(obj);
+  }
+
+  submit() {
+    if(this._submitted) return;
+    this._submitted = true;
+    StageManager.handleActivityEnd();
   }
 
 }

@@ -15,11 +15,12 @@
           };
         </script>
 
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/style.css" />
 
         <script src="js/lib/createjs-2015.11.26.min.js"></script>
         <script src="js/lib/jquery.min.js"></script>
+        <script src="js/lib/jquery-ui.min.js"></script>
         <script src="js/lib/bootstrap.min.js"></script>
 
         <script src="js/ServerConnection.js"></script>
@@ -274,7 +275,7 @@
           ServerConnection.receive(JSON.parse('{ "cmd" : "remove" }'));
         }
         function guess() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"GuessTheImage", "view":"' + view + '", "score":' + currentScore + ', "overlay":true }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"GuessTheImage", "id":9, "view":"' + view + '", "score":' + currentScore + ', "overlay":true }'));
         }
         //--------------------------------------------------------------------------------------
       </script>

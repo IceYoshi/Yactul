@@ -129,7 +129,7 @@ class StageManager {
   }
 
   static addOverlay(screen) {
-    StageManager.removeOverlay();
+    if(this._overlay) StageManager.removeOverlay();
     this._overlay = screen;
     screen.container.scaleX = screen.container.scaleY = 0;
     screen.container.alpha = 0.5;
