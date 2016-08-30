@@ -27,6 +27,9 @@
     </head>
     <body onload="initCanvas();">
 
+      <!-- Div container for native html elements -->
+      <div id="placeholder"></div>
+
       <div id="header">
         <a href="/"><img src="img/yactul-logo.png" width="200" alt="YACTUL"/></a>
       </div>
@@ -41,8 +44,6 @@
         <button type="button" class="btn btn-info btn-sm" onclick="expandOverlay();">Max</button>
         <button type="button" class="btn btn-info btn-sm" onclick="minifyOverlay();">Min</button>
         <button type="button" class="btn btn-info btn-sm" onclick="removeOverlay();">Del</button>
-        <div id="separator"></div>
-
         <button type="button" class="btn btn-success btn-sm" onclick="idle();">Idle</button>
         <button type="button" class="btn btn-success btn-sm" onclick="screen1();">SQ</button>
         <button type="button" class="btn btn-success btn-sm" onclick="screen8();">CEA</button>
@@ -196,9 +197,8 @@
         function removeOverlay() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "remove" }'));
         }
-
         function guess() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"GuessTheImage", "bg":"img/idle.jpg", "overlay":true }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"GuessTheImage", "view":"' + view + '", "score":' + currentScore + ', "overlay":true }'));
         }
         //--------------------------------------------------------------------------------------
       </script>

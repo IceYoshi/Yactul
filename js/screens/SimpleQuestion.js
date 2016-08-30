@@ -92,8 +92,8 @@ class SimpleQuestion {
         }
         break;
       case "TooltipInfo":
-        container.x = screen.width;
-        container.y = 0;
+        container.x = screen.width / window.devicePixelRatio;
+        container.y = 0 / window.devicePixelRatio;
         break;
     }
   }

@@ -1,6 +1,6 @@
 class TooltipInfo {
   constructor(tooltip) {
-    this._size = 30;
+    this._size = 25;
     this._tooltip = tooltip;
   }
 
@@ -14,17 +14,18 @@ class TooltipInfo {
 
   createInfoIcon(tooltip) {
     let template = document.createElement('template');
-    template.innerHTML = `<img src="img/info.png" width="30" height="30" style="position:absolute; top:${document.getElementById('header').offsetHeight}px; left:0" data-toggle="tooltip" data-placement="bottom" title="${tooltip}" />`;
+    template.innerHTML = `<img src="img/info.png" width="${this._size}px" height="${this._size}px" style="position:absolute; top:${document.getElementById('header').offsetHeight}px; left:0" data-toggle="tooltip" data-placement="bottom" title="${tooltip}" />`;
 
     template = template.content.firstChild;
-    document.body.appendChild(template);
+
+    $("#placeholder").append(template);
 
     $(document).ready(function(){
       $('[data-toggle="tooltip"]').tooltip();
     });
 
     let iconObject = new createjs.DOMElement(template);
-    iconObject.x -= 30;
+    iconObject.x -= this._size;
 
     return iconObject;
   }

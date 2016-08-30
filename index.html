@@ -65,6 +65,7 @@
         <script src="js/screens/components/CatchField.js"></script>
         <script src="js/screens/components/CorrectWrongDisplay.js"></script>
         <script src="js/screens/components/TooltipInfo.js"></script>
+        <script src="js/screens/components/TextBox.js"></script>
 
         <script src="js/init.js"></script>
 
@@ -72,6 +73,9 @@
 
     </head>
     <body onload="initCanvas();">
+
+      <!-- Div container for native html elements -->
+      <div id="placeholder"></div>
 
       <div id="header">
         <a href="/"><img src="img/yactul-logo.png" width="200" alt="YACTUL"/></a>
@@ -269,9 +273,8 @@
         function removeOverlay() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "remove" }'));
         }
-
         function guess() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"GuessTheImage", "bg":"img/idle.jpg", "overlay":true }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"GuessTheImage", "view":"' + view + '", "score":' + currentScore + ', "overlay":true }'));
         }
         //--------------------------------------------------------------------------------------
       </script>

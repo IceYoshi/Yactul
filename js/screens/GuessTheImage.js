@@ -12,7 +12,7 @@ class GuessTheImage {
   }
 
   init() {
-    if(this._data.bg == undefined) this._data.bg = "img/quiz-background.jpg";
+    if(this._data.bg == undefined) this._data.bg = "img/idle.jpg";
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new DifficultyMeter(this._data.difficulty));
 
@@ -21,6 +21,7 @@ class GuessTheImage {
         this._drawable.push(new HeaderDisplay(`Score: ${this._data.score}`));
         this._timer = new TimeDisplay(this._data.time, this.submit.bind(this));
         this._drawable.push(this._timer);
+        this._drawable.push(new TextBox());
         break;
       case "projector":
         this._drawable.push(new HeaderDisplay(this._data.screen));
@@ -61,6 +62,10 @@ class GuessTheImage {
       case "DifficultyMeter":
         container.x = screen.width / 2;
         container.y = screen.height / 20;
+        break;
+      case "TextBox":
+        container.x = screen.width * 0.5 / window.devicePixelRatio;
+        container.y = screen.height * 0.8 / window.devicePixelRatio;
         break;
     }
   }

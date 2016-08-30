@@ -30,6 +30,7 @@ class StageManager {
     window.onkeydown = null;
     window.onkeyup = null;
     let container = StageManager.createScreenContainer();
+    $("#placeholder").empty(); //TODO this is just a temporary solution
     screen.draw(container);
     screen.container = container;
     if(overlay) {
@@ -60,7 +61,8 @@ class StageManager {
     createjs.Touch.enable(stage);
 
     createjs.Ticker.setFPS(30);
-    createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
+    //createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
+    createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", stage);
 
     stage.addChild(this._tranScreens);
@@ -129,7 +131,10 @@ class StageManager {
   static addOverlay(screen) {
     StageManager.removeOverlay();
     this._overlay = screen;
+    screen.container.scaleX = screen.container.scaleY = 0;
+    screen.container.alpha = 0.5;
     this._stage.addChildAt(screen.container, 1);
+    StageManager.expandOverlay();
   }
 
   static expandOverlay() {
@@ -153,8 +158,14 @@ class StageManager {
   static removeOverlay() {
     if(this._overlay) {
       Common.removeTweens(this._overlay.container);
-      this._stage.removeChild(this._overlay.container);
-      this._overlay = null;
+      createjs.Tween.get(this._overlay.container, { loop: false, override: true })
+        .to({ scaleX: 0, scaleY: 0, alpha: 0.5 }, 500, createjs.Ease.getPowInOut(2))
+        .call(function() {
+          this._stage.removeChild(this._overlay.container);
+          this._overlay = null;
+        }.bind(this));
+    } else {
+      console.log("Cannot remove overlay: There is no active overlay.");
     }
   }
 
@@ -187,7 +198,6 @@ class StageManager {
       createjs.Ticker.setFPS(60);
       // add new screen to the left of the stage
       newScreen.x -= newScreen.width;
-      //createjs.Tween.removeTweens(this._tranScreens);
       this._tranScreens.getChildAt(0).x = 0;
       this._tranScreens.addChildAt(newScreen, 0);
       Common.removeTweens(this._tranScreens.getChildAt(1), true);
