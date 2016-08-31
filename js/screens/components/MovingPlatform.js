@@ -9,26 +9,15 @@ class MovingPlatform {
     this._width = container.width;
     this._height = container.height;
 
-    //let platform = this.createPlatform(Math.max(container.width, container.height) / 6, container.height / 20);
-    let platform = this.createPlatform2(Math.max(container.width, container.height) / 6, container.height / 20, "img/basket.png");
+    let platform = this.createPlatform(Math.max(container.width, container.height) / 6, container.height / 20, "img/basket.png", container);
     platform.x += container.width * 0.5;
     platform.y += container.height * 0.85;
     this._platform = platform;
 
     this.createPlatformControls(platform, container);
-
-    container.addChild(platform);
   }
 
-  createPlatform(width, height) {
-    let platform = new createjs.Shape();
-    platform.graphics.beginFill("#d3d3d3").drawRect(0, 0, width, height);
-    platform.width = width;
-    platform.height = height;
-    return platform;
-  }
-
-  createPlatform2(width, height, imagePath) {
+  createPlatform(width, height, imagePath, container) {
     var imageObject = new createjs.Bitmap(imagePath);
 
     imageObject.image.onload = function() {
@@ -36,6 +25,7 @@ class MovingPlatform {
       imageObject.scaleX = imageObject.scaleY = scale;
       imageObject.x -= (imageObject.image.width * imageObject.scaleX) / 2;
       imageObject.regX = imageObject.image.width / 2;
+      container.addChild(imageObject);
     };
 
     imageObject.width = width;

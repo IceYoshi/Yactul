@@ -5,11 +5,10 @@ class DisplayImage {
 
   addTo(container) {
     container.name = "DisplayImage";
-    let image = this.createImageObject(container.width, container.height, this._imagePath);
-    container.addChild(image);
+    this.createImageObject(container.width, container.height, this._imagePath, container);
   }
 
-  createImageObject(width, height, imagePath) {
+  createImageObject(width, height, imagePath, container) {
     var imageObject = new createjs.Bitmap(imagePath);
     let landscape = width >= height;
 
@@ -20,11 +19,10 @@ class DisplayImage {
       imageObject.scaleX = imageObject.scaleY = scale;
       imageObject.x = - (imageObject.image.width * imageObject.scaleX) / 2;
       imageObject.y = - (imageObject.image.height * imageObject.scaleY) / 2;
+      container.addChild(imageObject)
     };
 
     imageObject.shadow = new createjs.Shadow("#333333", 5, 5, 10);
-
-    return imageObject;
   }
 
 

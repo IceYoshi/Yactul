@@ -55,17 +55,19 @@ class StageManager {
     stage.canvas.height = this._height;
 
     // frequency per second of mouse position/hit collision checks
-    stage.enableMouseOver(20);
+    stage.enableMouseOver(30);
+    stage.autoClear = false;
 
     // gets rid of the delay on touch devices when clicking
     createjs.Touch.enable(stage);
 
-    createjs.Ticker.setFPS(30);
+    //createjs.Ticker.setFPS(30);
     //createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", stage);
 
     stage.addChild(this._tranScreens);
+    stage.addChild(this._overlay);
 
     return stage;
   }
@@ -110,11 +112,11 @@ class StageManager {
     this._stage.canvas.height = h;
     this._stage.update();
 
-    StageManager.redrawScreen(this._currentScreen);
-
-    if(this._overlay != null) {
+    if(this._overlay) {
       StageManager.redrawScreen(this._overlay);
     }
+
+    StageManager.redrawScreen(this._currentScreen);
 
     return true;
   }
@@ -195,7 +197,7 @@ class StageManager {
       this._stage = this.createStage();
       this._tranScreens.addChild(newScreen);
     } else {
-      createjs.Ticker.setFPS(60);
+      //createjs.Ticker.setFPS(60);
       // add new screen to the left of the stage
       newScreen.x -= newScreen.width;
       this._tranScreens.getChildAt(0).x = 0;
@@ -216,7 +218,7 @@ class StageManager {
 
         // Change horizontal offset back to 0
         this._tranScreens.x = this._tranScreens.getChildAt(0).x = 0;
-        createjs.Ticker.setFPS(30);
+        //createjs.Ticker.setFPS(30);
       }
 
     }

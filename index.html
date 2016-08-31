@@ -46,6 +46,7 @@
         <script src="js/screens/CatchEmAll.js"></script>
         <script src="js/screens/CatchEmAllSolution.js"></script>
         <script src="js/screens/GuessTheImage.js"></script>
+        <script src="js/screens/Discussion.js"></script>
 
         <!-- Components -->
         <script src="js/screens/components/BackgroundImage.js"></script>
@@ -89,43 +90,60 @@
         <noscript>Javascript is not supported or blocked by your browser.</noscript>
       </div>
 
-      <div id="footer">
-        <button type="button" class="btn btn-primary btn-sm" onclick="score();">score+=500</button>
-        <button type="button" id="viewButton" class="btn btn-primary btn-sm" onclick="changeView();">StudentView</button>
-        <div id="separator"></div>
-        <button type="button" class="btn btn-info btn-sm" onclick="changeTimer();">time=20</button>
-        <button type="button" class="btn btn-info btn-sm" onclick="addTimer();">timer+=10</button>
-        <button type="button" class="btn btn-info btn-sm" onclick="subtractTimer();">timer-=10</button>
-        <button type="button" class="btn btn-info btn-sm" onclick="togglePauseTimer();">Pause/Resume</button>
-        <div id="separator"></div>
-        <button type="button" class="btn btn-info btn-sm" onclick="highscoreUpdate();">HighscoreUpdate</button>
-        <button type="button" class="btn btn-info btn-sm" onclick="raceUpdate(2);">Race+=2</button>
-        <button type="button" class="btn btn-info btn-sm" onclick="raceUpdate(-1);">Race--</button>
-        <div id="separator"></div>
-        <button type="button" class="btn btn-info btn-sm" onclick="guess();">GuessTheImage</button>
-        <button type="button" class="btn btn-info btn-sm" onclick="expandOverlay();">Expand</button>
-        <button type="button" class="btn btn-info btn-sm" onclick="minifyOverlay();">Minify</button>
-        <button type="button" class="btn btn-info btn-sm" onclick="removeOverlay();">Remove</button>
-        <br>
-        <button type="button" class="btn btn-success btn-sm" onclick="idle();">Idle</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="screen1();">SimpleQuestion</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="screen2();">MultipleChoiceQuestion</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="screen3();">PointAndClick</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="screen4();">PointAndClick2</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="screen5();">SimpleFocus</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="screen6();">MultipleChoiceFocus</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="screen7();">BuildPairs</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="screen8();">CatchEmAll</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="screen9();">CatchEmAll2</button>
-        <br>
-        <button type="button" class="btn btn-warning btn-sm" onclick="highscore();">Highscore</button>
-        <button type="button" class="btn btn-warning btn-sm" onclick="race();">Race</button>
-        <button type="button" class="btn btn-warning btn-sm" onclick="screen1_sol();">SimpleQuestion</button>
-        <button type="button" class="btn btn-warning btn-sm" onclick="screen2_sol();">MultipleChoiceQuestion</button>
-        <button type="button" class="btn btn-warning btn-sm" onclick="screen3_sol();">PointAndClick</button>
-        <button type="button" class="btn btn-warning btn-sm" onclick="screen4_sol();">PointAndClick2</button>
-        <button type="button" class="btn btn-warning btn-sm" onclick="screen7_sol();">BuildPairs</button>
-        <button type="button" class="btn btn-warning btn-sm" onclick="screen8_sol();">CatchEmAll</button>
+      <div id="footer" style="position:absolute; width:100%;">
+        <div class="header" style="overflow:none;"><span>Expand</span></div>
+        <div class="content" style="display:none; max-height:100vw; overflow:auto;">
+            <div style="display:inline-block; border-radius: 10px; border: 2px solid #4169E1; padding: 5px; margin: 3px">
+              <label style="display:block;">Misc</label>
+              <button type="button" class="btn btn-primary btn-sm" onclick="score();">score+=500</button>
+              <button type="button" id="viewButton" class="btn btn-primary btn-sm" onclick="changeView();">StudentView</button>
+              <button type="button" class="btn btn-info btn-sm" onclick="highscoreUpdate();">HighscoreUpdate</button>
+              <button type="button" class="btn btn-info btn-sm" onclick="raceUpdate(2);">Race+=2</button>
+              <button type="button" class="btn btn-info btn-sm" onclick="raceUpdate(-1);">Race--</button>
+            </div>
+
+            <div style="display:inline-block; border-radius: 10px; border: 2px solid #4169E1; padding: 5px; margin: 3px">
+              <label style="display:block;">Timer</label>
+              <button type="button" class="btn btn-info btn-sm" onclick="changeTimer();">Stop</button>
+              <button type="button" class="btn btn-info btn-sm" onclick="addTimer();">+10</button>
+              <button type="button" class="btn btn-info btn-sm" onclick="subtractTimer();">-10</button>
+              <button type="button" class="btn btn-info btn-sm" onclick="togglePauseTimer();">Pause/Resume</button>
+            </div>
+
+            <div style="display:inline-block; border-radius: 10px; border: 2px solid #4169E1; padding: 5px; margin: 3px">
+              <label style="display:block;">Overlay</label>
+              <button type="button" class="btn btn-info btn-sm" onclick="screen9();">GuessTheImage</button>
+              <button type="button" class="btn btn-info btn-sm" onclick="expandOverlay();">max</button>
+              <button type="button" class="btn btn-info btn-sm" onclick="minifyOverlay();">min</button>
+              <button type="button" class="btn btn-info btn-sm" onclick="removeOverlay();">del</button>
+            </div>
+
+            <div style="display:inline-block; border-radius: 10px; border: 2px solid #4169E1; padding: 5px; margin: 3px">
+              <label style="display:block;">Screen</label>
+              <button type="button" class="btn btn-success btn-sm" onclick="idle();">Idle</button>
+              <button type="button" class="btn btn-success btn-sm" onclick="screen1();">SimpleQuestion</button>
+              <button type="button" class="btn btn-success btn-sm" onclick="screen2();">MultipleChoiceQuestion</button>
+              <button type="button" class="btn btn-success btn-sm" onclick="screen3();">PointAndClick</button>
+              <button type="button" class="btn btn-success btn-sm" onclick="screen4();">PointAndClick2</button>
+              <button type="button" class="btn btn-success btn-sm" onclick="screen5();">SimpleFocus</button>
+              <button type="button" class="btn btn-success btn-sm" onclick="screen6();">MultipleChoiceFocus</button>
+              <button type="button" class="btn btn-success btn-sm" onclick="screen7();">BuildPairs</button>
+              <button type="button" class="btn btn-success btn-sm" onclick="screen8();">CatchEmAll</button>
+              <button type="button" class="btn btn-success btn-sm" onclick="screen10();">Discussion</button>
+            </div>
+
+            <div style="display:inline-block; border-radius: 10px; border: 2px solid #4169E1; padding: 5px; margin: 3px">
+              <label style="display:block;">Solution</label>
+              <button type="button" class="btn btn-warning btn-sm" onclick="highscore();">Highscore</button>
+              <button type="button" class="btn btn-warning btn-sm" onclick="race();">Race</button>
+              <button type="button" class="btn btn-warning btn-sm" onclick="screen1_sol();">SimpleQuestion</button>
+              <button type="button" class="btn btn-warning btn-sm" onclick="screen2_sol();">MultipleChoiceQuestion</button>
+              <button type="button" class="btn btn-warning btn-sm" onclick="screen3_sol();">PointAndClick</button>
+              <button type="button" class="btn btn-warning btn-sm" onclick="screen4_sol();">PointAndClick2</button>
+              <button type="button" class="btn btn-warning btn-sm" onclick="screen7_sol();">BuildPairs</button>
+              <button type="button" class="btn btn-warning btn-sm" onclick="screen8_sol();">CatchEmAll</button>
+            </div>
+        </div>
       </div>
 
       <script>
@@ -167,11 +185,11 @@
         }
         function screen2() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"MultipleChoiceQuestion", "id":2, "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg", "score":' + currentScore + ', "overlay":true}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"MultipleChoiceQuestion", "id":2, "view":"' + view + '", "text":"Which one of the listed items is computer hardware?", "answers":[ "Blackboard", "Motherboard", "Lightsaber", "Central Processing Unit" ], "time":30, "difficulty":3, "bg":"img/quiz-background.jpg", "score":' + currentScore + ', "overlay":false}'));
         }
         function screen2_sol() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"QuestionSolution", "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Stuffed soup with a slice of hot pepper and some rice. Satisfaction guaranteed!", "Milk. Yes, just plain milk...", "Something I do not know the name of.", "Chocolate. Cause why not?" ], "difficulty":3, "bg":"img/quiz-background.jpg", "stats":[{"correct":false, "amount":10, "selected":false},{"correct":true, "amount":5, "selected":false},{"correct":false, "amount":2, "selected":true},{"correct":true, "amount":7, "selected":true}], "score":0 }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"QuestionSolution", "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Blackboard", "Motherboard", "Lightsaber", "Central Processing Unit" ], "difficulty":3, "bg":"img/quiz-background.jpg", "stats":[{"correct":false, "amount":10, "selected":false},{"correct":true, "amount":25, "selected":false},{"correct":false, "amount":5, "selected":true},{"correct":true, "amount":18, "selected":true}], "score":0 }'));
         }
         function screen3() {
           isPaused = false;
@@ -211,11 +229,13 @@
         }
         function screen8_sol() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"CatchEmAllSolution", "view":"' + view + '", "text":"Catch the fruits!", "time":60, "difficulty":2, "bg":"img/apple-tree.jpg", "answers":{"correct":["Tomato", "Nut", "Apple", "Eggplant", "Banana", "Orange", "Pepper", "Olive", "Punpkin", "Avocado"], "wrong":["Carrot", "Potato", "Mushroom", "Leek", "Zucchini", "Broccoli", "Cabbage", "Turnip"]}, "score":1075 }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"CatchEmAllSolution", "view":"' + view + '", "text":"Catch the fruits! Avoid the vegetables!", "time":60, "difficulty":2, "bg":"img/apple-tree.jpg", "answers":{"correct":["Tomato", "Nut", "Apple", "Eggplant", "Banana", "Orange", "Pepper", "Olive", "Punpkin", "Avocado"], "wrong":["Carrot", "Potato", "Mushroom", "Leek", "Zucchini", "Broccoli", "Cabbage", "Turnip"]}, "score":1075 }'));
         }
         function screen9() {
-          isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"CatchEmAll", "id":8, "view":"' + view + '", "text":"Catch the fruits! Avoid the vegetables!", "time":60, "difficulty":5, "bg":"img/apple-tree.jpg", "answers":["Tomato", "Nut", "Apple", "Eggplant", "Banana", "Orange", "Pepper", "Olive", "Punpkin", "Avocado", "Carrot", "Potato", "Mushroom", "Leek", "Zucchini", "Broccoli", "Cabbage", "Turnip"], "score":' + currentScore + '}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"GuessTheImage", "id":8, "view":"' + view + '", "score":' + currentScore + ', "overlay":true }'));
+        }
+        function screen10() {
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"Discussion", "id":9, "view":"' + view + '", "text":"Name a few web technologies", "time":250, "score":' + currentScore + '}'));
         }
         function idle() {
           ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"Idle", "text":"Waiting for an activity...", "bg":"img/idle.jpg" }'));
@@ -245,7 +265,7 @@
           ServerConnection.receive(JSON.parse('{ "cmd":"update", "component":"rpd", "group":"REST", "value":' + value + ' }'));
         }
         function changeTimer() {
-          ServerConnection.receive(JSON.parse('{ "cmd" : "update", "component": "timer", "type": "absolute", "value" : 20 }'));
+          ServerConnection.receive(JSON.parse('{ "cmd" : "update", "component": "timer", "type": "absolute", "value" : 0 }'));
         }
         function togglePauseTimer() {
           if(isPaused) {
@@ -276,9 +296,63 @@
         function removeOverlay() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "remove" }'));
         }
-        function guess() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"GuessTheImage", "id":9, "view":"' + view + '", "score":' + currentScore + ', "overlay":true }'));
+
+        var lastMove = 0;
+        function toggleControlPanel() {
+          if(Date.now() - lastMove < 300)  return;
+          lastMove = Date.now();
+
+          $header = $(this);
+          //getting the next element
+          $content = $header.next();
+          //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+
+          var panelHeight = Math.min($content[0].offsetHeight, document.body.offsetHeight * 0.6);
+
+          if($content.is(":visible")) {
+            $('#footer').animate({
+              'marginTop' : "+=" + panelHeight + "px" //moves down
+            }, 300, function() {
+              $('#footer').animate({
+                'marginTop' : 0
+              }, 0);
+              helperFunction();
+            });
+          } else {
+            helperFunction();
+          }
+
+          function helperFunction() {
+            $content.slideToggle(0, function () {
+                //execute this after slideToggle is done
+                //change text of header based on visibility of content div
+
+                panelHeight = Math.min($content[0].offsetHeight, document.body.offsetHeight * 0.6);
+                $header.text(function () {
+                    if($content.is(":visible")) {
+                      $('#footer').animate({
+                        'marginTop' : "-=" + panelHeight + "px" //moves up
+                      }, 300, function() {
+                        $('#footer').animate({
+                          'marginTop' : 0 //moves down
+                        }, 0);
+                        StageManager.resize();
+                      });
+                      return "Collapse";
+                    } else {
+                      StageManager.resize();
+                      return "Expand";
+                    }
+
+                    //change text based on condition
+                    return $content.is(":visible") ? "Collapse" : "Expand";
+                });
+            });
+          }
         }
+
+        $(".header").mouseover(toggleControlPanel);
+        $(".header").click(toggleControlPanel);
         //--------------------------------------------------------------------------------------
       </script>
     </body>

@@ -5,7 +5,7 @@ function initCanvas() {
 
   StageManager.idle(); // Change screen to idle
 
-  //showDebugInformation();
+  showDebugInformation();
 }
 
 // Will be called whenever the browser window is resized.

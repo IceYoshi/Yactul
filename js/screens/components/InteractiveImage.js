@@ -9,7 +9,7 @@ class InteractiveImage {
   addTo(container) {
     this._container = container;
     container.name = "InteractiveImage";
-    let image = this.createInteractiveImage(container);
+    this.createInteractiveImage(container);
     this.preloadPinIcon();
   }
 
@@ -63,8 +63,6 @@ class InteractiveImage {
           this._submit([Math.round(event.localX), Math.round(event.localY)]);
       }
     }
-
-    return imageObject;
   }
 
   createPin(width, height) {
