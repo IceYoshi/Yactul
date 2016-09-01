@@ -14,6 +14,8 @@ class GuessTheImage {
     if(this._data.bg == undefined) this._data.bg = "img/idle.jpg";
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new DifficultyMeter(this._data.difficulty));
+    this._hiddenImage = new HiddenImage(this._data.image, this._data.row, this._data.col);
+    this._drawable.push(this._hiddenImage);
 
     switch(this._data.view) {
       case "student":
@@ -62,6 +64,10 @@ class GuessTheImage {
         container.x = screen.width / 2;
         container.y = screen.height / 20;
         break;
+      case "HiddenImage":
+        container.x = screen.width / 2;
+        container.y = screen.height * 0.45;
+        break;
       case "TextBox":
         container.x = screen.width * 0.5 / window.devicePixelRatio;
         container.y = screen.height * 0.8 / window.devicePixelRatio;
@@ -80,6 +86,9 @@ class GuessTheImage {
           this._timer.stopTimer();
         if(data.type === "resume")
           this._timer.startTimer();
+        break;
+      case "HiddenImage":
+        this._hiddenImage.removeRandomTile(data.value);
         break;
       default: throw new Error();
     }

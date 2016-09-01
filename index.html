@@ -70,6 +70,7 @@
         <script src="js/screens/components/CorrectWrongDisplay.js"></script>
         <script src="js/screens/components/TooltipInfo.js"></script>
         <script src="js/screens/components/TextBox.js"></script>
+        <script src="js/screens/components/HiddenImage.js"></script>
 
         <script src="js/init.js"></script>
 
@@ -92,14 +93,16 @@
 
       <div id="footer" style="position:absolute; width:100%;">
         <div class="header" style="overflow:none;"><span>Expand</span></div>
-        <div class="content" style="display:none; max-height:100vw; overflow:auto;">
+        <div class="content" style="display:none; max-height:40vh; overflow:auto;">
             <div style="display:inline-block; border-radius: 10px; border: 2px solid #4169E1; padding: 5px; margin: 3px">
               <label style="display:block;">Misc</label>
               <button type="button" class="btn btn-primary btn-sm" onclick="score();">score+=500</button>
               <button type="button" id="viewButton" class="btn btn-primary btn-sm" onclick="changeView();">StudentView</button>
               <button type="button" class="btn btn-info btn-sm" onclick="highscoreUpdate();">HighscoreUpdate</button>
-              <button type="button" class="btn btn-info btn-sm" onclick="raceUpdate(2);">Race+=2</button>
-              <button type="button" class="btn btn-info btn-sm" onclick="raceUpdate(-1);">Race--</button>
+              <button type="button" class="btn btn-info btn-sm" onclick="raceUpdate(2);">Race+2</button>
+              <button type="button" class="btn btn-info btn-sm" onclick="raceUpdate(-1);">Race-1</button>
+              <button type="button" class="btn btn-info btn-sm" onclick="guessUpdate(1);">Guess+1</button>
+              <button type="button" class="btn btn-info btn-sm" onclick="guessUpdate(3);">Guess+3</button>
             </div>
 
             <div style="display:inline-block; border-radius: 10px; border: 2px solid #4169E1; padding: 5px; margin: 3px">
@@ -232,7 +235,7 @@
           ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"CatchEmAllSolution", "view":"' + view + '", "text":"Catch the fruits! Avoid the vegetables!", "time":60, "difficulty":2, "bg":"img/apple-tree.jpg", "answers":{"correct":["Tomato", "Nut", "Apple", "Eggplant", "Banana", "Orange", "Pepper", "Olive", "Punpkin", "Avocado"], "wrong":["Carrot", "Potato", "Mushroom", "Leek", "Zucchini", "Broccoli", "Cabbage", "Turnip"]}, "score":1075 }'));
         }
         function screen9() {
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"GuessTheImage", "id":8, "view":"' + view + '", "score":' + currentScore + ', "overlay":true }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"GuessTheImage", "id":8, "image":"img/android.jpg", "difficulty":3, "row":5, "col":6, "view":"' + view + '", "score":' + currentScore + ', "overlay":false }'));
         }
         function screen10() {
           ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"Discussion", "id":9, "view":"' + view + '", "text":"Name a few web technologies", "time":250, "score":' + currentScore + '}'));
@@ -263,6 +266,9 @@
         }
         function raceUpdate(value) {
           ServerConnection.receive(JSON.parse('{ "cmd":"update", "component":"rpd", "group":"REST", "value":' + value + ' }'));
+        }
+        function guessUpdate(value) {
+          ServerConnection.receive(JSON.parse('{ "cmd":"update", "component":"HiddenImage", "value":' + value + ' }'));
         }
         function changeTimer() {
           ServerConnection.receive(JSON.parse('{ "cmd" : "update", "component": "timer", "type": "absolute", "value" : 0 }'));
@@ -297,56 +303,42 @@
           ServerConnection.receive(JSON.parse('{ "cmd" : "remove" }'));
         }
 
-        var lastMove = 0;
+        var cpLastMove = 0;
         function toggleControlPanel() {
-          if(Date.now() - lastMove < 300)  return;
-          lastMove = Date.now();
+          // Anti-Spamming-Mechanism (can only be executed at most once every 300ms)
+          if(Date.now() - cpLastMove < 300) return;
+          cpLastMove = Date.now();
 
           $header = $(this);
-          //getting the next element
           $content = $header.next();
-          //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
 
-          var panelHeight = Math.min($content[0].offsetHeight, document.body.offsetHeight * 0.6);
+          var isExpanded = $content.is(":visible");
 
-          if($content.is(":visible")) {
+          // Get Content height
+          $content.show();
+          var contentHeight = $content.height();
+
+
+          if(isExpanded) {
             $('#footer').animate({
-              'marginTop' : "+=" + panelHeight + "px" //moves down
+              'marginTop' : "+=" + contentHeight + "px" //moves down
             }, 300, function() {
               $('#footer').animate({
                 'marginTop' : 0
               }, 0);
-              helperFunction();
+              $content.hide();
+              StageManager.resize();
+              $header.text("Expand");
             });
           } else {
-            helperFunction();
-          }
-
-          function helperFunction() {
-            $content.slideToggle(0, function () {
-                //execute this after slideToggle is done
-                //change text of header based on visibility of content div
-
-                panelHeight = Math.min($content[0].offsetHeight, document.body.offsetHeight * 0.6);
-                $header.text(function () {
-                    if($content.is(":visible")) {
-                      $('#footer').animate({
-                        'marginTop' : "-=" + panelHeight + "px" //moves up
-                      }, 300, function() {
-                        $('#footer').animate({
-                          'marginTop' : 0 //moves down
-                        }, 0);
-                        StageManager.resize();
-                      });
-                      return "Collapse";
-                    } else {
-                      StageManager.resize();
-                      return "Expand";
-                    }
-
-                    //change text based on condition
-                    return $content.is(":visible") ? "Collapse" : "Expand";
-                });
+            $('#footer').animate({
+              'marginTop' : "-=" + contentHeight + "px" //moves up
+            }, 300, function() {
+              $('#footer').animate({
+                'marginTop' : 0
+              }, 0);
+              StageManager.resize();
+              $header.text("Collapse");
             });
           }
         }

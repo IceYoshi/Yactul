@@ -49,19 +49,15 @@ class CatchField {
     let apple = new createjs.Container();
     apple.addChild(this.createAppleSprite(this._appleSize));
     apple.addChild(this.createAppleLabel(size / 12, label));
-    apple.x = this.getRandomNumber(this._appleSize / 2, width - this._appleSize / 2);
+    apple.x = Common.getRandomNumber(this._appleSize / 2, width - this._appleSize / 2);
     apple.y = -this._appleSize;
     apple.width = this._appleSize;
     apple.text = label.toString();
     return apple;
   }
 
-  getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-
   getRandomWord() {
-    return this._wordPool[this.getRandomNumber(0, this._wordPool.length - 1)];
+    return this._wordPool[Common.getRandomNumber(0, this._wordPool.length - 1)];
   }
 
   animateApple(container, apple, height, velocity) {

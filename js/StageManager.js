@@ -151,7 +151,7 @@ class StageManager {
   static minifyOverlay() {
     if(this._overlay != null) {
       createjs.Tween.get(this._overlay.container, { loop: false, override: true })
-        .to({ scaleX: 0.25, scaleY: 0.25, alpha: 0.8 }, 1000, createjs.Ease.getPowInOut(2));
+        .to({ scaleX: 0.25, scaleY: 0.25, alpha: 1 }, 1000, createjs.Ease.getPowInOut(2));
     } else {
       console.log("Cannot minify overlay: There is no active overlay.");
     }

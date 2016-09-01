@@ -4,21 +4,18 @@ class BackgroundImage {
   }
 
   addTo(container) {
-    this._container = container;
     container.name = "BackgroundImage";
-    let backgroundImage = this.createBackgroundImage(container.width, container.height, this._imagePath);
+    this.createBackgroundImage(container.width, container.height, this._imagePath, container);
   }
 
-  createBackgroundImage(w, h, imagePath) {
+  createBackgroundImage(w, h, imagePath, container) {
     let bg = new createjs.Bitmap(imagePath);
 
     // Resize image to fill screen
     bg.image.onload = function() {
       bg.scaleX = w / bg.image.width;
       bg.scaleY = h / bg.image.height;
-      this._container.addChild(bg);
+      container.addChild(bg);
     }.bind(this);
-
-    return bg;
   }
 }
