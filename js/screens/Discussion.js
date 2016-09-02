@@ -104,7 +104,7 @@ class Discussion {
   submit() {
     if(this._submitted) return;
     this._submitted = true;
-    StageManager.handleActivityEnd();
+    StageManager.handleActivityEnd(this);
   }
 
 }

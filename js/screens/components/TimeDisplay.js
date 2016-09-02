@@ -33,6 +33,7 @@ class TimeDisplay {
     let backgroundCircle = new createjs.Shape();
     backgroundCircle.graphics.beginFill("#d3d3d3").drawCircle(0, 0, this._radius);
     backgroundCircle.filters = [ new createjs.ColorFilter(1,1,1,1) ];
+    backgroundCircle.cache(-this._radius, 0, this._radius, this._radius, 2);
     return backgroundCircle;
   }
 
@@ -152,7 +153,6 @@ class TimeDisplay {
   }
 
   lowTimeAnimation() {
-    this._backgroundCircle.cache(-this._radius, 0, this._radius, this._radius, 2);
     this._backgroundCircle.handleEvent = function() {
       this.updateCache();
     };

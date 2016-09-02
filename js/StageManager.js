@@ -8,7 +8,10 @@ class StageManager {
     this._stage = null;
 
     this._tranScreens = new createjs.Container();
-    this._overlay = null;
+    this._overlay = new createjs.Container();
+
+    this._activeScreen = null;
+    this._activeOverlay = null;
 
     this._width = 0;
     this._height = 0;
@@ -30,9 +33,9 @@ class StageManager {
     window.onkeydown = null;
     window.onkeyup = null;
     let container = StageManager.createScreenContainer();
-    $("#placeholder").empty(); //TODO this is just a temporary solution
-    screen.draw(container);
+    //$("#placeholder").empty(); //TODO this is just a temporary solution
     screen.container = container;
+    screen.draw(container);
     if(overlay) {
       StageManager.addOverlay(screen);
     } else {
@@ -42,10 +45,24 @@ class StageManager {
   }
 
   static update(data) {
-    try {
-      this._currentScreen.update(data);
-    } catch (e) {
-      console.log('Update cannot be applied to the current screen.');
+    if(this._activeScreen) {
+      if(data.id == undefined || data.id == this._activeScreen._data.id) {
+        try {
+          this._activeScreen.update(data);
+        } catch (e) {
+          console.log('Update cannot be applied to the current screen.');
+        }
+      }
+    }
+
+    if(this._activeOverlay) {
+      if(data.id == undefined || data.id == this._activeOverlay._data.id) {
+        try {
+          this._activeOverlay.update(data);
+        } catch (e) {
+          console.log('Update cannot be applied to the current overlay.');
+        }
+      }
     }
   }
 
@@ -112,11 +129,11 @@ class StageManager {
     this._stage.canvas.height = h;
     this._stage.update();
 
-    if(this._overlay) {
-      StageManager.redrawScreen(this._overlay);
-    }
+    StageManager.redrawScreen(this._activeScreen);
 
-    StageManager.redrawScreen(this._currentScreen);
+    if(this._activeOverlay) {
+      StageManager.redrawScreen(this._activeOverlay);
+    }
 
     return true;
   }
@@ -131,26 +148,40 @@ class StageManager {
   }
 
   static addOverlay(screen) {
-    if(this._overlay) StageManager.removeOverlay();
-    this._overlay = screen;
-    screen.container.scaleX = screen.container.scaleY = 0;
-    screen.container.alpha = 0.5;
-    this._stage.addChildAt(screen.container, 1);
+    this._activeOverlay = screen;
+    let overlay = screen.container;
+    overlay.scaleX = overlay.scaleY = 0;
+    overlay.alpha = 0.5;
+    this._overlay.addChild(overlay);
     StageManager.expandOverlay();
   }
 
   static expandOverlay() {
-    if(this._overlay != null) {
-      createjs.Tween.get(this._overlay.container, { loop: false, override: true })
-        .to({ scaleX: 1, scaleY: 1, alpha: 1 }, 1000, createjs.Ease.getPowInOut(2));
+    if(this._overlay.numChildren > 0) {
+
+      if(this._overlay.numChildren > 1) {
+        Common.removeTweens(this._overlay.getChildAt(this._overlay.numChildren - 2), true);
+      }
+
+      for(let i = 0; i < this._overlay.numChildren - 2; i++) {
+        Common.removeHTMLElements(this._overlay.getChildAt(i));
+        this._overlay.removeChildAt(i);
+      }
+
+      createjs.Tween.get(this._activeOverlay.container, { loop: false, override: true })
+        .to({ scaleX: 1, scaleY: 1, alpha: 1 }, 1000, createjs.Ease.getPowInOut(2))
+        .call(function() {
+          Common.removeHTMLElements(this._overlay.getChildAt(this._overlay.numChildren - 2));
+          this._overlay.removeChildAt(this._overlay.numChildren - 2);
+        }.bind(this));
     } else {
       console.log("Cannot expand overlay: There is no active overlay.");
     }
   }
 
   static minifyOverlay() {
-    if(this._overlay != null) {
-      createjs.Tween.get(this._overlay.container, { loop: false, override: true })
+    if(this._activeOverlay != null) {
+      createjs.Tween.get(this._activeOverlay.container, { loop: false, override: true })
         .to({ scaleX: 0.25, scaleY: 0.25, alpha: 1 }, 1000, createjs.Ease.getPowInOut(2));
     } else {
       console.log("Cannot minify overlay: There is no active overlay.");
@@ -158,24 +189,25 @@ class StageManager {
   }
 
   static removeOverlay() {
-    if(this._overlay) {
-      Common.removeTweens(this._overlay.container);
-      createjs.Tween.get(this._overlay.container, { loop: false, override: true })
+    if(this._activeOverlay) {
+      Common.removeTweens(this._activeOverlay.container, true);
+      createjs.Tween.get(this._activeOverlay.container, { loop: false, override: true })
         .to({ scaleX: 0, scaleY: 0, alpha: 0.5 }, 500, createjs.Ease.getPowInOut(2))
         .call(function() {
-          this._stage.removeChild(this._overlay.container);
-          this._overlay = null;
+          Common.removeHTMLElements(this._activeOverlay.container);
+          this._overlay.removeChild(this._activeOverlay.container);
+          this._activeOverlay = null;
         }.bind(this));
     } else {
       console.log("Cannot remove overlay: There is no active overlay.");
     }
   }
 
-  static handleActivityEnd() {
-    //TODO The overlay itself may also be the function caller.
-    // This case should somehow be detected and, as a result, removeOverlay() should be called.
-    StageManager.idle();
-    if(this._overlay != null) {
+  static handleActivityEnd(screenObject) {
+    if(screenObject._data.overlay) {
+      StageManager.removeOverlay();
+    } else {
+      StageManager.idle();
       StageManager.expandOverlay();
     }
   }
@@ -190,9 +222,9 @@ class StageManager {
   * view point of the stage is set back to default.
   */
   static transition(screen) {
-    this._currentScreen = screen;
+    this._activeScreen = screen;
     let newScreen = screen.container;
-    if(this._overlay) StageManager.minifyOverlay();
+    if(this._activeOverlay) StageManager.minifyOverlay();
     if(this._stage == null) {
       this._stage = this.createStage();
       this._tranScreens.addChild(newScreen);
@@ -205,6 +237,7 @@ class StageManager {
       Common.removeTweens(this._tranScreens.getChildAt(1), true);
 
       for(let i = 1; i<this._tranScreens.numChildren-1; i++) {
+        Common.removeHTMLElements(this._tranScreens.getChildAt(i));
         this._tranScreens.removeChildAt(i);
       }
 
@@ -214,6 +247,7 @@ class StageManager {
         .call(removeScreen.bind(this));
 
       function removeScreen() {
+        Common.removeHTMLElements(this._tranScreens.getChildAt(1));
         this._tranScreens.removeChildAt(1);
 
         // Change horizontal offset back to 0

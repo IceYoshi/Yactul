@@ -14,8 +14,12 @@ class GuessTheImage {
     if(this._data.bg == undefined) this._data.bg = "img/idle.jpg";
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new DifficultyMeter(this._data.difficulty));
-    this._hiddenImage = new HiddenImage(this._data.image, this._data.row, this._data.col);
+
+    this._hiddenImage = new HiddenImage(this._data.image, this._data.row, this._data.col, this.playFirework.bind(this));
     this._drawable.push(this._hiddenImage);
+
+    this._fireworkEffect = new FireworkEffect();
+    this._drawable.push(this._fireworkEffect);
 
     switch(this._data.view) {
       case "student":
@@ -88,10 +92,22 @@ class GuessTheImage {
           this._timer.startTimer();
         break;
       case "HiddenImage":
-        this._hiddenImage.removeRandomTile(data.value);
+        if(data.value > 0) {
+          this._hiddenImage.removeRandomTile(data.value);
+        } else {
+          this._hiddenImage.uncoverAll();
+        }
         break;
       default: throw new Error();
     }
+  }
+
+  playFirework() {
+    setTimeout(function() {
+      this._fireworkEffect.explosionAnimation(50, screen.width * 0.2, screen.height * 0.2, 2);
+      this._fireworkEffect.explosionAnimation(50, screen.width * 0.5, screen.height * 0.3, 2);
+      this._fireworkEffect.explosionAnimation(50, screen.width * 0.8, screen.height * 0.2, 2);
+    }.bind(this), 2000);
   }
 
   sendAnswer(answer) {
@@ -108,7 +124,7 @@ class GuessTheImage {
   submit() {
     if(this._submitted) return;
     this._submitted = true;
-    StageManager.handleActivityEnd();
+    StageManager.handleActivityEnd(this);
   }
 
 }

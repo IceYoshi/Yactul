@@ -1,4 +1,4 @@
-function initTooltip()
+function initTooltip(classID)
 {
     var targets = $( '[rel~=tooltip]' ),
         target  = false,
@@ -7,9 +7,10 @@ function initTooltip()
 
     targets.bind( 'mouseenter', function()
     {
-        target  = $( this );
-        tip     = target.attr( 'title' );
-        tooltip = $( '<div id="tooltip"></div>' );
+        target      = $( this );
+        tip         = target.attr( 'title' );
+        targetClass = target.attr( 'class' );
+        tooltip     = $( `<div id="tooltip"></div>` );
 
         if( !tip || tip == '' )
             return false;
@@ -53,7 +54,9 @@ function initTooltip()
             else
                 tooltip.removeClass( 'top' );
 
+
             tooltip.css( { left: pos_left, top: pos_top + 30} )
+                   .addClass( targetClass )
                    .animate( { top: '-=10', opacity: 1 }, 100 );
         };
 

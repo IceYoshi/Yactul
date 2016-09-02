@@ -6,16 +6,20 @@ class TextBox {
   addTo(container) {
     container.name = "TextBox";
 
-    if(!this._textBox) this._textBox = this.createTextBox(container.width);
+    if(!this._textBox) {
+      this._textBox = this.createTextBox(container.width, Common.toClassID(container.id));
+    } else {
+      Common.replaceLastClass(this._textBox.htmlElement, Common.toClassID(container.id));
+    }
 
     this._textBox.x = - this._textBox.htmlElement.offsetWidth / 2;
 
     container.addChild(this._textBox);
   }
 
-  createTextBox(width) {
+  createTextBox(width, classID) {
     let inputHTML = document.createElement('template');
-    inputHTML.innerHTML = `<div class="form-group" id="textBox" style="width:60%; top:${document.getElementById('header').offsetHeight}px; left:0"><input class="form-control input-lg" type="text" placeholder="Enter suggestion" maxlength="200" style="font-family:'Dimbo'; font-size:2em;"></div>`;
+    inputHTML.innerHTML = `<div class="form-group ${classID}" id="textBox" style="width:60%; top:${document.getElementById('header').offsetHeight}px; left:0"><input class="form-control input-lg" type="text" placeholder="Enter suggestion" maxlength="200" style="font-family:'Dimbo'; font-size:2em;"></div>`;
     inputHTML = inputHTML.content.firstChild;
 
     $("#placeholder").append(inputHTML);

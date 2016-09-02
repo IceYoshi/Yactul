@@ -8,21 +8,25 @@ class TooltipInfo {
   addTo(container) {
     container.name = "TooltipInfo";
 
-    if(!this._infoIcon) this._infoIcon = this.createInfoIcon(this._tooltip);
+    if(!this._infoIcon) {
+      this._infoIcon = this.createInfoIcon(this._tooltip, Common.toClassID(container.id));
+    } else {
+      Common.replaceLastClass(this._infoIcon.htmlElement, Common.toClassID(container.id));
+    }
 
     container.addChild(this._infoIcon);
   }
 
-  createInfoIcon(tooltip) {
+  createInfoIcon(tooltip, classID) {
     let infoHTML = document.createElement('template');
-    infoHTML.innerHTML = `<div style="padding:${this._padding}px; position:absolute; top:${document.getElementById('header').offsetHeight}px; left:0" rel="tooltip" title="${tooltip}"><img src="img/info.png" width="${this._size}px" height="${this._size}px"/></div>`;
+    infoHTML.innerHTML = `<div class="${classID}" style="padding:${this._padding}px; position:absolute; top:${document.getElementById('header').offsetHeight}px; left:0" rel="tooltip" title="${tooltip}"><img src="img/info.png" width="${this._size}px" height="${this._size}px"/></div>`;
 
     infoHTML = infoHTML.content.firstChild;
 
     $("#placeholder").append(infoHTML);
 
     $(document).ready(function(){
-      initTooltip();
+      initTooltip(classID);
     });
 
     let iconObject = new createjs.DOMElement(infoHTML);

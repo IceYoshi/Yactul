@@ -1,5 +1,5 @@
 class HiddenImage {
-  constructor(imagePath, row, col) {
+  constructor(imagePath, row, col, clearTrigger) {
     this._imagePath = imagePath;
     row = Math.min(row, 25);
     col = Math.min(col, 25);
@@ -15,6 +15,8 @@ class HiddenImage {
         this._wallMap[x][y] = new createjs.Shape();
       }
     }
+
+    this._clearTrigger = clearTrigger;
   }
 
   addTo(container) {
@@ -82,7 +84,6 @@ class HiddenImage {
               randomTileCounter--;
               if(randomTileCounter <= 0) {
                 this._wallMap[x][y] = null;
-                this._numTiles--;
                 this.removeTile(randomTile);
                 break outerLoop;
               }
@@ -93,6 +94,9 @@ class HiddenImage {
   }
 
   removeTile(tileObject) {
+    if(this._numTiles <= 0) return;
+    this._numTiles--;
+    if(this._numTiles == 0) this._clearTrigger();
     tileObject.filters = [ new createjs.ColorFilter(1.5,1.5,1,1) ];
     tileObject.updateCache();
     createjs.Tween.get(tileObject, { loop: false })
@@ -101,6 +105,10 @@ class HiddenImage {
       .call(function(tileObject) {
         tileObject.parent.removeChild(tileObject);
       }, [tileObject]);
+  }
+
+  uncoverAll() {
+    this.removeRandomTile(this._numTiles);
   }
 
 }
