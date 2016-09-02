@@ -10,7 +10,7 @@ class MovingPlatform {
     this._height = container.height;
 
     let platform = this.createPlatform(Math.max(container.width, container.height) / 6, container.height / 20, "img/basket.png", container);
-    platform.x += container.width * 0.5;
+    platform.x += container.width * 0.5 + platform.width / 2;
     platform.y += container.height * 0.85;
     this._platform = platform;
 

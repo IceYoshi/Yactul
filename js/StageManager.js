@@ -33,7 +33,6 @@ class StageManager {
     window.onkeydown = null;
     window.onkeyup = null;
     let container = StageManager.createScreenContainer();
-    //$("#placeholder").empty(); //TODO this is just a temporary solution
     screen.container = container;
     screen.draw(container);
     if(overlay) {
@@ -208,7 +207,7 @@ class StageManager {
       StageManager.removeOverlay();
     } else {
       StageManager.idle();
-      StageManager.expandOverlay();
+      if(this._activeOverlay) StageManager.expandOverlay();
     }
   }
 
