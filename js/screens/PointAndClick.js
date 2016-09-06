@@ -24,6 +24,7 @@ class PointAndClick {
         this._timer = new TimeDisplay(this._data.time, this.submit.bind(this));
         this._drawable.push(this._timer);
         this._drawable.push(new InteractiveImage(this._data.image, this.selected.bind(this)));
+        if(this._data.tooltip && this._data.tooltip != "") this._drawable.push(new TooltipInfo(this._data.tooltip));
         break;
       case "projector":
         this._drawable.push(new HeaderDisplay(this._data.screen));

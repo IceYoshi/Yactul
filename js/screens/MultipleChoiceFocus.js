@@ -31,6 +31,7 @@ class MultipleChoiceFocus {
         this._drawable.push(this._labelIterator);
         this._drawable.push(new RoundButton("Select !", this.select.bind(this)));
         this._drawable.push(new SubmitButton(this.submit.bind(this)));
+        if(this._data.tooltip && this._data.tooltip != "") this._drawable.push(new TooltipInfo(this._data.tooltip));
         break;
       case "projector":
         this._drawable.push(new HeaderDisplay(this._data.screen));

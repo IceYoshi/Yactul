@@ -126,7 +126,7 @@ class WordPairs {
       let pOrigin = this._selectedPanel.localToLocal(pConnect[0], pConnect[1], line);
       let pDest = line.globalToLocal(event.rawX, event.rawY);
 
-      line.graphics.clear().setStrokeStyle(3).beginStroke("black")
+      line.graphics.clear().setStrokeStyle(4).beginStroke("black")
         .moveTo(pOrigin.x, pOrigin.y)
         .lineTo(pDest.x, pDest.y)
         .endStroke();
@@ -179,7 +179,7 @@ class WordPairs {
     let pOrigin = p1.localToLocal(p1.connectPoint[0], p1.connectPoint[1], connections);
     let pDest = p2.localToLocal(p2.connectPoint[0], p2.connectPoint[1], connections);
 
-    connections.graphics.setStrokeStyle(3).beginStroke(color)
+    connections.graphics.setStrokeStyle(4).beginStroke(color)
       .moveTo(pOrigin.x, pOrigin.y)
       .lineTo(pDest.x, pDest.y)
       .endStroke();

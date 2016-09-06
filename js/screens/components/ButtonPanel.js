@@ -1,8 +1,9 @@
 class ButtonPanel {
-  constructor(values, minified, setSelected, stats) {
+  constructor(values, minified, setSelected, evalData, stats) {
     this._values = values;
     this._minified = minified;
     this._setSelected = setSelected;
+    this._eval = evalData;
     this._stats = stats;
     this._buttons = [];
     this._initialized = false;
@@ -43,12 +44,12 @@ class ButtonPanel {
       let col = i % colCount;
       let row = Math.floor(i / colCount);
       let isCorrect;
-      if(this._stats != undefined) {
-        isCorrect = this._stats[i].correct;
+      if(this._eval) {
+        isCorrect = this._eval[i].correct;
       }
       let isSelected = buttonState == undefined ? false : buttonState[i];
 
-      let buttonPanel = this.createButtonPanel(buttonWidth, buttonHeight, this._stats != undefined ? this._stats[i].selected : false, isCorrect);
+      let buttonPanel = this.createButtonPanel(buttonWidth, buttonHeight, this._eval ? this._eval[i].selected : false, isCorrect);
       buttonPanel.x = paddingX + col * (paddingX + buttonWidth) + masterPanel.x;
       buttonPanel.y = paddingY + row * (paddingY + buttonHeight) + masterPanel.y;
       buttonPanel.label = value.toString();
@@ -61,8 +62,9 @@ class ButtonPanel {
       buttonLabel.y = buttonPanel.y + buttonHeight / 2 - (lineCount - 1) * buttonLabel.lineHeight / 2;
       container.addChild(buttonPanel, buttonLabel);
 
-      if(this._stats != undefined) {
-        this.createStats(container, buttonPanel, this._stats[i].amount, this._stats[i].selected);
+      if(this._eval) {
+        if(this._stats) this.createStats(container, buttonPanel, this._eval[i].amount, this._eval[i].selected);
+        this.createEvalIcon(container, buttonPanel, this._minified || !landscape, this._eval[i].selected, isCorrect);
       }
     }
 
@@ -186,10 +188,25 @@ class ButtonPanel {
     return label;
   }
 
+  createEvalIcon(container, buttonPanel, isMinimized, isSelected, isCorrect) {
+    if(isSelected || isCorrect) {
+      let padding = buttonPanel.height / 10;
+      let icon = new createjs.Bitmap(isCorrect ? "img/correct.png" : "img/wrong.png");
+      icon.image.onload = function() {
+        let iconSize = buttonPanel.height * ( isMinimized ? 0.5 : 0.3 );
+        let scale = iconSize / icon.image.height;
+        icon.scaleX = icon.scaleY = scale;
+        icon.x = buttonPanel.x + buttonPanel.width - icon.image.width * scale - padding;
+        icon.y = buttonPanel.y + padding;
+        container.addChild(icon);
+      };
+    }
+  }
+
   createStats(container, buttonPanel, voteCount, isSelected) {
     let totalVoteCount = 0;
-    for(let i = 0; i < this._stats.length; i++) {
-      totalVoteCount += this._stats[i].amount;
+    for(let i = 0; i < this._eval.length; i++) {
+      totalVoteCount += this._eval[i].amount;
     }
 
     let statBar = this.createStatBar(buttonPanel.height);
@@ -203,13 +220,6 @@ class ButtonPanel {
     this.animateStatLabel(statLabel, this._initialized);
 
     container.addChild(statBar, statLabel);
-
-    if(isSelected) {
-        let highlight = this.createSelectedHighlight(buttonPanel.width, buttonPanel.height);
-        highlight.x = buttonPanel.x;
-        highlight.y = buttonPanel.y;
-        container.addChild(highlight);
-    }
 
   }
 
@@ -230,8 +240,8 @@ class ButtonPanel {
     let fontSize = Math.floor(Math.max(width / 40, height / 30));
     let statLabel = new createjs.Text(voteCount.toString());
     statLabel.font = `${fontSize}px Dimbo`;
-    statLabel.color = "#000";
-    statLabel.textAlign = "left";
+    statLabel.color = "#FFF";
+    statLabel.textAlign = "right";
     statLabel.textBaseline = "top";
     statLabel.alpha = 0;
     return statLabel;
@@ -241,13 +251,6 @@ class ButtonPanel {
     createjs.Tween.get(statLabel, { loop: false })
       .wait(skipAnimation ? 0 : 2700)
       .to({ alpha: 0.8 }, skipAnimation ? 0 : 1000, createjs.Ease.getPowInOut(2));
-  }
-
-  createSelectedHighlight(width, height) {
-    let highlight = new createjs.Shape();
-    highlight.graphics.setStrokeStyle(6).beginStroke("black").drawRect(0, 0, width, height);
-    highlight.alpha = 0.9;
-    return highlight;
   }
 
 

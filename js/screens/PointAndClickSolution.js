@@ -24,6 +24,7 @@ class PointAndClickSolution {
 
     if(this._data.view === "student") {
       this._drawable.push(new HeaderDisplay(`Score: +${this._data.score}`));
+      if(this._data.tooltip && this._data.tooltip != "") this._drawable.push(new TooltipInfo(this._data.tooltip));
     }
     this._initialized = true;
   }

@@ -25,6 +25,7 @@ class SimpleFocus {
         this._drawable.push(this._timer);
         this._drawable.push(new LabelIterator(this._data.answers, this._data.interval, this.selected.bind(this)));
         this._drawable.push(new RoundButton("Stop !", this.submit.bind(this)));
+        if(this._data.tooltip && this._data.tooltip != "") this._drawable.push(new TooltipInfo(this._data.tooltip));
         break;
       case "projector":
         this._drawable.push(new HeaderDisplay(this._data.screen));

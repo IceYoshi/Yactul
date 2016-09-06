@@ -1,4 +1,4 @@
-function initTooltip(classID)
+function initTooltip()
 {
     var targets = $( '[rel~=tooltip]' ),
         target  = false,

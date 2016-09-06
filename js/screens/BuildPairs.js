@@ -24,6 +24,7 @@ class BuildPairs {
         this._drawable.push(this._timer);
         this._drawable.push(new WordPairs(this._data.answers, this.selected.bind(this)));
         this._drawable.push(new SubmitButton(this.submit.bind(this)));
+        if(this._data.tooltip && this._data.tooltip != "") this._drawable.push(new TooltipInfo(this._data.tooltip));
         break;
       case "projector":
         this._drawable.push(new HeaderDisplay(this._data.screen));

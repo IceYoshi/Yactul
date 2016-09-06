@@ -29,7 +29,7 @@ class SimpleQuestion {
         this._timer = new TimeDisplay(this._data.time, this.submit.bind(this));
         this._drawable.push(this._timer);
         this._drawable.push(new ButtonPanel(this._data.answers, this._hasDisplayImage, this.selected.bind(this), this._data.stats));
-        this._drawable.push(new TooltipInfo("Carefully read the question and click on the right answer."));
+        if(this._data.tooltip && this._data.tooltip != "") this._drawable.push(new TooltipInfo(this._data.tooltip));
         break;
       case "projector":
         this._drawable.push(new HeaderDisplay(this._data.screen));

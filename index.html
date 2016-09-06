@@ -181,11 +181,11 @@
         // Methods to simulate server messages (for testing purpose)
         function screen1() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"SimpleQuestion", "id":1, "view":"' + view + '", "text":"What is the meaning of life?", "answers":["Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":25, "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "score":' + currentScore + '}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"SimpleQuestion", "id":1, "view":"' + view + '", "text":"What is the meaning of life?", "answers":["Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "time":25, "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "tooltip":"Carefully read the question and click on the right answer.", "score":' + currentScore + '}'));
         }
         function screen1_sol() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"QuestionSolution", "view":"' + view + '", "text":"What is the meaning of life?", "answers":["Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "stats":[{"correct":false, "amount":5, "selected":false}, {"correct":false, "amount":7, "selected":false}, {"correct":true, "amount":23, "selected":true}, {"correct":false, "amount":2, "selected":false}], "score":750}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"QuestionSolution", "view":"' + view + '", "text":"What is the meaning of life?", "answers":["Memorizing PI! 3.14159265358979323846...", "Get married", "42", "Vote for the upper one"], "difficulty":1, "bg":"img/quiz-background.jpg", "image":"img/meaningoflife.png", "eval":[{"correct":false, "amount":5, "selected":false}, {"correct":false, "amount":7, "selected":false}, {"correct":true, "amount":23, "selected":true}, {"correct":false, "amount":2, "selected":false}], "score":750}'));
         }
         function screen2() {
           isPaused = false;
@@ -193,7 +193,7 @@
         }
         function screen2_sol() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"QuestionSolution", "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Blackboard", "Motherboard", "Lightsaber", "Central Processing Unit" ], "difficulty":3, "bg":"img/quiz-background.jpg", "stats":[{"correct":false, "amount":10, "selected":false},{"correct":true, "amount":25, "selected":false},{"correct":false, "amount":5, "selected":true},{"correct":true, "amount":18, "selected":true}], "score":0 }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"QuestionSolution", "view":"' + view + '", "text":"Some random question about meals...", "answers":[ "Blackboard", "Motherboard", "Lightsaber", "Central Processing Unit" ], "difficulty":3, "bg":"img/quiz-background.jpg", "eval":[{"correct":false, "amount":10, "selected":false},{"correct":true, "amount":25, "selected":false},{"correct":false, "amount":5, "selected":true},{"correct":true, "amount":14, "selected":true}], "score":0 }'));
         }
         function screen3() {
           isPaused = false;

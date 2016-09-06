@@ -1,6 +1,6 @@
 class TooltipInfo {
   constructor(tooltip) {
-    this._size = 25;
+    this._size = 22;
     this._padding = 5;
     this._tooltip = tooltip;
   }
@@ -26,7 +26,7 @@ class TooltipInfo {
     $("#placeholder").append(infoHTML);
 
     $(document).ready(function(){
-      initTooltip(classID);
+      initTooltip();
     });
 
     let iconObject = new createjs.DOMElement(infoHTML);

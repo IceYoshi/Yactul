@@ -21,10 +21,16 @@ class QuestionSolution {
       this._hasDisplayImage = true;
       this._drawable.push(new DisplayImage(this._data.image));
     }
-    this._drawable.push(new ButtonPanel(this._data.answers, this._hasDisplayImage, null, this._data.stats));
 
-    if(this._data.view === "student") {
-      this._drawable.push(new HeaderDisplay(`Score: +${this._data.score}`));
+    switch(this._data.view) {
+      case "student":
+        this._drawable.push(new HeaderDisplay(`Score: +${this._data.score}`));
+        this._drawable.push(new ButtonPanel(this._data.answers, this._hasDisplayImage, null, this._data.eval, false));
+        if(this._data.tooltip && this._data.tooltip != "") this._drawable.push(new TooltipInfo(this._data.tooltip));
+        break;
+      case "projector":
+        this._drawable.push(new ButtonPanel(this._data.answers, this._hasDisplayImage, null, this._data.eval, true));
+        break;
     }
 
     this._initialized = true;
