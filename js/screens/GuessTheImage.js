@@ -15,7 +15,7 @@ class GuessTheImage {
     this._drawable.push(new BackgroundImage(this._data.bg));
     this._drawable.push(new DifficultyMeter(this._data.difficulty));
 
-    this._hiddenImage = new HiddenImage(this._data.image, this._data.row, this._data.col, this.playFirework.bind(this));
+    this._hiddenImage = new HiddenImage(this._data.image, this._data.row, this._data.col, this._data.seed, this.playFirework.bind(this));
     this._drawable.push(this._hiddenImage);
 
     this._fireworkEffect = new FireworkEffect();
@@ -24,9 +24,10 @@ class GuessTheImage {
     switch(this._data.view) {
       case "student":
         this._drawable.push(new HeaderDisplay(`Score: ${this._data.score}`));
-        this._timer = new TimeDisplay(this._data.time, this.submit.bind(this));
+        this._timer = new TimeDisplay(this._data.time, this.end.bind(this));
         this._drawable.push(this._timer);
         this._drawable.push(new TextBox(this.sendAnswer.bind(this)));
+        this._drawable.push(new SubmitButton("Next", this.submit.bind(this)));
         if(this._data.tooltip && this._data.tooltip != "") this._drawable.push(new TooltipInfo(this._data.tooltip));
         break;
       case "projector":
@@ -77,6 +78,10 @@ class GuessTheImage {
         container.x = screen.width * 0.5 / window.devicePixelRatio;
         container.y = screen.height * 0.8 / window.devicePixelRatio;
         break;
+      case "SubmitButton":
+        container.x = screen.width;
+        container.y = screen.height;
+        break;
     }
   }
 
@@ -123,6 +128,16 @@ class GuessTheImage {
   }
 
   submit() {
+    if(this._submitted) return;
+    let obj = JSON.parse('{'
+       + '"cmd" : "request",'
+       + '"activity" : "' + this._data.screen + '",'
+       + '"id" : ' + this._data.id
+       + '}');
+    ServerConnection.send(obj);
+  }
+
+  end() {
     if(this._submitted) return;
     this._submitted = true;
     StageManager.handleActivityEnd(this);

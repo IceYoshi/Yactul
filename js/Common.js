@@ -13,8 +13,9 @@ class Common {
     return "c" + classID;
   }
 
-  static getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+  static getRandomNumber(min, max, rndFunction) {
+    if(rndFunction == undefined) rndFunction = Math.random;
+    return Math.floor(rndFunction() * (max - min + 1) + min);
   }
 
   static removeTweens(displayObject, removePersistant) {

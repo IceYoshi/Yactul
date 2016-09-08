@@ -23,7 +23,7 @@ class BuildPairs {
         this._timer = new TimeDisplay(this._data.time, this.submit.bind(this));
         this._drawable.push(this._timer);
         this._drawable.push(new WordPairs(this._data.answers, this.selected.bind(this)));
-        this._drawable.push(new SubmitButton(this.submit.bind(this)));
+        this._drawable.push(new SubmitButton("Submit", this.submit.bind(this)));
         if(this._data.tooltip && this._data.tooltip != "") this._drawable.push(new TooltipInfo(this._data.tooltip));
         break;
       case "projector":

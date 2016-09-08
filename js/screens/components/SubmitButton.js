@@ -1,5 +1,6 @@
 class SubmitButton {
-  constructor(submit) {
+  constructor(value, submit) {
+    this._value = value;
     this._submit = submit;
   }
 
@@ -13,7 +14,7 @@ class SubmitButton {
   createLabel(width, height) {
     let fontSize = Math.floor(Math.max(width / 23, height / 20));
     let label = new createjs.Text();
-    label.text = "Submit";
+    label.text = this._value.toString();
     label.font = `${fontSize}px Dimbo`;
     label.color = "#f0261b";
     label.textAlign = "right";

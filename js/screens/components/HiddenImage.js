@@ -1,6 +1,7 @@
 class HiddenImage {
-  constructor(imagePath, row, col, clearTrigger) {
+  constructor(imagePath, row, col, seed, clearTrigger) {
     this._imagePath = imagePath;
+    if(seed) this._rndFunction = new Math.seedrandom(seed.toString());
     row = Math.min(row, 25);
     col = Math.min(col, 25);
 
@@ -74,7 +75,7 @@ class HiddenImage {
 
   removeRandomTile(amount) {
     while(this._numTiles && amount-- > 0) {
-      let randomTileCounter = Common.getRandomNumber(0, this._numTiles);
+      let randomTileCounter = Common.getRandomNumber(0, this._numTiles, this._rndFunction);
 
       outerLoop:
         for(let x = 0; x < this._colCount; x++) {
