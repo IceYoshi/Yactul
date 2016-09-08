@@ -39,7 +39,7 @@ class SubmitButton {
 
     function handleClick(event) {
       if(this._submit != null) {
-        event.target.filters = [ new createjs.ColorFilter(0,0,0,1,255,203,151,0) ];
+        event.target.filters = [ new createjs.ColorFilter(1,0.62,0.24,1,0,0,0,0) ];
         event.target.cache(0, 0, event.target.graphics.command.w, event.target.graphics.command.h);
         this._submit();
       }

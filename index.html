@@ -230,7 +230,7 @@
         }
         function screen8() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"CatchEmAll", "id":8, "view":"' + view + '", "text":"Catch the fruits! Avoid the vegetables!", "time":60, "difficulty":2, "bg":"img/apple-tree.jpg", "answers":["Tomato", "Nut", "Apple", "Eggplant", "Banana", "Orange", "Pepper", "Olive", "Punpkin", "Avocado", "Carrot", "Potato", "Mushroom", "Leek", "Zucchini", "Broccoli", "Cabbage", "Turnip"], "score":' + currentScore + '}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"CatchEmAll", "id":8, "view":"' + view + '", "text":"Catch the fruits! Avoid the vegetables!", "time":60, "difficulty":2, "bg":"img/apple-tree.jpg", "answers":["Tomato", "Nut", "Apple", "Eggplant", "Banana", "Orange", "Pepper", "Olive", "Punpkin", "Avocado", "Carrot", "Potato", "Mushroom", "Leek", "Zucchini", "Broccoli", "Cabbage", "Turnip"], score":' + currentScore + '}'));
         }
         function screen8_sol() {
           isPaused = false;

@@ -83,13 +83,13 @@ class ButtonPanel {
   createButtonPanel(width, height, isSelected, isCorrect) {
     let buttonPanel = new createjs.Shape();
     if(isCorrect == undefined) {
-      buttonPanel.graphics.beginFill("#d3d3d3");
+      buttonPanel.graphics.beginRadialGradientFill(["#ededed", "#c6c6c6"], [0, 1], width * 0.4, 0, 0, 0, 0, width);
     } else {
       if(isCorrect) {
         if(isSelected) {
-          buttonPanel.graphics.beginFill("#5cb85c");
+          buttonPanel.graphics.beginRadialGradientFill(["#6ec06e", "#4cae4c"], [0, 1], width * 0.4, 0, 0, 0, 0, width);
         } else {
-          buttonPanel.graphics.beginFill("#d3d3d3");
+          buttonPanel.graphics.beginRadialGradientFill(["#ededed", "#c6c6c6"], [0, 1], width * 0.4, 0, 0, 0, 0, width);
           buttonPanel.filters = [ new createjs.ColorFilter(1,1,1,1) ];
           buttonPanel.cache(0, 0, width, height);
           buttonPanel.handleEvent = function() {
@@ -100,16 +100,16 @@ class ButtonPanel {
             .wait(200)
             .call(function(filter) {
               createjs.Tween.get(filter, { loop: false })
-                .to({ redMultiplier: 0.36, greenMultiplier: 0.72, blueMultiplier: 0.36 }, 400, createjs.Ease.getPowInOut(2))
+                .to({ redMultiplier: 0.43, greenMultiplier: 0.75, blueMultiplier: 0.43 }, 400, createjs.Ease.getPowInOut(2))
                 .to({ redMultiplier: 1, greenMultiplier: 1, blueMultiplier: 1 }, 400, createjs.Ease.getPowInOut(2));
             }, [buttonPanel.filters[0]])
             .wait(800);
         }
       } else {
         if(isSelected) {
-          buttonPanel.graphics.beginFill("#f5756e");
+          buttonPanel.graphics.beginRadialGradientFill(["#f78c86", "#f35e56"], [0, 1], width * 0.4, 0, 0, 0, 0, width);
         } else {
-          buttonPanel.graphics.beginFill("#d3d3d3");
+          buttonPanel.graphics.beginRadialGradientFill(["#ededed", "#c6c6c6"], [0, 1], width * 0.4, 0, 0, 0, 0, width);
         }
       }
     }
@@ -127,7 +127,7 @@ class ButtonPanel {
     // button click handler
     function handleClick(event) {
       if(event.target.clicked == null) {
-        event.target.filters = [ new createjs.ColorFilter(0,0,0,1,255,203,151,0) ];
+        event.target.filters = [ new createjs.ColorFilter(1,0.62,0.24,1,0,0,0,0) ];
         event.target.clicked = 1;
       } else {
         if(event.isTouch) {
@@ -174,7 +174,6 @@ class ButtonPanel {
     label.font = `${fontSize}px Dimbo`;
     label.lineWidth = width;
     label.lineHeight = fontSize * 1.5;
-    //label.color = "#f0261b";
     label.color = "black";
     label.textAlign = "center";
     label.textBaseline = "middle";

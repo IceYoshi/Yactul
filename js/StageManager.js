@@ -131,6 +131,7 @@ class StageManager {
     StageManager.redrawScreen(this._activeScreen);
 
     if(this._activeOverlay) {
+      this._activeOverlay.container.cache(0, 0, w, h)
       StageManager.redrawScreen(this._activeOverlay);
     }
 
@@ -151,6 +152,12 @@ class StageManager {
     let overlay = screen.container;
     overlay.scaleX = overlay.scaleY = 0;
     overlay.alpha = 0.5;
+    overlay.cache(0, 0, overlay.width, overlay.height);
+    overlay.persistant = true;
+    overlay.handleEvent = function() {
+      overlay.updateCache();
+    }
+    createjs.Ticker.addEventListener("tick", overlay);
     this._overlay.addChild(overlay);
     StageManager.expandOverlay();
   }
@@ -181,7 +188,7 @@ class StageManager {
   static minifyOverlay() {
     if(this._activeOverlay != null) {
       createjs.Tween.get(this._activeOverlay.container, { loop: false, override: true })
-        .to({ scaleX: 0.25, scaleY: 0.25, alpha: 1 }, 1000, createjs.Ease.getPowInOut(2));
+        .to({ scaleX: 0.25, scaleY: 0.25, alpha: 0.5 }, 1000, createjs.Ease.getPowInOut(2));
     } else {
       console.log("Cannot minify overlay: There is no active overlay.");
     }

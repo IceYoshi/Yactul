@@ -28,6 +28,7 @@ class HiddenImage {
   createImage(container) {
     let imageObject = new createjs.Bitmap(this._imagePath);
 
+
     let hiddenImageObject = new createjs.Container();
 
     imageObject.image.onload = function() {
@@ -36,6 +37,7 @@ class HiddenImage {
       imageObject.scaleX = imageObject.scaleY = scale;
       let width = imageObject.image.width * imageObject.scaleX;
       let height = imageObject.image.height * imageObject.scaleY;
+
       hiddenImageObject.x = - width / 2;
       hiddenImageObject.y = - height / 2;
 
