@@ -230,11 +230,11 @@
         }
         function screen8() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"CatchEmAll", "id":8, "view":"' + view + '", "text":"Catch the fruits! Avoid the vegetables!", "time":60, "difficulty":2, "bg":"img/apple-tree.jpg", "answers":["Tomato", "Nut", "Apple", "Eggplant", "Banana", "Orange", "Pepper", "Olive", "Punpkin", "Avocado", "Carrot", "Potato", "Mushroom", "Leek", "Zucchini", "Broccoli", "Cabbage", "Turnip"], score":' + currentScore + '}'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"CatchEmAll", "id":8, "view":"' + view + '", "text":"Catch the fruits! Avoid the vegetables!", "time":60, "difficulty":2, "speed":5, "bg":"img/apple-tree.jpg", "answers":["Tomato", "Nut", "Apple", "Eggplant", "Banana", "Orange", "Pepper", "Olive", "Punpkin", "Avocado", "Carrot", "Potato", "Mushroom", "Leek", "Zucchini", "Broccoli", "Cabbage", "Turnip"], "score":' + currentScore + '}'));
         }
         function screen8_sol() {
           isPaused = false;
-          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"CatchEmAllSolution", "view":"' + view + '", "text":"Catch the fruits! Avoid the vegetables!", "time":60, "difficulty":2, "bg":"img/apple-tree.jpg", "answers":{"correct":["Tomato", "Nut", "Apple", "Eggplant", "Banana", "Orange", "Pepper", "Olive", "Punpkin", "Avocado"], "wrong":["Carrot", "Potato", "Mushroom", "Leek", "Zucchini", "Broccoli", "Cabbage", "Turnip"]}, "score":1075 }'));
+          ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"CatchEmAllSolution", "view":"' + view + '", "text":"Catch the fruits! Avoid the vegetables!", difficulty":2, "bg":"img/apple-tree.jpg", "answers":{"correct":["Tomato", "Nut", "Apple", "Eggplant", "Banana", "Orange", "Pepper", "Olive", "Punpkin", "Avocado"], "wrong":["Carrot", "Potato", "Mushroom", "Leek", "Zucchini", "Broccoli", "Cabbage", "Turnip"]}, "score":1075 }'));
         }
         function screen9() {
           ServerConnection.receive(JSON.parse('{ "cmd":"show", "screen":"GuessTheImage", "id":8, "image":"img/android.jpg", "difficulty":3, "row":5, "col":6, "view":"' + view + '", "score":' + currentScore + ', "seed":"abd", "overlay":true }'));

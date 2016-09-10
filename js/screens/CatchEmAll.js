@@ -33,7 +33,7 @@ class CatchEmAll {
 
     this._movingPlatform = new MovingPlatform();
     this._drawable.push(this._movingPlatform);
-    this._drawable.push(new CatchField(this._data.answers, this._data.difficulty, this.hitTest.bind(this)));
+    this._drawable.push(new CatchField(this._data.answers, this._data.speed, this.hitTest.bind(this)));
 
     this._initialized = true;
   }
