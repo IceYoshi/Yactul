@@ -104,13 +104,20 @@ class SimpleFocus {
     this._selected = value;
   }
 
-  submit() {
+  //If value defined it means the action was triggered by a user, and not a timer, allowing us to differentiate and send the correct selected element. REFER Issue #36
+  submit(value) {
     if(this._submitted) return;
+    var realselected;
+    if (value == null) {
+      realselected = null;
+    }else{
+      realselected = this._selected;
+    }
     var obj = JSON.parse('{'
        + '"cmd" : "submit",'
        + '"activity" : "' + this._data.screen + '",'
        + '"id" : ' + this._data.id + ','
-       + '"selected" : ' + JSON.stringify(this._selected) + ','
+       + '"selected" : ' + JSON.stringify(realselected) + ','
        + '"time-left" : ' + this._timer.getTime()
        + '}');
     if(ServerConnection.send(obj)) {

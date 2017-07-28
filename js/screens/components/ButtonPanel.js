@@ -170,7 +170,7 @@ class ButtonPanel {
   createButtonLabel(width, height, value) {
     let fontSize = 40;
     let label = new createjs.Text();
-    label.text = value.toString();
+    label.text = Common.decodeHtml(value.toString());
     label.font = `${fontSize}px Dimbo`;
     label.lineWidth = width;
     label.lineHeight = fontSize * 1.5;

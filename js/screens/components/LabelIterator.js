@@ -33,7 +33,7 @@ class LabelIterator {
   }
 
   updateLabel() {
-    this._label.text = this._values[this._currentIndex];
+    this._label.text = Common.decodeHtml(this._values[this._currentIndex]);
   }
 
   tick() {

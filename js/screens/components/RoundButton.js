@@ -42,7 +42,7 @@ class RoundButton {
           event.target.filters = undefined;
           event.target.uncache();
         }, 150)
-        this._action();
+        this._action(true);
       }
     }
 

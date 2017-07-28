@@ -16,7 +16,7 @@ class TitleDisplay {
   createLabel(width, height) {
     let fontSize = Math.floor(Math.max(width / 22 + 5, height / 4 + 30));
     let label = new createjs.Text();
-    label.text = this._value.toString();
+    label.text = Common.decodeHtml(this._value.toString());
     label.font = `${fontSize}px Dimbo`;
     label.color = "#f0261b";
     label.lineWidth = width - width / 15;
